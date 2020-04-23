@@ -1,0 +1,23 @@
+root: true
+extends: "plugin:@mysticatea/es2020"
+
+ignorePatterns:
+- dist/
+
+parserOptions:
+  project: 
+  - tsconfig.json
+  - tsconfig-scripts.json
+
+rules:
+  no-void: "off"
+
+settings:
+  node:
+    tryExtensions: 
+    - .ts
+
+overrides:
+- files: "*-definition.ts"
+  rules:
+    "@mysticatea/ts/no-empty-interface": "off"
