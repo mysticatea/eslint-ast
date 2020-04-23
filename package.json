@@ -16,6 +16,7 @@
     "@mysticatea/eslint-plugin": "^13.0.0",
     "@types/eslint": "^6.8.0",
     "@types/node": "^13.13.2",
+    "@types/rimraf": "^3.0.0",
     "cpx": "^1.5.0",
     "eslint": "^6.8.0",
     "rimraf": "^3.0.2",
@@ -25,11 +26,11 @@
   "scripts": {
     "build": "rimraf dist && tsc && cpx \"{LICENSE,README.md,package.json}\" dist",
     "lint": "eslint \"**/*.ts\"",
-    "test": "npm run -s lint && tsc --noEmit",
+    "test": "npm run -s lint && tsc --noEmit && tsc -p tsconfig-scripts.json --noEmit",
     "update-ast": "ts-node -P tsconfig-scripts.json scripts/update-ast-files",
     "preversion": "npm test",
     "version": "npm run -s build",
-    "postversion": "ts-node scripts/release"
+    "postversion": "ts-node -P tsconfig-scripts.json scripts/release"
   },
   "repository": {
     "type": "git",
