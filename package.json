@@ -1,31 +1,35 @@
 {
   "name": "eslint-ast",
-  "version": "0.1.0",
-  "description": "",
+  "version": "0.0.0",
+  "description": "The Extensible Type Definition of ESLint AST",
   "engines": {
     "node": "^10.17.0 || >=12.0.0"
   },
-  "main": "dist/index.js",
+  "main": "index.js",
   "files": [
-    "dist"
+    "lib",
+    "*.js",
+    "*.d.ts"
   ],
   "dependencies": {},
   "devDependencies": {
     "@mysticatea/eslint-plugin": "^13.0.0",
     "@types/eslint": "^6.8.0",
     "@types/node": "^13.13.2",
+    "cpx": "^1.5.0",
     "eslint": "^6.8.0",
     "rimraf": "^3.0.2",
     "ts-node": "^8.9.0",
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "build": "rimraf dist && tsc",
+    "build": "rimraf dist && tsc && cpx \"{LICENSE,README.md,package.json}\" dist",
     "lint": "eslint \"**/*.ts\"",
     "test": "npm run -s lint && tsc --noEmit",
-    "update:ast": "ts-node -P tsconfig-scripts.json scripts/update-ast-files",
+    "update-ast": "ts-node -P tsconfig-scripts.json scripts/update-ast-files",
     "preversion": "npm test",
-    "postversion": "git push && git push --tags"
+    "version": "npm run -s build",
+    "postversion": "ts-node scripts/release"
   },
   "repository": {
     "type": "git",
