@@ -52,7 +52,9 @@ type Shift4<T extends any[]> =
 type UniteArray<T> = IsAny<T> extends true
     ? T
     : [T] extends [readonly any[]]
-    ? readonly T[0][]
+    ? any[] extends T // ← rejects tuple types
+        ? readonly T[0][]
+        : T
     : T
 
 /**

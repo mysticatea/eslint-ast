@@ -143,8 +143,8 @@ type NameOfNodeRef_<D extends Definition, V> = V extends { $ref: infer N }
  * @template D The AST definition.
  * @template V The value that may be `NodeRef<T>`
  */
-type ResolveNodeRef<D extends Definition, V> = V extends readonly (infer E)[]
-    ? readonly ResolveNodeRef_<D, E>[]
+type ResolveNodeRef<D extends Definition, V> = V extends readonly any[]
+    ? { readonly [P in keyof V]: ResolveNodeRef_<D, V[P]> }
     : ResolveNodeRef_<D, V>
 
 /**
