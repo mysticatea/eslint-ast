@@ -1,10 +1,15 @@
-import { Comment } from "./lib/comment"
 import { Extends } from "./lib/extends"
 import { NodeRef } from "./lib/node-ref"
-import { Token } from "./lib/token"
-import { Definition as ES2016Definition } from "./es2016-definition"
+import {
+    Comment,
+    Definition as ES2016Definition,
+    IndexRange,
+    LineColumnRange,
+    LineColumn,
+    Token,
+} from "./es2016-definition"
 
-export { Comment, Token }
+export { Comment, IndexRange, LineColumnRange, LineColumn, Token }
 
 export namespace Enhancement {
     /**

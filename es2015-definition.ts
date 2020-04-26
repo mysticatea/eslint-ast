@@ -1,10 +1,15 @@
-import { Comment } from "./lib/comment"
 import { Extends } from "./lib/extends"
 import { NodeRef } from "./lib/node-ref"
-import { Token } from "./lib/token"
-import { Definition as ES5Definition } from "./es5-definition"
+import {
+    Comment,
+    Definition as ES5Definition,
+    IndexRange,
+    LineColumnRange,
+    LineColumn,
+    Token,
+} from "./es5-definition"
 
-export { Comment, Token }
+export { Comment, IndexRange, LineColumnRange, LineColumn, Token }
 
 export namespace Enhancement {
     /**
@@ -102,10 +107,6 @@ export namespace Enhancement {
 
             // New aliases
             Class: "ClassDeclaration" | "ClassExpression"
-            MethodDefinition:
-                | "ComputedMethodDefinition"
-                | "ConstructorDefinition"
-                | "SimpleMethodDefinition"
         }
     }
 
@@ -316,7 +317,6 @@ export namespace Enhancement {
                 kind: "var" | "let" | "const"
             }
         }
-        aliases: {}
     }
 
     /**
@@ -408,9 +408,6 @@ export namespace Enhancement {
             }
         }
         aliases: {
-            // Enhancements
-            Program: "ModuleProgram"
-
             // New aliases
             ModuleItem:
                 | "ExportDefaultDeclaration"
@@ -487,7 +484,7 @@ export namespace Enhancement {
         }
         aliases: {
             // Enhancements
-            Property:
+            ObjectProperty:
                 | "ComputedAccessorProperty"
                 | "ComputedMethodProperty"
                 | "ComputedProperty"
@@ -506,7 +503,6 @@ export namespace Enhancement {
                 value: null
             }
         }
-        aliases: {}
     }
 
     /**
@@ -530,7 +526,6 @@ export namespace Enhancement {
                 argument: NodeRef<"Expression">
             }
         }
-        aliases: {}
     }
 
     /**

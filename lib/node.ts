@@ -1,25 +1,35 @@
 import {
     AliasName,
-    ASTTypeOf,
+    ASTType,
+    ASTTypeOfNodeName,
+    CommonPropertyName,
     Definition,
     NodeName,
-    NodeNameOfAlias,
+    NodeNameOfAliasName,
+    NodeNameOfASTType,
 } from "./definition"
-import { IndexRange } from "./index-range"
-import { LineColumnRange } from "./line-column-range"
 
 /**
  * `true` if the `T` type is `never`.
+ * @template T The type to check.
  */
 type IsNever<T> = false extends (T extends never ? true : false) ? false : true
 
+/**
+ * If `T` is `never` then `null | undefined`, otherwise `T` as is.
+ * @template T The type to convert.
+ */
 type NeverToNull<T> = IsNever<T> extends true ? null | undefined : T
 
+/**
+ * All property names of a node.
+ * @template D The AST definition.
+ * @template N A node name.
+ */
 type NodePropertyNames<D extends Definition, N extends NodeName<D>> =
-    | "loc"
     | "parent"
-    | "range"
     | "type"
+    | CommonPropertyName<D>
     | keyof D["nodes"][N]
 
 /**
@@ -41,15 +51,68 @@ export type NodeOfNodeName<
     : never
 
 /**
+ * Resolve given `NodeRef<T>` to the corresponded nodes, for `"Node"`.
+ * @template D The AST definition.
+ */
+type ResolveNodeRefNodeString<D extends Definition> = "Node" extends NodeName<D>
+    ? {
+          "!! CONFLICTED NAME !!": "Node"
+          'Node name must not be "Node".': "Node"
+      }
+    : "Node" extends AliasName<D>
+    ? {
+          "!! CONFLICTED NAME !!": "Node"
+          'Alias name must not be "Node".': "Node"
+      }
+    : "Node" extends ASTType<D>
+    ? {
+          "!! CONFLICTED NAME !!": "Node"
+          "The 'type' property of nodes must not be \"Node\".": "Node"
+      }
+    : NodeOfNodeName<D, NodeName<D>>
+
+/**
+ * Resolve given `NodeRef<T>` to the corresponded nodes, for alias names.
+ * @template D The AST definition.
+ * @template N The `T` of `NodeRef<T>`
+ */
+type ResolveNodeRefAliasName<
+    D extends Definition,
+    N extends AliasName<D>
+> = N extends NodeName<D>
+    ? {
+          "!! CONFLICTED NAME !!": N
+          "Alias name must not conflict with Node name.": N
+      }
+    : N extends ASTType<D>
+    ? {
+          "!! CONFLICTED NAME !!": N
+          "Alias name must not conflict with the 'type' property of nodes.": N
+      }
+    : NodeOfNodeName<D, NodeNameOfAliasName<D, N>>
+
+/**
+ * Resolve given `NodeRef<T>` to the corresponded nodes, for alias names.
+ * @template D The AST definition.
+ * @template N The `T` of `NodeRef<T>`
+ */
+type ResolveNodeRefASTType<
+    D extends Definition,
+    N extends ASTType<D>
+> = NodeOfNodeName<D, NodeNameOfASTType<D, N>>
+
+/**
  * Resolve given `NodeRef<T>` to the corresponded nodes.
  * @template D The AST definition.
  * @template V The value that may be `NodeRef<T>`
  */
 type ResolveNodeRef_<D extends Definition, V> = V extends { $ref: infer N }
     ? N extends "Node"
-        ? NodeOfNodeName<D, NodeName<D>>
+        ? ResolveNodeRefNodeString<D>
         : N extends AliasName<D>
-        ? NodeOfNodeName<D, NodeNameOfAlias<D, N>>
+        ? ResolveNodeRefAliasName<D, N>
+        : N extends ASTType<D>
+        ? ResolveNodeRefASTType<D, N>
         : N extends NodeName<D>
         ? Node<D, N>
         : {
@@ -67,10 +130,12 @@ type NameOfNodeRef_<D extends Definition, V> = V extends { $ref: infer N }
     ? N extends "Node"
         ? NodeName<D>
         : N extends AliasName<D>
-        ? NodeNameOfAlias<D, N>
+        ? NodeNameOfAliasName<D, N>
+        : N extends ASTType<D>
+        ? NodeNameOfASTType<D, N>
         : N extends NodeName<D>
         ? N
-        : never // TODO(mysticatea): Show error message.
+        : never
     : never
 
 /**
@@ -142,15 +207,13 @@ type ParentNode<D extends Definition, N extends NodeName<D>> = NeverToNull<
  * @template N The node name to calculate the node.
  */
 export type Node<D extends Definition, N extends NodeName<D>> = {
-    readonly [P in NodePropertyNames<D, N>]: P extends "loc"
-        ? LineColumnRange
-        : P extends "parent"
+    readonly [P in NodePropertyNames<D, N>]: P extends "parent"
         ? ParentNode<D, N>
-        : P extends "range"
-        ? IndexRange
         : P extends "type"
-        ? ASTTypeOf<D, N>
+        ? ASTTypeOfNodeName<D, N>
         : P extends keyof D["nodes"][N]
         ? ResolveNodeRef<D, D["nodes"][N][P]>
+        : P extends CommonPropertyName<D>
+        ? ResolveNodeRef<D, D["commonProperties"][P]>
         : never
 }

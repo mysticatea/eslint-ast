@@ -136,11 +136,6 @@ type MergeAliases<D, E0, E1, E2, E3> = {
     >
 }
 
-//
-// Apply enhancements to the base definition.
-// This applies four enhancements at a time because TypeScript's threshold of recursive error is small.
-//
-
 /**
  * Apply one or more enhancements to the base definition.
  *
@@ -149,7 +144,7 @@ type MergeAliases<D, E0, E1, E2, E3> = {
  * @template D The base definition.
  * @template E The enhancements.
  */
-export type Extends<D extends Definition, E extends Definition[]> = {
+export type Extends<D extends Definition, E extends Partial<Definition>[]> = {
     0: D
     1: Extends<
         {
@@ -166,6 +161,13 @@ export type Extends<D extends Definition, E extends Definition[]> = {
                 Prop<At1<E>, "aliases", {}, {}>,
                 Prop<At2<E>, "aliases", {}, {}>,
                 Prop<At3<E>, "aliases", {}, {}>
+            >
+            commonProperties: MergeNodeDef<
+                D["commonProperties"],
+                Prop<At0<E>, "commonProperties", {}, {}>,
+                Prop<At1<E>, "commonProperties", {}, {}>,
+                Prop<At2<E>, "commonProperties", {}, {}>,
+                Prop<At3<E>, "commonProperties", {}, {}>
             >
         },
         Shift4<E>

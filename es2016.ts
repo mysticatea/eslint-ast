@@ -6,586 +6,263 @@
  * @fileoverview The AST definition for ES2016.
  */
 import * as ast from "./lib/ast"
-import { Definition as ES2016 } from "./es2016-definition"
+import {
+    Comment,
+    Definition as ES2016,
+    IndexRange,
+    LineColumnRange,
+    LineColumn,
+    Token,
+} from "./es2016-definition"
 
-/**
- * The map-like object that has all nodes and aliases.
- */
+export { Comment, IndexRange, LineColumnRange, LineColumn, Token }
+
+/** The map-like object that has all nodes and aliases. */
 export type AST = ast.AST<ES2016>
 
-/**
- * The namespace that has all nodes and aliases.
- */
+/** The namespace that has all nodes and aliases. */
 export namespace AST {
-    /**
-     * The union type for all nodes.
-     */
+    /** The union type for all nodes. */
     export type Node = AST["Node"]
-
-    /**
-     * The union type for the `AssignmentExpression` alias.
-     */
+    /** The union type for the `ArrayPattern` alias. */
+    export type ArrayPattern = AST["ArrayPattern"]
+    /** The union type for the `AssignmentExpression` alias. */
     export type AssignmentExpression = AST["AssignmentExpression"]
-
-    /**
-     * The union type for the `AssignmentProperty` alias.
-     */
+    /** The union type for the `AssignmentPattern` alias. */
+    export type AssignmentPattern = AST["AssignmentPattern"]
+    /** The union type for the `AssignmentProperty` alias. */
     export type AssignmentProperty = AST["AssignmentProperty"]
-
-    /**
-     * The union type for the `AssignmentTarget` alias.
-     */
+    /** The union type for the `AssignmentTarget` alias. */
     export type AssignmentTarget = AST["AssignmentTarget"]
-
-    /**
-     * The union type for the `BindingProperty` alias.
-     */
+    /** The union type for the `BindingProperty` alias. */
     export type BindingProperty = AST["BindingProperty"]
-
-    /**
-     * The union type for the `BindingTarget` alias.
-     */
+    /** The union type for the `BindingTarget` alias. */
     export type BindingTarget = AST["BindingTarget"]
-
-    /**
-     * The union type for the `Class` alias.
-     */
+    /** The union type for the `Class` alias. */
     export type Class = AST["Class"]
-
-    /**
-     * The union type for the `Declaration` alias.
-     */
+    /** The union type for the `Declaration` alias. */
     export type Declaration = AST["Declaration"]
-
-    /**
-     * The union type for the `Expression` alias.
-     */
+    /** The union type for the `ExportAllDeclaration` alias. */
+    export type ExportAllDeclaration = AST["ExportAllDeclaration"]
+    /** The union type for the `Expression` alias. */
     export type Expression = AST["Expression"]
-
-    /**
-     * The union type for the `Function` alias.
-     */
+    /** The union type for the `Function` alias. */
     export type Function = AST["Function"]
-
-    /**
-     * The union type for the `Literal` alias.
-     */
+    /** The union type for the `Literal` alias. */
     export type Literal = AST["Literal"]
-
-    /**
-     * The union type for the `MemberExpression` alias.
-     */
+    /** The union type for the `MemberExpression` alias. */
     export type MemberExpression = AST["MemberExpression"]
-
-    /**
-     * The union type for the `MethodDefinition` alias.
-     */
+    /** The union type for the `MethodDefinition` alias. */
     export type MethodDefinition = AST["MethodDefinition"]
-
-    /**
-     * The union type for the `ModuleItem` alias.
-     */
+    /** The union type for the `ModuleItem` alias. */
     export type ModuleItem = AST["ModuleItem"]
-
-    /**
-     * The union type for the `Program` alias.
-     */
+    /** The union type for the `ObjectPattern` alias. */
+    export type ObjectPattern = AST["ObjectPattern"]
+    /** The union type for the `ObjectProperty` alias. */
+    export type ObjectProperty = AST["ObjectProperty"]
+    /** The union type for the `Program` alias. */
     export type Program = AST["Program"]
-
-    /**
-     * The union type for the `Property` alias.
-     */
+    /** The union type for the `Property` alias. */
     export type Property = AST["Property"]
-
-    /**
-     * The union type for the `SimpleAssignmentTarget` alias.
-     */
+    /** The union type for the `RestElement` alias. */
+    export type RestElement = AST["RestElement"]
+    /** The union type for the `SimpleAssignmentTarget` alias. */
     export type SimpleAssignmentTarget = AST["SimpleAssignmentTarget"]
-
-    /**
-     * The union type for the `Statement` alias.
-     */
+    /** The union type for the `Statement` alias. */
     export type Statement = AST["Statement"]
-
-    /**
-     * The union type for the `StaticPropertyKey` alias.
-     */
+    /** The union type for the `StaticPropertyKey` alias. */
     export type StaticPropertyKey = AST["StaticPropertyKey"]
-
-    /**
-     * The node type for the `AccessorProperty` node.
-     */
+    /** The type for the `AccessorProperty` node. */
     export type AccessorProperty = AST["AccessorProperty"]
-
-    /**
-     * The node type for the `AnonymousDefaultExportedClassDeclaration` node.
-     */
+    /** The type for the `AnonymousDefaultExportedClassDeclaration` node. */
     export type AnonymousDefaultExportedClassDeclaration = AST["AnonymousDefaultExportedClassDeclaration"]
-
-    /**
-     * The node type for the `AnonymousDefaultExportedFunctionDeclaration` node.
-     */
+    /** The type for the `AnonymousDefaultExportedFunctionDeclaration` node. */
     export type AnonymousDefaultExportedFunctionDeclaration = AST["AnonymousDefaultExportedFunctionDeclaration"]
-
-    /**
-     * The node type for the `ArrayExpression` node.
-     */
+    /** The type for the `ArrayExpression` node. */
     export type ArrayExpression = AST["ArrayExpression"]
-
-    /**
-     * The node type for the `ArrowFunctionExpression` node.
-     */
+    /** The type for the `ArrowFunctionExpression` node. */
     export type ArrowFunctionExpression = AST["ArrowFunctionExpression"]
-
-    /**
-     * The node type for the `AssignmentArrayPattern` node.
-     */
+    /** The type for the `AssignmentArrayPattern` node. */
     export type AssignmentArrayPattern = AST["AssignmentArrayPattern"]
-
-    /**
-     * The node type for the `AssignmentAssignmentPattern` node.
-     */
+    /** The type for the `AssignmentAssignmentPattern` node. */
     export type AssignmentAssignmentPattern = AST["AssignmentAssignmentPattern"]
-
-    /**
-     * The node type for the `AssignmentComputedProperty` node.
-     */
+    /** The type for the `AssignmentComputedProperty` node. */
     export type AssignmentComputedProperty = AST["AssignmentComputedProperty"]
-
-    /**
-     * The node type for the `AssignmentObjectPattern` node.
-     */
+    /** The type for the `AssignmentObjectPattern` node. */
     export type AssignmentObjectPattern = AST["AssignmentObjectPattern"]
-
-    /**
-     * The node type for the `AssignmentRestElement` node.
-     */
+    /** The type for the `AssignmentRestElement` node. */
     export type AssignmentRestElement = AST["AssignmentRestElement"]
-
-    /**
-     * The node type for the `AssignmentShorthandProperty` node.
-     */
+    /** The type for the `AssignmentShorthandProperty` node. */
     export type AssignmentShorthandProperty = AST["AssignmentShorthandProperty"]
-
-    /**
-     * The node type for the `AssignmentSimpleProperty` node.
-     */
+    /** The type for the `AssignmentSimpleProperty` node. */
     export type AssignmentSimpleProperty = AST["AssignmentSimpleProperty"]
-
-    /**
-     * The node type for the `BinaryExpression` node.
-     */
+    /** The type for the `BinaryExpression` node. */
     export type BinaryExpression = AST["BinaryExpression"]
-
-    /**
-     * The node type for the `BindingArrayPattern` node.
-     */
+    /** The type for the `BindingArrayPattern` node. */
     export type BindingArrayPattern = AST["BindingArrayPattern"]
-
-    /**
-     * The node type for the `BindingAssignmentPattern` node.
-     */
+    /** The type for the `BindingAssignmentPattern` node. */
     export type BindingAssignmentPattern = AST["BindingAssignmentPattern"]
-
-    /**
-     * The node type for the `BindingComputedProperty` node.
-     */
+    /** The type for the `BindingComputedProperty` node. */
     export type BindingComputedProperty = AST["BindingComputedProperty"]
-
-    /**
-     * The node type for the `BindingObjectPattern` node.
-     */
+    /** The type for the `BindingObjectPattern` node. */
     export type BindingObjectPattern = AST["BindingObjectPattern"]
-
-    /**
-     * The node type for the `BindingRestElement` node.
-     */
+    /** The type for the `BindingRestElement` node. */
     export type BindingRestElement = AST["BindingRestElement"]
-
-    /**
-     * The node type for the `BindingShorthandProperty` node.
-     */
+    /** The type for the `BindingShorthandProperty` node. */
     export type BindingShorthandProperty = AST["BindingShorthandProperty"]
-
-    /**
-     * The node type for the `BindingSimpleProperty` node.
-     */
+    /** The type for the `BindingSimpleProperty` node. */
     export type BindingSimpleProperty = AST["BindingSimpleProperty"]
-
-    /**
-     * The node type for the `BlockStatement` node.
-     */
+    /** The type for the `BlockStatement` node. */
     export type BlockStatement = AST["BlockStatement"]
-
-    /**
-     * The node type for the `BooleanLiteral` node.
-     */
+    /** The type for the `BooleanLiteral` node. */
     export type BooleanLiteral = AST["BooleanLiteral"]
-
-    /**
-     * The node type for the `BreakStatement` node.
-     */
+    /** The type for the `BreakStatement` node. */
     export type BreakStatement = AST["BreakStatement"]
-
-    /**
-     * The node type for the `CallExpression` node.
-     */
+    /** The type for the `CallExpression` node. */
     export type CallExpression = AST["CallExpression"]
-
-    /**
-     * The node type for the `CatchClause` node.
-     */
+    /** The type for the `CatchClause` node. */
     export type CatchClause = AST["CatchClause"]
-
-    /**
-     * The node type for the `ClassBody` node.
-     */
+    /** The type for the `ClassBody` node. */
     export type ClassBody = AST["ClassBody"]
-
-    /**
-     * The node type for the `ClassDeclaration` node.
-     */
+    /** The type for the `ClassDeclaration` node. */
     export type ClassDeclaration = AST["ClassDeclaration"]
-
-    /**
-     * The node type for the `ClassExpression` node.
-     */
+    /** The type for the `ClassExpression` node. */
     export type ClassExpression = AST["ClassExpression"]
-
-    /**
-     * The node type for the `CompoundAssignmentExpression` node.
-     */
+    /** The type for the `CompoundAssignmentExpression` node. */
     export type CompoundAssignmentExpression = AST["CompoundAssignmentExpression"]
-
-    /**
-     * The node type for the `ComputedAccessorProperty` node.
-     */
+    /** The type for the `ComputedAccessorProperty` node. */
     export type ComputedAccessorProperty = AST["ComputedAccessorProperty"]
-
-    /**
-     * The node type for the `ComputedMemberExpression` node.
-     */
+    /** The type for the `ComputedMemberExpression` node. */
     export type ComputedMemberExpression = AST["ComputedMemberExpression"]
-
-    /**
-     * The node type for the `ComputedMethodDefinition` node.
-     */
+    /** The type for the `ComputedMethodDefinition` node. */
     export type ComputedMethodDefinition = AST["ComputedMethodDefinition"]
-
-    /**
-     * The node type for the `ComputedMethodProperty` node.
-     */
+    /** The type for the `ComputedMethodProperty` node. */
     export type ComputedMethodProperty = AST["ComputedMethodProperty"]
-
-    /**
-     * The node type for the `ComputedProperty` node.
-     */
+    /** The type for the `ComputedProperty` node. */
     export type ComputedProperty = AST["ComputedProperty"]
-
-    /**
-     * The node type for the `ConditionalExpression` node.
-     */
+    /** The type for the `ConditionalExpression` node. */
     export type ConditionalExpression = AST["ConditionalExpression"]
-
-    /**
-     * The node type for the `ConstructorDefinition` node.
-     */
+    /** The type for the `ConstructorDefinition` node. */
     export type ConstructorDefinition = AST["ConstructorDefinition"]
-
-    /**
-     * The node type for the `ContinueStatement` node.
-     */
+    /** The type for the `ContinueStatement` node. */
     export type ContinueStatement = AST["ContinueStatement"]
-
-    /**
-     * The node type for the `DebuggerStatement` node.
-     */
+    /** The type for the `DebuggerStatement` node. */
     export type DebuggerStatement = AST["DebuggerStatement"]
-
-    /**
-     * The node type for the `DirectiveStatement` node.
-     */
+    /** The type for the `DirectiveStatement` node. */
     export type DirectiveStatement = AST["DirectiveStatement"]
-
-    /**
-     * The node type for the `DoWhileStatement` node.
-     */
+    /** The type for the `DoWhileStatement` node. */
     export type DoWhileStatement = AST["DoWhileStatement"]
-
-    /**
-     * The node type for the `EmptyStatement` node.
-     */
+    /** The type for the `EmptyStatement` node. */
     export type EmptyStatement = AST["EmptyStatement"]
-
-    /**
-     * The node type for the `ExportDefaultDeclaration` node.
-     */
+    /** The type for the `ExportDefaultDeclaration` node. */
     export type ExportDefaultDeclaration = AST["ExportDefaultDeclaration"]
-
-    /**
-     * The node type for the `ExportNamedDeclaration` node.
-     */
+    /** The type for the `ExportNamedDeclaration` node. */
     export type ExportNamedDeclaration = AST["ExportNamedDeclaration"]
-
-    /**
-     * The node type for the `ExportSpecifier` node.
-     */
+    /** The type for the `ExportSpecifier` node. */
     export type ExportSpecifier = AST["ExportSpecifier"]
-
-    /**
-     * The node type for the `ExpressionStatement` node.
-     */
+    /** The type for the `ExpressionStatement` node. */
     export type ExpressionStatement = AST["ExpressionStatement"]
-
-    /**
-     * The node type for the `ForInStatement` node.
-     */
+    /** The type for the `ForInStatement` node. */
     export type ForInStatement = AST["ForInStatement"]
-
-    /**
-     * The node type for the `ForOfStatement` node.
-     */
+    /** The type for the `ForOfStatement` node. */
     export type ForOfStatement = AST["ForOfStatement"]
-
-    /**
-     * The node type for the `ForStatement` node.
-     */
+    /** The type for the `ForStatement` node. */
     export type ForStatement = AST["ForStatement"]
-
-    /**
-     * The node type for the `FunctionDeclaration` node.
-     */
+    /** The type for the `FunctionDeclaration` node. */
     export type FunctionDeclaration = AST["FunctionDeclaration"]
-
-    /**
-     * The node type for the `FunctionExpression` node.
-     */
+    /** The type for the `FunctionExpression` node. */
     export type FunctionExpression = AST["FunctionExpression"]
-
-    /**
-     * The node type for the `Identifier` node.
-     */
+    /** The type for the `Identifier` node. */
     export type Identifier = AST["Identifier"]
-
-    /**
-     * The node type for the `IfStatement` node.
-     */
+    /** The type for the `IfStatement` node. */
     export type IfStatement = AST["IfStatement"]
-
-    /**
-     * The node type for the `ImportDeclaration` node.
-     */
+    /** The type for the `ImportDeclaration` node. */
     export type ImportDeclaration = AST["ImportDeclaration"]
-
-    /**
-     * The node type for the `ImportDefaultSpecifier` node.
-     */
+    /** The type for the `ImportDefaultSpecifier` node. */
     export type ImportDefaultSpecifier = AST["ImportDefaultSpecifier"]
-
-    /**
-     * The node type for the `ImportNamespaceSpecifier` node.
-     */
+    /** The type for the `ImportNamespaceSpecifier` node. */
     export type ImportNamespaceSpecifier = AST["ImportNamespaceSpecifier"]
-
-    /**
-     * The node type for the `ImportSpecifier` node.
-     */
+    /** The type for the `ImportSpecifier` node. */
     export type ImportSpecifier = AST["ImportSpecifier"]
-
-    /**
-     * The node type for the `LabeledStatement` node.
-     */
+    /** The type for the `LabeledStatement` node. */
     export type LabeledStatement = AST["LabeledStatement"]
-
-    /**
-     * The node type for the `LogicalExpression` node.
-     */
+    /** The type for the `LogicalExpression` node. */
     export type LogicalExpression = AST["LogicalExpression"]
-
-    /**
-     * The node type for the `MetaProperty` node.
-     */
+    /** The type for the `MetaProperty` node. */
     export type MetaProperty = AST["MetaProperty"]
-
-    /**
-     * The node type for the `MethodProperty` node.
-     */
+    /** The type for the `MethodProperty` node. */
     export type MethodProperty = AST["MethodProperty"]
-
-    /**
-     * The node type for the `ModuleProgram` node.
-     */
+    /** The type for the `ModuleProgram` node. */
     export type ModuleProgram = AST["ModuleProgram"]
-
-    /**
-     * The node type for the `NewExpression` node.
-     */
+    /** The type for the `NewExpression` node. */
     export type NewExpression = AST["NewExpression"]
-
-    /**
-     * The node type for the `NullLiteral` node.
-     */
+    /** The type for the `NullLiteral` node. */
     export type NullLiteral = AST["NullLiteral"]
-
-    /**
-     * The node type for the `NumberLiteral` node.
-     */
+    /** The type for the `NumberLiteral` node. */
     export type NumberLiteral = AST["NumberLiteral"]
-
-    /**
-     * The node type for the `ObjectExpression` node.
-     */
+    /** The type for the `ObjectExpression` node. */
     export type ObjectExpression = AST["ObjectExpression"]
-
-    /**
-     * The node type for the `ReexportAllDeclaration` node.
-     */
+    /** The type for the `ReexportAllDeclaration` node. */
     export type ReexportAllDeclaration = AST["ReexportAllDeclaration"]
-
-    /**
-     * The node type for the `ReexportNamedDeclaration` node.
-     */
+    /** The type for the `ReexportNamedDeclaration` node. */
     export type ReexportNamedDeclaration = AST["ReexportNamedDeclaration"]
-
-    /**
-     * The node type for the `RegExpLiteral` node.
-     */
+    /** The type for the `RegExpLiteral` node. */
     export type RegExpLiteral = AST["RegExpLiteral"]
-
-    /**
-     * The node type for the `ReturnStatement` node.
-     */
+    /** The type for the `ReturnStatement` node. */
     export type ReturnStatement = AST["ReturnStatement"]
-
-    /**
-     * The node type for the `ScriptProgram` node.
-     */
+    /** The type for the `ScriptProgram` node. */
     export type ScriptProgram = AST["ScriptProgram"]
-
-    /**
-     * The node type for the `SequenceExpression` node.
-     */
+    /** The type for the `SequenceExpression` node. */
     export type SequenceExpression = AST["SequenceExpression"]
-
-    /**
-     * The node type for the `ShorthandProperty` node.
-     */
+    /** The type for the `ShorthandProperty` node. */
     export type ShorthandProperty = AST["ShorthandProperty"]
-
-    /**
-     * The node type for the `SimpleAssignmentExpression` node.
-     */
+    /** The type for the `SimpleAssignmentExpression` node. */
     export type SimpleAssignmentExpression = AST["SimpleAssignmentExpression"]
-
-    /**
-     * The node type for the `SimpleMemberExpression` node.
-     */
+    /** The type for the `SimpleMemberExpression` node. */
     export type SimpleMemberExpression = AST["SimpleMemberExpression"]
-
-    /**
-     * The node type for the `SimpleMethodDefinition` node.
-     */
+    /** The type for the `SimpleMethodDefinition` node. */
     export type SimpleMethodDefinition = AST["SimpleMethodDefinition"]
-
-    /**
-     * The node type for the `SimpleProperty` node.
-     */
+    /** The type for the `SimpleProperty` node. */
     export type SimpleProperty = AST["SimpleProperty"]
-
-    /**
-     * The node type for the `SpreadElement` node.
-     */
+    /** The type for the `SpreadElement` node. */
     export type SpreadElement = AST["SpreadElement"]
-
-    /**
-     * The node type for the `StringLiteral` node.
-     */
+    /** The type for the `StringLiteral` node. */
     export type StringLiteral = AST["StringLiteral"]
-
-    /**
-     * The node type for the `Super` node.
-     */
+    /** The type for the `Super` node. */
     export type Super = AST["Super"]
-
-    /**
-     * The node type for the `SwitchCase` node.
-     */
+    /** The type for the `SwitchCase` node. */
     export type SwitchCase = AST["SwitchCase"]
-
-    /**
-     * The node type for the `SwitchStatement` node.
-     */
+    /** The type for the `SwitchStatement` node. */
     export type SwitchStatement = AST["SwitchStatement"]
-
-    /**
-     * The node type for the `TaggedTemplateExpression` node.
-     */
+    /** The type for the `TaggedTemplateExpression` node. */
     export type TaggedTemplateExpression = AST["TaggedTemplateExpression"]
-
-    /**
-     * The node type for the `TemplateElement` node.
-     */
+    /** The type for the `TemplateElement` node. */
     export type TemplateElement = AST["TemplateElement"]
-
-    /**
-     * The node type for the `TemplateLiteral` node.
-     */
+    /** The type for the `TemplateLiteral` node. */
     export type TemplateLiteral = AST["TemplateLiteral"]
-
-    /**
-     * The node type for the `ThisExpression` node.
-     */
+    /** The type for the `ThisExpression` node. */
     export type ThisExpression = AST["ThisExpression"]
-
-    /**
-     * The node type for the `ThrowStatement` node.
-     */
+    /** The type for the `ThrowStatement` node. */
     export type ThrowStatement = AST["ThrowStatement"]
-
-    /**
-     * The node type for the `TryStatement` node.
-     */
+    /** The type for the `TryStatement` node. */
     export type TryStatement = AST["TryStatement"]
-
-    /**
-     * The node type for the `UnaryExpression` node.
-     */
+    /** The type for the `UnaryExpression` node. */
     export type UnaryExpression = AST["UnaryExpression"]
-
-    /**
-     * The node type for the `UpdateExpression` node.
-     */
+    /** The type for the `UpdateExpression` node. */
     export type UpdateExpression = AST["UpdateExpression"]
-
-    /**
-     * The node type for the `VariableDeclaration` node.
-     */
+    /** The type for the `VariableDeclaration` node. */
     export type VariableDeclaration = AST["VariableDeclaration"]
-
-    /**
-     * The node type for the `VariableDeclarator` node.
-     */
+    /** The type for the `VariableDeclarator` node. */
     export type VariableDeclarator = AST["VariableDeclarator"]
-
-    /**
-     * The node type for the `WhileStatement` node.
-     */
+    /** The type for the `WhileStatement` node. */
     export type WhileStatement = AST["WhileStatement"]
-
-    /**
-     * The node type for the `WithStatement` node.
-     */
+    /** The type for the `WithStatement` node. */
     export type WithStatement = AST["WithStatement"]
-
-    /**
-     * The node type for the `YieldExpression` node.
-     */
+    /** The type for the `YieldExpression` node. */
     export type YieldExpression = AST["YieldExpression"]
 }
 
-/**
- * The union type for all alias names.
- */
+/** The union type for all alias names. */
 export type AliasName = ast.AliasName<ES2016>
 
 /**
@@ -606,375 +283,241 @@ export type NodeName = ast.NodeName<ES2016>
  */
 export type TypeName = ast.ASTType<ES2016>
 
-/**
- * The union type for all nodes.
- */
-export type Node = AST.Node
-
-/**
- * The union type for all statement nodes.
- * This union type doesn't include module items. Refer the `ModuleItem` type as well.
- */
-export type Statement = AST.Statement
-
-/**
- * The union type for all module item nodes.
- */
-export type ModuleItem = AST.ModuleItem
-
-/**
- * The union type for all expression nodes.
- */
-export type Expression = AST.Expression
-
-/**
- * The node type for the ESTree `ArrayExpression` node.
- */
-export type ArrayExpression = ast.NodeOfType<ES2016, "ArrayExpression">
-
-/**
- * The node type for the ESTree `ArrayPattern` node.
- */
-export type ArrayPattern = ast.NodeOfType<ES2016, "ArrayPattern">
-
-/**
- * The node type for the ESTree `ArrowFunctionExpression` node.
- */
-export type ArrowFunctionExpression = ast.NodeOfType<
-    ES2016,
-    "ArrowFunctionExpression"
->
-
-/**
- * The node type for the ESTree `AssignmentExpression` node.
- */
-export type AssignmentExpression = ast.NodeOfType<
-    ES2016,
-    "AssignmentExpression"
->
-
-/**
- * The node type for the ESTree `AssignmentPattern` node.
- */
-export type AssignmentPattern = ast.NodeOfType<ES2016, "AssignmentPattern">
-
-/**
- * The node type for the ESTree `BinaryExpression` node.
- */
-export type BinaryExpression = ast.NodeOfType<ES2016, "BinaryExpression">
-
-/**
- * The node type for the ESTree `BlockStatement` node.
- */
-export type BlockStatement = ast.NodeOfType<ES2016, "BlockStatement">
-
-/**
- * The node type for the ESTree `BreakStatement` node.
- */
-export type BreakStatement = ast.NodeOfType<ES2016, "BreakStatement">
-
-/**
- * The node type for the ESTree `CallExpression` node.
- */
-export type CallExpression = ast.NodeOfType<ES2016, "CallExpression">
-
-/**
- * The node type for the ESTree `CatchClause` node.
- */
-export type CatchClause = ast.NodeOfType<ES2016, "CatchClause">
-
-/**
- * The node type for the ESTree `ClassBody` node.
- */
-export type ClassBody = ast.NodeOfType<ES2016, "ClassBody">
-
-/**
- * The node type for the ESTree `ClassDeclaration` node.
- */
-export type ClassDeclaration = ast.NodeOfType<ES2016, "ClassDeclaration">
-
-/**
- * The node type for the ESTree `ClassExpression` node.
- */
-export type ClassExpression = ast.NodeOfType<ES2016, "ClassExpression">
-
-/**
- * The node type for the ESTree `ConditionalExpression` node.
- */
-export type ConditionalExpression = ast.NodeOfType<
-    ES2016,
-    "ConditionalExpression"
->
-
-/**
- * The node type for the ESTree `ContinueStatement` node.
- */
-export type ContinueStatement = ast.NodeOfType<ES2016, "ContinueStatement">
-
-/**
- * The node type for the ESTree `DebuggerStatement` node.
- */
-export type DebuggerStatement = ast.NodeOfType<ES2016, "DebuggerStatement">
-
-/**
- * The node type for the ESTree `DoWhileStatement` node.
- */
-export type DoWhileStatement = ast.NodeOfType<ES2016, "DoWhileStatement">
-
-/**
- * The node type for the ESTree `EmptyStatement` node.
- */
-export type EmptyStatement = ast.NodeOfType<ES2016, "EmptyStatement">
-
-/**
- * The node type for the ESTree `ExportAllDeclaration` node.
- */
-export type ExportAllDeclaration = ast.NodeOfType<
-    ES2016,
-    "ExportAllDeclaration"
->
-
-/**
- * The node type for the ESTree `ExportDefaultDeclaration` node.
- */
-export type ExportDefaultDeclaration = ast.NodeOfType<
-    ES2016,
-    "ExportDefaultDeclaration"
->
-
-/**
- * The node type for the ESTree `ExportNamedDeclaration` node.
- */
-export type ExportNamedDeclaration = ast.NodeOfType<
-    ES2016,
-    "ExportNamedDeclaration"
->
-
-/**
- * The node type for the ESTree `ExportSpecifier` node.
- */
-export type ExportSpecifier = ast.NodeOfType<ES2016, "ExportSpecifier">
-
-/**
- * The node type for the ESTree `ExpressionStatement` node.
- */
-export type ExpressionStatement = ast.NodeOfType<ES2016, "ExpressionStatement">
-
-/**
- * The node type for the ESTree `ForInStatement` node.
- */
-export type ForInStatement = ast.NodeOfType<ES2016, "ForInStatement">
-
-/**
- * The node type for the ESTree `ForOfStatement` node.
- */
-export type ForOfStatement = ast.NodeOfType<ES2016, "ForOfStatement">
-
-/**
- * The node type for the ESTree `ForStatement` node.
- */
-export type ForStatement = ast.NodeOfType<ES2016, "ForStatement">
-
-/**
- * The node type for the ESTree `FunctionDeclaration` node.
- */
-export type FunctionDeclaration = ast.NodeOfType<ES2016, "FunctionDeclaration">
-
-/**
- * The node type for the ESTree `FunctionExpression` node.
- */
-export type FunctionExpression = ast.NodeOfType<ES2016, "FunctionExpression">
-
-/**
- * The node type for the ESTree `Identifier` node.
- */
-export type Identifier = ast.NodeOfType<ES2016, "Identifier">
-
-/**
- * The node type for the ESTree `IfStatement` node.
- */
-export type IfStatement = ast.NodeOfType<ES2016, "IfStatement">
-
-/**
- * The node type for the ESTree `ImportDeclaration` node.
- */
-export type ImportDeclaration = ast.NodeOfType<ES2016, "ImportDeclaration">
-
-/**
- * The node type for the ESTree `ImportDefaultSpecifier` node.
- */
-export type ImportDefaultSpecifier = ast.NodeOfType<
-    ES2016,
-    "ImportDefaultSpecifier"
->
-
-/**
- * The node type for the ESTree `ImportNamespaceSpecifier` node.
- */
-export type ImportNamespaceSpecifier = ast.NodeOfType<
-    ES2016,
-    "ImportNamespaceSpecifier"
->
-
-/**
- * The node type for the ESTree `ImportSpecifier` node.
- */
-export type ImportSpecifier = ast.NodeOfType<ES2016, "ImportSpecifier">
-
-/**
- * The node type for the ESTree `LabeledStatement` node.
- */
-export type LabeledStatement = ast.NodeOfType<ES2016, "LabeledStatement">
-
-/**
- * The node type for the ESTree `Literal` node.
- */
-export type Literal = ast.NodeOfType<ES2016, "Literal">
-
-/**
- * The node type for the ESTree `LogicalExpression` node.
- */
-export type LogicalExpression = ast.NodeOfType<ES2016, "LogicalExpression">
-
-/**
- * The node type for the ESTree `MemberExpression` node.
- */
-export type MemberExpression = ast.NodeOfType<ES2016, "MemberExpression">
-
-/**
- * The node type for the ESTree `MetaProperty` node.
- */
-export type MetaProperty = ast.NodeOfType<ES2016, "MetaProperty">
-
-/**
- * The node type for the ESTree `MethodDefinition` node.
- */
-export type MethodDefinition = ast.NodeOfType<ES2016, "MethodDefinition">
-
-/**
- * The node type for the ESTree `NewExpression` node.
- */
-export type NewExpression = ast.NodeOfType<ES2016, "NewExpression">
-
-/**
- * The node type for the ESTree `ObjectExpression` node.
- */
-export type ObjectExpression = ast.NodeOfType<ES2016, "ObjectExpression">
-
-/**
- * The node type for the ESTree `ObjectPattern` node.
- */
-export type ObjectPattern = ast.NodeOfType<ES2016, "ObjectPattern">
-
-/**
- * The node type for the ESTree `Program` node.
- */
-export type Program = ast.NodeOfType<ES2016, "Program">
-
-/**
- * The node type for the ESTree `Property` node.
- */
-export type Property = ast.NodeOfType<ES2016, "Property">
-
-/**
- * The node type for the ESTree `RestElement` node.
- */
-export type RestElement = ast.NodeOfType<ES2016, "RestElement">
-
-/**
- * The node type for the ESTree `ReturnStatement` node.
- */
-export type ReturnStatement = ast.NodeOfType<ES2016, "ReturnStatement">
-
-/**
- * The node type for the ESTree `SequenceExpression` node.
- */
-export type SequenceExpression = ast.NodeOfType<ES2016, "SequenceExpression">
-
-/**
- * The node type for the ESTree `SpreadElement` node.
- */
-export type SpreadElement = ast.NodeOfType<ES2016, "SpreadElement">
-
-/**
- * The node type for the ESTree `Super` node.
- */
-export type Super = ast.NodeOfType<ES2016, "Super">
-
-/**
- * The node type for the ESTree `SwitchCase` node.
- */
-export type SwitchCase = ast.NodeOfType<ES2016, "SwitchCase">
-
-/**
- * The node type for the ESTree `SwitchStatement` node.
- */
-export type SwitchStatement = ast.NodeOfType<ES2016, "SwitchStatement">
-
-/**
- * The node type for the ESTree `TaggedTemplateExpression` node.
- */
-export type TaggedTemplateExpression = ast.NodeOfType<
-    ES2016,
-    "TaggedTemplateExpression"
->
-
-/**
- * The node type for the ESTree `TemplateElement` node.
- */
-export type TemplateElement = ast.NodeOfType<ES2016, "TemplateElement">
-
-/**
- * The node type for the ESTree `TemplateLiteral` node.
- */
-export type TemplateLiteral = ast.NodeOfType<ES2016, "TemplateLiteral">
-
-/**
- * The node type for the ESTree `ThisExpression` node.
- */
-export type ThisExpression = ast.NodeOfType<ES2016, "ThisExpression">
-
-/**
- * The node type for the ESTree `ThrowStatement` node.
- */
-export type ThrowStatement = ast.NodeOfType<ES2016, "ThrowStatement">
-
-/**
- * The node type for the ESTree `TryStatement` node.
- */
-export type TryStatement = ast.NodeOfType<ES2016, "TryStatement">
-
-/**
- * The node type for the ESTree `UnaryExpression` node.
- */
-export type UnaryExpression = ast.NodeOfType<ES2016, "UnaryExpression">
-
-/**
- * The node type for the ESTree `UpdateExpression` node.
- */
-export type UpdateExpression = ast.NodeOfType<ES2016, "UpdateExpression">
-
-/**
- * The node type for the ESTree `VariableDeclaration` node.
- */
-export type VariableDeclaration = ast.NodeOfType<ES2016, "VariableDeclaration">
-
-/**
- * The node type for the ESTree `VariableDeclarator` node.
- */
-export type VariableDeclarator = ast.NodeOfType<ES2016, "VariableDeclarator">
-
-/**
- * The node type for the ESTree `WhileStatement` node.
- */
-export type WhileStatement = ast.NodeOfType<ES2016, "WhileStatement">
-
-/**
- * The node type for the ESTree `WithStatement` node.
- */
-export type WithStatement = ast.NodeOfType<ES2016, "WithStatement">
-
-/**
- * The node type for the ESTree `YieldExpression` node.
- */
-export type YieldExpression = ast.NodeOfType<ES2016, "YieldExpression">
+/** The union type for all nodes. */
+export type Node = AST["Node"]
+/** The union type for the `ArrayPattern` alias. */
+export type ArrayPattern = AST["ArrayPattern"]
+/** The union type for the `AssignmentExpression` alias. */
+export type AssignmentExpression = AST["AssignmentExpression"]
+/** The union type for the `AssignmentPattern` alias. */
+export type AssignmentPattern = AST["AssignmentPattern"]
+/** The union type for the `AssignmentProperty` alias. */
+export type AssignmentProperty = AST["AssignmentProperty"]
+/** The union type for the `AssignmentTarget` alias. */
+export type AssignmentTarget = AST["AssignmentTarget"]
+/** The union type for the `BindingProperty` alias. */
+export type BindingProperty = AST["BindingProperty"]
+/** The union type for the `BindingTarget` alias. */
+export type BindingTarget = AST["BindingTarget"]
+/** The union type for the `Class` alias. */
+export type Class = AST["Class"]
+/** The union type for the `Declaration` alias. */
+export type Declaration = AST["Declaration"]
+/** The union type for the `ExportAllDeclaration` alias. */
+export type ExportAllDeclaration = AST["ExportAllDeclaration"]
+/** The union type for the `Expression` alias. */
+export type Expression = AST["Expression"]
+/** The union type for the `Function` alias. */
+export type Function = AST["Function"]
+/** The union type for the `Literal` alias. */
+export type Literal = AST["Literal"]
+/** The union type for the `MemberExpression` alias. */
+export type MemberExpression = AST["MemberExpression"]
+/** The union type for the `MethodDefinition` alias. */
+export type MethodDefinition = AST["MethodDefinition"]
+/** The union type for the `ModuleItem` alias. */
+export type ModuleItem = AST["ModuleItem"]
+/** The union type for the `ObjectPattern` alias. */
+export type ObjectPattern = AST["ObjectPattern"]
+/** The union type for the `ObjectProperty` alias. */
+export type ObjectProperty = AST["ObjectProperty"]
+/** The union type for the `Program` alias. */
+export type Program = AST["Program"]
+/** The union type for the `Property` alias. */
+export type Property = AST["Property"]
+/** The union type for the `RestElement` alias. */
+export type RestElement = AST["RestElement"]
+/** The union type for the `SimpleAssignmentTarget` alias. */
+export type SimpleAssignmentTarget = AST["SimpleAssignmentTarget"]
+/** The union type for the `Statement` alias. */
+export type Statement = AST["Statement"]
+/** The union type for the `StaticPropertyKey` alias. */
+export type StaticPropertyKey = AST["StaticPropertyKey"]
+/** The type for the `AccessorProperty` node. */
+export type AccessorProperty = AST["AccessorProperty"]
+/** The type for the `AnonymousDefaultExportedClassDeclaration` node. */
+export type AnonymousDefaultExportedClassDeclaration = AST["AnonymousDefaultExportedClassDeclaration"]
+/** The type for the `AnonymousDefaultExportedFunctionDeclaration` node. */
+export type AnonymousDefaultExportedFunctionDeclaration = AST["AnonymousDefaultExportedFunctionDeclaration"]
+/** The type for the `ArrayExpression` node. */
+export type ArrayExpression = AST["ArrayExpression"]
+/** The type for the `ArrowFunctionExpression` node. */
+export type ArrowFunctionExpression = AST["ArrowFunctionExpression"]
+/** The type for the `AssignmentArrayPattern` node. */
+export type AssignmentArrayPattern = AST["AssignmentArrayPattern"]
+/** The type for the `AssignmentAssignmentPattern` node. */
+export type AssignmentAssignmentPattern = AST["AssignmentAssignmentPattern"]
+/** The type for the `AssignmentComputedProperty` node. */
+export type AssignmentComputedProperty = AST["AssignmentComputedProperty"]
+/** The type for the `AssignmentObjectPattern` node. */
+export type AssignmentObjectPattern = AST["AssignmentObjectPattern"]
+/** The type for the `AssignmentRestElement` node. */
+export type AssignmentRestElement = AST["AssignmentRestElement"]
+/** The type for the `AssignmentShorthandProperty` node. */
+export type AssignmentShorthandProperty = AST["AssignmentShorthandProperty"]
+/** The type for the `AssignmentSimpleProperty` node. */
+export type AssignmentSimpleProperty = AST["AssignmentSimpleProperty"]
+/** The type for the `BinaryExpression` node. */
+export type BinaryExpression = AST["BinaryExpression"]
+/** The type for the `BindingArrayPattern` node. */
+export type BindingArrayPattern = AST["BindingArrayPattern"]
+/** The type for the `BindingAssignmentPattern` node. */
+export type BindingAssignmentPattern = AST["BindingAssignmentPattern"]
+/** The type for the `BindingComputedProperty` node. */
+export type BindingComputedProperty = AST["BindingComputedProperty"]
+/** The type for the `BindingObjectPattern` node. */
+export type BindingObjectPattern = AST["BindingObjectPattern"]
+/** The type for the `BindingRestElement` node. */
+export type BindingRestElement = AST["BindingRestElement"]
+/** The type for the `BindingShorthandProperty` node. */
+export type BindingShorthandProperty = AST["BindingShorthandProperty"]
+/** The type for the `BindingSimpleProperty` node. */
+export type BindingSimpleProperty = AST["BindingSimpleProperty"]
+/** The type for the `BlockStatement` node. */
+export type BlockStatement = AST["BlockStatement"]
+/** The type for the `BooleanLiteral` node. */
+export type BooleanLiteral = AST["BooleanLiteral"]
+/** The type for the `BreakStatement` node. */
+export type BreakStatement = AST["BreakStatement"]
+/** The type for the `CallExpression` node. */
+export type CallExpression = AST["CallExpression"]
+/** The type for the `CatchClause` node. */
+export type CatchClause = AST["CatchClause"]
+/** The type for the `ClassBody` node. */
+export type ClassBody = AST["ClassBody"]
+/** The type for the `ClassDeclaration` node. */
+export type ClassDeclaration = AST["ClassDeclaration"]
+/** The type for the `ClassExpression` node. */
+export type ClassExpression = AST["ClassExpression"]
+/** The type for the `CompoundAssignmentExpression` node. */
+export type CompoundAssignmentExpression = AST["CompoundAssignmentExpression"]
+/** The type for the `ComputedAccessorProperty` node. */
+export type ComputedAccessorProperty = AST["ComputedAccessorProperty"]
+/** The type for the `ComputedMemberExpression` node. */
+export type ComputedMemberExpression = AST["ComputedMemberExpression"]
+/** The type for the `ComputedMethodDefinition` node. */
+export type ComputedMethodDefinition = AST["ComputedMethodDefinition"]
+/** The type for the `ComputedMethodProperty` node. */
+export type ComputedMethodProperty = AST["ComputedMethodProperty"]
+/** The type for the `ComputedProperty` node. */
+export type ComputedProperty = AST["ComputedProperty"]
+/** The type for the `ConditionalExpression` node. */
+export type ConditionalExpression = AST["ConditionalExpression"]
+/** The type for the `ConstructorDefinition` node. */
+export type ConstructorDefinition = AST["ConstructorDefinition"]
+/** The type for the `ContinueStatement` node. */
+export type ContinueStatement = AST["ContinueStatement"]
+/** The type for the `DebuggerStatement` node. */
+export type DebuggerStatement = AST["DebuggerStatement"]
+/** The type for the `DirectiveStatement` node. */
+export type DirectiveStatement = AST["DirectiveStatement"]
+/** The type for the `DoWhileStatement` node. */
+export type DoWhileStatement = AST["DoWhileStatement"]
+/** The type for the `EmptyStatement` node. */
+export type EmptyStatement = AST["EmptyStatement"]
+/** The type for the `ExportDefaultDeclaration` node. */
+export type ExportDefaultDeclaration = AST["ExportDefaultDeclaration"]
+/** The type for the `ExportNamedDeclaration` node. */
+export type ExportNamedDeclaration = AST["ExportNamedDeclaration"]
+/** The type for the `ExportSpecifier` node. */
+export type ExportSpecifier = AST["ExportSpecifier"]
+/** The type for the `ExpressionStatement` node. */
+export type ExpressionStatement = AST["ExpressionStatement"]
+/** The type for the `ForInStatement` node. */
+export type ForInStatement = AST["ForInStatement"]
+/** The type for the `ForOfStatement` node. */
+export type ForOfStatement = AST["ForOfStatement"]
+/** The type for the `ForStatement` node. */
+export type ForStatement = AST["ForStatement"]
+/** The type for the `FunctionDeclaration` node. */
+export type FunctionDeclaration = AST["FunctionDeclaration"]
+/** The type for the `FunctionExpression` node. */
+export type FunctionExpression = AST["FunctionExpression"]
+/** The type for the `Identifier` node. */
+export type Identifier = AST["Identifier"]
+/** The type for the `IfStatement` node. */
+export type IfStatement = AST["IfStatement"]
+/** The type for the `ImportDeclaration` node. */
+export type ImportDeclaration = AST["ImportDeclaration"]
+/** The type for the `ImportDefaultSpecifier` node. */
+export type ImportDefaultSpecifier = AST["ImportDefaultSpecifier"]
+/** The type for the `ImportNamespaceSpecifier` node. */
+export type ImportNamespaceSpecifier = AST["ImportNamespaceSpecifier"]
+/** The type for the `ImportSpecifier` node. */
+export type ImportSpecifier = AST["ImportSpecifier"]
+/** The type for the `LabeledStatement` node. */
+export type LabeledStatement = AST["LabeledStatement"]
+/** The type for the `LogicalExpression` node. */
+export type LogicalExpression = AST["LogicalExpression"]
+/** The type for the `MetaProperty` node. */
+export type MetaProperty = AST["MetaProperty"]
+/** The type for the `MethodProperty` node. */
+export type MethodProperty = AST["MethodProperty"]
+/** The type for the `ModuleProgram` node. */
+export type ModuleProgram = AST["ModuleProgram"]
+/** The type for the `NewExpression` node. */
+export type NewExpression = AST["NewExpression"]
+/** The type for the `NullLiteral` node. */
+export type NullLiteral = AST["NullLiteral"]
+/** The type for the `NumberLiteral` node. */
+export type NumberLiteral = AST["NumberLiteral"]
+/** The type for the `ObjectExpression` node. */
+export type ObjectExpression = AST["ObjectExpression"]
+/** The type for the `ReexportAllDeclaration` node. */
+export type ReexportAllDeclaration = AST["ReexportAllDeclaration"]
+/** The type for the `ReexportNamedDeclaration` node. */
+export type ReexportNamedDeclaration = AST["ReexportNamedDeclaration"]
+/** The type for the `RegExpLiteral` node. */
+export type RegExpLiteral = AST["RegExpLiteral"]
+/** The type for the `ReturnStatement` node. */
+export type ReturnStatement = AST["ReturnStatement"]
+/** The type for the `ScriptProgram` node. */
+export type ScriptProgram = AST["ScriptProgram"]
+/** The type for the `SequenceExpression` node. */
+export type SequenceExpression = AST["SequenceExpression"]
+/** The type for the `ShorthandProperty` node. */
+export type ShorthandProperty = AST["ShorthandProperty"]
+/** The type for the `SimpleAssignmentExpression` node. */
+export type SimpleAssignmentExpression = AST["SimpleAssignmentExpression"]
+/** The type for the `SimpleMemberExpression` node. */
+export type SimpleMemberExpression = AST["SimpleMemberExpression"]
+/** The type for the `SimpleMethodDefinition` node. */
+export type SimpleMethodDefinition = AST["SimpleMethodDefinition"]
+/** The type for the `SimpleProperty` node. */
+export type SimpleProperty = AST["SimpleProperty"]
+/** The type for the `SpreadElement` node. */
+export type SpreadElement = AST["SpreadElement"]
+/** The type for the `StringLiteral` node. */
+export type StringLiteral = AST["StringLiteral"]
+/** The type for the `Super` node. */
+export type Super = AST["Super"]
+/** The type for the `SwitchCase` node. */
+export type SwitchCase = AST["SwitchCase"]
+/** The type for the `SwitchStatement` node. */
+export type SwitchStatement = AST["SwitchStatement"]
+/** The type for the `TaggedTemplateExpression` node. */
+export type TaggedTemplateExpression = AST["TaggedTemplateExpression"]
+/** The type for the `TemplateElement` node. */
+export type TemplateElement = AST["TemplateElement"]
+/** The type for the `TemplateLiteral` node. */
+export type TemplateLiteral = AST["TemplateLiteral"]
+/** The type for the `ThisExpression` node. */
+export type ThisExpression = AST["ThisExpression"]
+/** The type for the `ThrowStatement` node. */
+export type ThrowStatement = AST["ThrowStatement"]
+/** The type for the `TryStatement` node. */
+export type TryStatement = AST["TryStatement"]
+/** The type for the `UnaryExpression` node. */
+export type UnaryExpression = AST["UnaryExpression"]
+/** The type for the `UpdateExpression` node. */
+export type UpdateExpression = AST["UpdateExpression"]
+/** The type for the `VariableDeclaration` node. */
+export type VariableDeclaration = AST["VariableDeclaration"]
+/** The type for the `VariableDeclarator` node. */
+export type VariableDeclarator = AST["VariableDeclarator"]
+/** The type for the `WhileStatement` node. */
+export type WhileStatement = AST["WhileStatement"]
+/** The type for the `WithStatement` node. */
+export type WithStatement = AST["WithStatement"]
+/** The type for the `YieldExpression` node. */
+export type YieldExpression = AST["YieldExpression"]

@@ -1,8 +1,57 @@
-import { Comment } from "./lib/comment"
 import { NodeRef } from "./lib/node-ref"
-import { Token } from "./lib/token"
 
-export { Comment, Token }
+/**
+ * A range in the 0-based indices.
+ */
+export type IndexRange = [number, number]
+
+/**
+ * The pair of a line number and a column number.
+ */
+export interface LineColumn {
+    /** The 1-based line number. */
+    readonly line: number
+    /** The 0-based column number. */
+    readonly column: number
+}
+
+/**
+ * A range in the line/column pairs.
+ */
+export interface LineColumnRange {
+    /** The begin location. */
+    readonly start: LineColumn
+    /** The end location. */
+    readonly end: LineColumn
+}
+
+/**
+ * Token's information.
+ */
+export interface Token {
+    /** Token type. */
+    readonly type: string
+    /** Token value. */
+    readonly value: string
+    /** The range of this token in indices. */
+    readonly range: IndexRange
+    /** The range of this token in line/column. */
+    readonly loc: LineColumnRange
+}
+
+/**
+ * Comment's information.
+ */
+export interface Comment {
+    /** Comment type. */
+    readonly type: "Block" | "Line" | "Shebang"
+    /** Comment content. */
+    readonly value: string
+    /** The range of this token in indices. */
+    readonly range: IndexRange
+    /** The range of this token in line/column. */
+    readonly loc: LineColumnRange
+}
 
 /**
  * The AST definition of ES5.
@@ -273,18 +322,11 @@ export interface Definition {
     }
 
     aliases: {
-        AssignmentExpression:
-            | "CompoundAssignmentExpression"
-            | "SimpleAssignmentExpression"
         AssignmentTarget:
             | "Identifier"
             | "ComputedMemberExpression"
             | "SimpleMemberExpression"
         BindingTarget: "Identifier"
-        SimpleAssignmentTarget:
-            | "Identifier"
-            | "ComputedMemberExpression"
-            | "SimpleMemberExpression"
         Expression:
             | "BlockStatement"
             | "BreakStatement"
@@ -307,15 +349,10 @@ export interface Definition {
             | "WithStatement"
         Declaration: "FunctionDeclaration" | "VariableDeclaration"
         Function: "FunctionDeclaration" | "FunctionExpression"
-        Literal:
-            | "BooleanLiteral"
-            | "NullLiteral"
-            | "NumberLiteral"
-            | "RegExpLiteral"
-            | "StringLiteral"
-        MemberExpression: "ComputedMemberExpression" | "SimpleMemberExpression"
-        Program: "ScriptProgram"
-        Property: "AccessorProperty" | "SimpleProperty"
+        SimpleAssignmentTarget:
+            | "Identifier"
+            | "ComputedMemberExpression"
+            | "SimpleMemberExpression"
         Statement:
             | "ArrayExpression"
             | "BinaryExpression"
@@ -340,5 +377,9 @@ export interface Definition {
             | "UnaryExpression"
             | "UpdateExpression"
         StaticPropertyKey: "Identifier" | "NumberLiteral" | "StringLiteral"
+    }
+    commonProperties: {
+        loc: LineColumnRange
+        range: IndexRange
     }
 }

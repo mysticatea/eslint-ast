@@ -1,10 +1,15 @@
-import { Comment } from "./lib/comment"
 import { Extends } from "./lib/extends"
 import { NodeRef } from "./lib/node-ref"
-import { Token } from "./lib/token"
-import { Definition as ES2019Definition } from "./es2019-definition"
+import {
+    Comment,
+    Definition as ES2019Definition,
+    IndexRange,
+    LineColumnRange,
+    LineColumn,
+    Token,
+} from "./es2019-definition"
 
-export { Comment, Token }
+export { Comment, IndexRange, LineColumnRange, LineColumn, Token }
 
 export namespace Enhancement {
     /**
@@ -41,7 +46,7 @@ export namespace Enhancement {
         aliases: {
             // Enhancements
             Expression: "BigIntLiteral"
-            Literal: "BigIntLiteral"
+            StaticPropertyKey: "BigIntLiteral"
         }
     }
 

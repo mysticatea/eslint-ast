@@ -1,9 +1,14 @@
-import { Comment } from "./lib/comment"
 import { Extends } from "./lib/extends"
-import { Token } from "./lib/token"
-import { Definition as ES2018Definition } from "./es2018-definition"
+import {
+    Comment,
+    Definition as ES2018Definition,
+    IndexRange,
+    LineColumnRange,
+    LineColumn,
+    Token,
+} from "./es2018-definition"
 
-export { Comment, Token }
+export { Comment, IndexRange, LineColumnRange, LineColumn, Token }
 
 export namespace Enhancement {
     /**
