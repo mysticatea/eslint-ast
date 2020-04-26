@@ -3,7 +3,7 @@ import { NodeRef } from "./lib/node-ref"
 /**
  * A range in the 0-based indices.
  */
-export type IndexRange = [number, number]
+export type IndexRange = readonly [number, number]
 
 /**
  * The pair of a line number and a column number.
@@ -95,7 +95,7 @@ export interface Definition {
         EmptyStatement: {}
         ExpressionStatement: {
             expression: NodeRef<"Expression">
-            directive?: undefined
+            directive: undefined
         }
         ForInStatement: {
             left: NodeRef<"AssignmentTarget"> | NodeRef<"VariableDeclaration">
@@ -328,32 +328,6 @@ export interface Definition {
             | "SimpleMemberExpression"
         BindingTarget: "Identifier"
         Expression:
-            | "BlockStatement"
-            | "BreakStatement"
-            | "ContinueStatement"
-            | "DebuggerStatement"
-            | "DoWhileStatement"
-            | "EmptyStatement"
-            | "ExpressionStatement"
-            | "ForInStatement"
-            | "ForStatement"
-            | "FunctionDeclaration"
-            | "IfStatement"
-            | "LabeledStatement"
-            | "ReturnStatement"
-            | "SwitchStatement"
-            | "ThrowStatement"
-            | "TryStatement"
-            | "VariableDeclaration"
-            | "WhileStatement"
-            | "WithStatement"
-        Declaration: "FunctionDeclaration" | "VariableDeclaration"
-        Function: "FunctionDeclaration" | "FunctionExpression"
-        SimpleAssignmentTarget:
-            | "Identifier"
-            | "ComputedMemberExpression"
-            | "SimpleMemberExpression"
-        Statement:
             | "ArrayExpression"
             | "BinaryExpression"
             | "BooleanLiteral"
@@ -376,6 +350,32 @@ export interface Definition {
             | "ThisExpression"
             | "UnaryExpression"
             | "UpdateExpression"
+        Declaration: "FunctionDeclaration" | "VariableDeclaration"
+        Function: "FunctionDeclaration" | "FunctionExpression"
+        SimpleAssignmentTarget:
+            | "Identifier"
+            | "ComputedMemberExpression"
+            | "SimpleMemberExpression"
+        Statement:
+            | "BlockStatement"
+            | "BreakStatement"
+            | "ContinueStatement"
+            | "DebuggerStatement"
+            | "DoWhileStatement"
+            | "EmptyStatement"
+            | "ExpressionStatement"
+            | "ForInStatement"
+            | "ForStatement"
+            | "FunctionDeclaration"
+            | "IfStatement"
+            | "LabeledStatement"
+            | "ReturnStatement"
+            | "SwitchStatement"
+            | "ThrowStatement"
+            | "TryStatement"
+            | "VariableDeclaration"
+            | "WhileStatement"
+            | "WithStatement"
         StaticPropertyKey: "Identifier" | "NumberLiteral" | "StringLiteral"
     }
     commonProperties: {
