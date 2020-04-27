@@ -76,7 +76,6 @@ export namespace Enhancement {
                 operator: "??"
             }
         }
-        aliases: {}
     }
 
     /**
@@ -92,14 +91,13 @@ export namespace Enhancement {
     /**
      * Definition for `export * as ns from "source"`.
      */
-    export interface ReexportAllWithName {
+    export interface ExportAllWithName {
         nodes: {
             // Enhancements
-            ReexportAllDeclaration: {
+            ExportAllDeclaration: {
                 exported: NodeRef<"Identifier"> | null
             }
         }
-        aliases: {}
     }
 }
 
@@ -114,6 +112,6 @@ export interface Definition
             Enhancement.DynamicImport,
             Enhancement.NullishCoalescing,
             Enhancement.OptionalChaining,
-            Enhancement.ReexportAllWithName,
+            Enhancement.ExportAllWithName,
         ]
     > {}

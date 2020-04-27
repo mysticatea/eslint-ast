@@ -21,7 +21,6 @@ export namespace Enhancement {
                 param: null
             }
         }
-        aliases: {}
     }
 }
 

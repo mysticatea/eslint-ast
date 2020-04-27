@@ -92,16 +92,6 @@ type ResolveNodeRefAliasName<
     : NodeOfNodeName<D, NodeNameOfAliasName<D, N>>
 
 /**
- * Resolve given `NodeRef<T>` to the corresponded nodes, for alias names.
- * @template D The AST definition.
- * @template N The `T` of `NodeRef<T>`
- */
-type ResolveNodeRefASTType<
-    D extends Definition,
-    N extends ASTType<D>
-> = NodeOfNodeName<D, NodeNameOfASTType<D, N>>
-
-/**
  * Resolve given `NodeRef<T>` to the corresponded nodes.
  * @template D The AST definition.
  * @template V The value that may be `NodeRef<T>`
@@ -111,10 +101,10 @@ type ResolveNodeRef_<D extends Definition, V> = V extends { $ref: infer N }
         ? ResolveNodeRefNodeString<D>
         : N extends AliasName<D>
         ? ResolveNodeRefAliasName<D, N>
-        : N extends ASTType<D>
-        ? ResolveNodeRefASTType<D, N>
         : N extends NodeName<D>
         ? Node<D, N>
+        : N extends ASTType<D>
+        ? NodeOfNodeName<D, NodeNameOfASTType<D, N>>
         : {
               "!! UNKNOWN NODE NAME !!": N
               "Please check 'NodeRef<T>' in your AST definition": N
@@ -131,10 +121,10 @@ type NameOfNodeRef_<D extends Definition, V> = V extends { $ref: infer N }
         ? NodeName<D>
         : N extends AliasName<D>
         ? NodeNameOfAliasName<D, N>
-        : N extends ASTType<D>
-        ? NodeNameOfASTType<D, N>
         : N extends NodeName<D>
         ? N
+        : N extends ASTType<D>
+        ? NodeNameOfASTType<D, N>
         : never
     : never
 

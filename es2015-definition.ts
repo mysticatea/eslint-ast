@@ -339,6 +339,9 @@ export namespace Enhancement {
             }
 
             // New statements
+            ExportAllDeclaration: {
+                source: NodeRef<"StringLiteral">
+            }
             ExportDefaultDeclaration: {
                 declaration:
                     | NodeRef<"AnonymousDefaultExportedClassDeclaration">
@@ -347,7 +350,8 @@ export namespace Enhancement {
                     | NodeRef<"FunctionDeclaration">
                     | NodeRef<"Expression">
             }
-            ExportNamedDeclaration: {
+            ExportNamedDeclDeclaration: {
+                type: "ExportNamedDeclaration"
                 declaration:
                     | NodeRef<"ClassDeclaration">
                     | NodeRef<"FunctionDeclaration">
@@ -355,22 +359,18 @@ export namespace Enhancement {
                 specifiers: []
                 source: null
             }
+            ExportNamedFromDeclaration: {
+                type: "ExportNamedDeclaration"
+                declaration: null
+                specifiers: NodeRef<"ExportSpecifier">[]
+                source: NodeRef<"StringLiteral">
+            }
             ImportDeclaration: {
                 specifiers: (
                     | NodeRef<"ImportSpecifier">
                     | NodeRef<"ImportDefaultSpecifier">
                     | NodeRef<"ImportNamespaceSpecifier">
                 )[]
-                source: NodeRef<"StringLiteral">
-            }
-            ReexportAllDeclaration: {
-                type: "ExportAllDeclaration"
-                source: NodeRef<"StringLiteral">
-            }
-            ReexportNamedDeclaration: {
-                type: "ExportNamedDeclaration"
-                declaration: null
-                specifiers: NodeRef<"ExportSpecifier">[]
                 source: NodeRef<"StringLiteral">
             }
 
@@ -410,11 +410,11 @@ export namespace Enhancement {
         aliases: {
             // New aliases
             ModuleItem:
+                | "ExportAllDeclaration"
                 | "ExportDefaultDeclaration"
-                | "ExportNamedDeclaration"
+                | "ExportNamedDeclDeclaration"
+                | "ExportNamedFromDeclaration"
                 | "ImportDeclaration"
-                | "ReexportAllDeclaration"
-                | "ReexportNamedDeclaration"
         }
     }
 

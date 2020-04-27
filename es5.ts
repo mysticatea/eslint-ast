@@ -40,6 +40,8 @@ export namespace AST {
     export type Literal = AST["Literal"]
     /** The union type for the `MemberExpression` alias. */
     export type MemberExpression = AST["MemberExpression"]
+    /** The union type for the `ObjectProperty` alias. */
+    export type ObjectProperty = AST["ObjectProperty"]
     /** The union type for the `Program` alias. */
     export type Program = AST["Program"]
     /** The union type for the `Property` alias. */
@@ -76,8 +78,6 @@ export namespace AST {
     export type ContinueStatement = AST["ContinueStatement"]
     /** The type for the `DebuggerStatement` node. */
     export type DebuggerStatement = AST["DebuggerStatement"]
-    /** The type for the `DirectiveStatement` node. */
-    export type DirectiveStatement = AST["DirectiveStatement"]
     /** The type for the `DoWhileStatement` node. */
     export type DoWhileStatement = AST["DoWhileStatement"]
     /** The type for the `EmptyStatement` node. */
@@ -187,6 +187,8 @@ export type Function = AST["Function"]
 export type Literal = AST["Literal"]
 /** The union type for the `MemberExpression` alias. */
 export type MemberExpression = AST["MemberExpression"]
+/** The union type for the `ObjectProperty` alias. */
+export type ObjectProperty = AST["ObjectProperty"]
 /** The union type for the `Program` alias. */
 export type Program = AST["Program"]
 /** The union type for the `Property` alias. */
@@ -223,8 +225,6 @@ export type ConditionalExpression = AST["ConditionalExpression"]
 export type ContinueStatement = AST["ContinueStatement"]
 /** The type for the `DebuggerStatement` node. */
 export type DebuggerStatement = AST["DebuggerStatement"]
-/** The type for the `DirectiveStatement` node. */
-export type DirectiveStatement = AST["DirectiveStatement"]
 /** The type for the `DoWhileStatement` node. */
 export type DoWhileStatement = AST["DoWhileStatement"]
 /** The type for the `EmptyStatement` node. */

@@ -42,8 +42,8 @@ export namespace AST {
     export type Class = AST["Class"]
     /** The union type for the `Declaration` alias. */
     export type Declaration = AST["Declaration"]
-    /** The union type for the `ExportAllDeclaration` alias. */
-    export type ExportAllDeclaration = AST["ExportAllDeclaration"]
+    /** The union type for the `ExportNamedDeclaration` alias. */
+    export type ExportNamedDeclaration = AST["ExportNamedDeclaration"]
     /** The union type for the `Expression` alias. */
     export type Expression = AST["Expression"]
     /** The union type for the `Function` alias. */
@@ -148,16 +148,18 @@ export namespace AST {
     export type ContinueStatement = AST["ContinueStatement"]
     /** The type for the `DebuggerStatement` node. */
     export type DebuggerStatement = AST["DebuggerStatement"]
-    /** The type for the `DirectiveStatement` node. */
-    export type DirectiveStatement = AST["DirectiveStatement"]
     /** The type for the `DoWhileStatement` node. */
     export type DoWhileStatement = AST["DoWhileStatement"]
     /** The type for the `EmptyStatement` node. */
     export type EmptyStatement = AST["EmptyStatement"]
+    /** The type for the `ExportAllDeclaration` node. */
+    export type ExportAllDeclaration = AST["ExportAllDeclaration"]
     /** The type for the `ExportDefaultDeclaration` node. */
     export type ExportDefaultDeclaration = AST["ExportDefaultDeclaration"]
-    /** The type for the `ExportNamedDeclaration` node. */
-    export type ExportNamedDeclaration = AST["ExportNamedDeclaration"]
+    /** The type for the `ExportNamedDeclDeclaration` node. */
+    export type ExportNamedDeclDeclaration = AST["ExportNamedDeclDeclaration"]
+    /** The type for the `ExportNamedFromDeclaration` node. */
+    export type ExportNamedFromDeclaration = AST["ExportNamedFromDeclaration"]
     /** The type for the `ExportSpecifier` node. */
     export type ExportSpecifier = AST["ExportSpecifier"]
     /** The type for the `ExpressionStatement` node. */
@@ -202,10 +204,6 @@ export namespace AST {
     export type NumberLiteral = AST["NumberLiteral"]
     /** The type for the `ObjectExpression` node. */
     export type ObjectExpression = AST["ObjectExpression"]
-    /** The type for the `ReexportAllDeclaration` node. */
-    export type ReexportAllDeclaration = AST["ReexportAllDeclaration"]
-    /** The type for the `ReexportNamedDeclaration` node. */
-    export type ReexportNamedDeclaration = AST["ReexportNamedDeclaration"]
     /** The type for the `RegExpLiteral` node. */
     export type RegExpLiteral = AST["RegExpLiteral"]
     /** The type for the `ReturnStatement` node. */
@@ -303,8 +301,8 @@ export type BindingTarget = AST["BindingTarget"]
 export type Class = AST["Class"]
 /** The union type for the `Declaration` alias. */
 export type Declaration = AST["Declaration"]
-/** The union type for the `ExportAllDeclaration` alias. */
-export type ExportAllDeclaration = AST["ExportAllDeclaration"]
+/** The union type for the `ExportNamedDeclaration` alias. */
+export type ExportNamedDeclaration = AST["ExportNamedDeclaration"]
 /** The union type for the `Expression` alias. */
 export type Expression = AST["Expression"]
 /** The union type for the `Function` alias. */
@@ -409,16 +407,18 @@ export type ConstructorDefinition = AST["ConstructorDefinition"]
 export type ContinueStatement = AST["ContinueStatement"]
 /** The type for the `DebuggerStatement` node. */
 export type DebuggerStatement = AST["DebuggerStatement"]
-/** The type for the `DirectiveStatement` node. */
-export type DirectiveStatement = AST["DirectiveStatement"]
 /** The type for the `DoWhileStatement` node. */
 export type DoWhileStatement = AST["DoWhileStatement"]
 /** The type for the `EmptyStatement` node. */
 export type EmptyStatement = AST["EmptyStatement"]
+/** The type for the `ExportAllDeclaration` node. */
+export type ExportAllDeclaration = AST["ExportAllDeclaration"]
 /** The type for the `ExportDefaultDeclaration` node. */
 export type ExportDefaultDeclaration = AST["ExportDefaultDeclaration"]
-/** The type for the `ExportNamedDeclaration` node. */
-export type ExportNamedDeclaration = AST["ExportNamedDeclaration"]
+/** The type for the `ExportNamedDeclDeclaration` node. */
+export type ExportNamedDeclDeclaration = AST["ExportNamedDeclDeclaration"]
+/** The type for the `ExportNamedFromDeclaration` node. */
+export type ExportNamedFromDeclaration = AST["ExportNamedFromDeclaration"]
 /** The type for the `ExportSpecifier` node. */
 export type ExportSpecifier = AST["ExportSpecifier"]
 /** The type for the `ExpressionStatement` node. */
@@ -463,10 +463,6 @@ export type NullLiteral = AST["NullLiteral"]
 export type NumberLiteral = AST["NumberLiteral"]
 /** The type for the `ObjectExpression` node. */
 export type ObjectExpression = AST["ObjectExpression"]
-/** The type for the `ReexportAllDeclaration` node. */
-export type ReexportAllDeclaration = AST["ReexportAllDeclaration"]
-/** The type for the `ReexportNamedDeclaration` node. */
-export type ReexportNamedDeclaration = AST["ReexportNamedDeclaration"]
 /** The type for the `RegExpLiteral` node. */
 export type RegExpLiteral = AST["RegExpLiteral"]
 /** The type for the `ReturnStatement` node. */

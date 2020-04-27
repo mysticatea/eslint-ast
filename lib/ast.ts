@@ -20,7 +20,9 @@ export type AST<D extends Definition> = {
         ? NodeOfNodeName<D, NodeName<D>>
         : N extends AliasName<D>
         ? NodeOfNodeName<D, NodeNameOfAliasName<D, N>>
+        : N extends NodeName<D>
+        ? Node<D, N>
         : N extends ASTType<D>
         ? NodeOfNodeName<D, NodeNameOfASTType<D, N>>
-        : Node<D, N>
+        : never
 }

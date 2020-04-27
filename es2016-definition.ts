@@ -25,7 +25,6 @@ export namespace Enhancement {
                 operator: "**"
             }
         }
-        aliases: {}
     }
 
     /**
@@ -38,7 +37,6 @@ export namespace Enhancement {
                 argument: NodeRef<"BindingTarget">
             }
         }
-        aliases: {}
     }
 }
 

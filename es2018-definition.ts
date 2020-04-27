@@ -22,7 +22,6 @@ export namespace Enhancement {
                 await: boolean
             }
         }
-        aliases: {}
     }
 
     /**
@@ -35,7 +34,6 @@ export namespace Enhancement {
                 value: { cooked: null; raw: string }
             }
         }
-        aliases: {}
     }
 
     /**
@@ -54,7 +52,6 @@ export namespace Enhancement {
                 properties: NodeRef<"SpreadElement">[]
             }
         }
-        aliases: {}
     }
 }
 

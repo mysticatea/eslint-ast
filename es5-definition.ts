@@ -83,11 +83,6 @@ export interface Definition {
             label: NodeRef<"Identifier"> | null
         }
         DebuggerStatement: {}
-        DirectiveStatement: {
-            type: "ExpressionStatement"
-            expression: NodeRef<"StringLiteral">
-            directive: string
-        }
         DoWhileStatement: {
             body: NodeRef<"Statement">
             test: NodeRef<"Expression">
@@ -95,7 +90,7 @@ export interface Definition {
         EmptyStatement: {}
         ExpressionStatement: {
             expression: NodeRef<"Expression">
-            directive: undefined
+            directive: string | undefined
         }
         ForInStatement: {
             left: NodeRef<"AssignmentTarget"> | NodeRef<"VariableDeclaration">
@@ -250,12 +245,12 @@ export interface Definition {
             raw: string
         }
         ObjectExpression: {
-            properties: NodeRef<"Property">[]
+            properties: NodeRef<"ObjectProperty">[]
         }
         RegExpLiteral: {
             type: "Literal"
             value: RegExp
-            regex: { pattern: string; flags: string }
+            regex: { readonly pattern: string; readonly flags: string }
             raw: string
         }
         SequenceExpression: {
@@ -352,6 +347,7 @@ export interface Definition {
             | "UpdateExpression"
         Declaration: "FunctionDeclaration" | "VariableDeclaration"
         Function: "FunctionDeclaration" | "FunctionExpression"
+        ObjectProperty: "AccessorProperty" | "SimpleProperty"
         SimpleAssignmentTarget:
             | "Identifier"
             | "ComputedMemberExpression"
