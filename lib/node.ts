@@ -22,6 +22,37 @@ type IsNever<T> = false extends (T extends never ? true : false) ? false : true
 type NeverToNull<T> = IsNever<T> extends true ? null | undefined : T
 
 /**
+ * Builtin types that don't have readonly type.
+ */
+type Builtins =
+    | ArrayBuffer
+    | BigInt
+    | BigInt64Array
+    | BigUint64Array
+    | Boolean
+    | DataView
+    | Date
+    | Error
+    | Float32Array
+    | Float64Array
+    | Function
+    | Int16Array
+    | Int32Array
+    | Int8Array
+    | Number
+    | Promise<any>
+    | RegExp
+    | SharedArrayBuffer
+    | String
+    | Symbol
+    | Uint16Array
+    | Uint32Array
+    | Uint8Array
+    | Uint8ClampedArray
+    | WeakMap<any, any>
+    | WeakSet<any>
+
+/**
  * All property names of a node.
  * @template D The AST definition.
  * @template N A node name.
@@ -110,7 +141,9 @@ type ResolveNodeRef_<D extends Definition, V> = V extends { $ref: infer N }
               "Please check 'NodeRef<T>' in your AST definition": N
           }
     : V extends {}
-    ? Readonly<V>
+    ? V extends Builtins
+        ? V // TODO(mysticatea): use Readonly type?
+        : Readonly<V>
     : V
 
 /**
@@ -137,6 +170,10 @@ type NameOfNodeRef_<D extends Definition, V> = V extends { $ref: infer N }
  */
 type ResolveNodeRef<D extends Definition, V> = V extends readonly any[]
     ? { readonly [P in keyof V]: ResolveNodeRef_<D, V[P]> }
+    : V extends ReadonlyMap<infer K, infer V>
+    ? ReadonlyMap<ResolveNodeRef_<D, K>, ResolveNodeRef_<D, V>>
+    : V extends ReadonlySet<infer E>
+    ? ReadonlySet<ResolveNodeRef_<D, E>>
     : ResolveNodeRef_<D, V>
 
 /**
@@ -145,6 +182,10 @@ type ResolveNodeRef<D extends Definition, V> = V extends readonly any[]
  * @template V The value that may be `NodeRef<T>`
  */
 type NameOfNodeRef<D extends Definition, V> = V extends readonly (infer E)[]
+    ? NameOfNodeRef_<D, E>
+    : V extends ReadonlyMap<infer K, infer V>
+    ? NameOfNodeRef_<D, K> | NameOfNodeRef_<D, V>
+    : V extends ReadonlySet<infer E>
     ? NameOfNodeRef_<D, E>
     : NameOfNodeRef_<D, V>
 
