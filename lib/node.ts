@@ -109,6 +109,8 @@ type ResolveNodeRef_<D extends Definition, V> = V extends { $ref: infer N }
               "!! UNKNOWN NODE NAME !!": N
               "Please check 'NodeRef<T>' in your AST definition": N
           }
+    : V extends {}
+    ? Readonly<V>
     : V
 
 /**
