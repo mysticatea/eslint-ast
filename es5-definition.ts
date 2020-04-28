@@ -1,3 +1,6 @@
+/**
+ * @fileoverview The AST definition for EcmaScript 5.
+ */
 import { NodeRef } from "./lib/node-ref"
 
 /**

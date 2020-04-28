@@ -1,3 +1,6 @@
+/**
+ * @fileoverview The AST definition for EcmaScript 2018 snapshot.
+ */
 import { Extends } from "./lib/extends"
 import { NodeRef } from "./lib/node-ref"
 import {

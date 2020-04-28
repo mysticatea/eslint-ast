@@ -1,3 +1,6 @@
+/**
+ * @fileoverview The AST definition for EcmaScript 2019 snapshot.
+ */
 import { Extends } from "./lib/extends"
 import {
     Comment,
