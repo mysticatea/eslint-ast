@@ -1,0 +1,51 @@
+{
+  "name": "eslint-ast",
+  "version": "0.3.0",
+  "description": "The Extensible Type Definition of ESLint AST",
+  "engines": {
+    "node": "^10.17.0 || >=12.0.0"
+  },
+  "main": "index.js",
+  "files": [
+    "lib",
+    "*.js",
+    "*.d.ts"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "@mysticatea/eslint-plugin": "^13.0.0",
+    "@types/eslint": "^6.8.0",
+    "@types/node": "^13.13.2",
+    "@types/rimraf": "^3.0.0",
+    "cpx": "^1.5.0",
+    "eslint": "^6.8.0",
+    "rimraf": "^3.0.2",
+    "ts-node": "^8.9.0",
+    "typescript": "^3.8.3"
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc -p tsconfig.build.json && cpx \"{LICENSE,README.md,package.json}\" dist",
+    "lint": "eslint \"**/*.ts\"",
+    "test": "npm run -s lint && tsc",
+    "update-ast": "ts-node scripts/update-ast-files",
+    "preversion": "npm test",
+    "version": "npm run -s build",
+    "postversion": "ts-node scripts/release"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mysticatea/eslint-ast.git"
+  },
+  "keywords": [
+    "TypeScript",
+    "ESLint",
+    "AST"
+  ],
+  "author": "Toru Nagashima <public@mysticatea.dev>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mysticatea/eslint-ast/issues"
+  },
+  "homepage": "https://github.com/mysticatea/eslint-ast#readme",
+  "funding": "https://github.com/sponsors/mysticatea"
+}
