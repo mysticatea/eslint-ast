@@ -16,7 +16,11 @@ async function findDefinitionFiles(
     const filenames = await fs.readdir(rootPath)
 
     return filenames
-        .filter(f => f.endsWith("-definition.ts"))
+        .filter(
+            f =>
+                f.endsWith("-definition.ts") &&
+                !f.endsWith("latest-definition.ts"),
+        )
         .map(f => {
             const rawName = f.replace(/-definition\.ts$/u, "")
             const definitionName = `ES${rawName[2].toUpperCase()}${rawName.slice(
@@ -110,6 +114,7 @@ void (async function main() {
     console.log("Compile codebase.")
     const program = compile(rootPath, definitionFiles)
     const types = program.getTypeChecker()
+    const eslint = new CLIEngine({ fix: true })
 
     for (const {
         definitionFilePath,
@@ -224,7 +229,6 @@ export type Node = AST["Node"]
 ${aliasCode.join("\n")}
 ${nodeCode.join("\n")}
 `
-        const eslint = new CLIEngine({ fix: true })
         const [fixResult] = eslint.executeOnText(
             rawCode,
             targetFilePath,
