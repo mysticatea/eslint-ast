@@ -27,10 +27,10 @@ type NeverToNull<T> = IsNever<T> extends true ? null | undefined : T
  * @template N A node name.
  */
 type NodePropertyNames<D extends Definition, N extends NodeName<D>> =
-    | "parent"
     | "type"
-    | CommonPropertyName<D>
     | keyof D["nodes"][N]
+    | CommonPropertyName<D>
+    | "parent"
 
 /**
  * The node of given node names.
