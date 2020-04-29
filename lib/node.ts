@@ -8,6 +8,7 @@ import {
     NodeNameOfAliasName,
     NodeNameOfASTType,
 } from "./definition"
+import { NodeRef } from "./node-ref"
 
 /**
  * `true` if the `T` type is `never`.
@@ -127,7 +128,7 @@ type ResolveNodeRefAliasName<
  * @template D The AST definition.
  * @template V The value that may be `NodeRef<T>`
  */
-type ResolveNodeRef_<D extends Definition, V> = V extends { $ref: infer N }
+type ResolveNodeRef_<D extends Definition, V> = V extends NodeRef<infer N>
     ? N extends "Node"
         ? ResolveNodeRefNodeString<D>
         : N extends AliasName<D>
@@ -151,7 +152,7 @@ type ResolveNodeRef_<D extends Definition, V> = V extends { $ref: infer N }
  * @template D The AST definition.
  * @template V The value that may be `NodeRef<T>`
  */
-type NameOfNodeRef_<D extends Definition, V> = V extends { $ref: infer N }
+type NameOfNodeRef_<D extends Definition, V> = V extends NodeRef<infer N>
     ? N extends "Node"
         ? NodeName<D>
         : N extends AliasName<D>

@@ -13,12 +13,12 @@ export interface Definition {
      * A map-like object type to define aliases.
      * Each key is the alias name and its value is the actual node names.
      */
-    aliases: Record<string, string>
+    aliases?: Record<string, string>
 
     /**
      * The common properties of all node types.
      */
-    commonProperties: Record<string, any>
+    commonProperties?: Record<string, any>
 }
 
 /**
@@ -57,7 +57,16 @@ export type NodeName<D extends Definition> = keyof D["nodes"] & string
 export type NodeNameOfAliasName<
     D extends Definition,
     N extends AliasName<D> | "Node"
-> = N extends "Node" ? NodeName<D> : Extract<NodeName<D>, D["aliases"][N]>
+> = N extends "Node"
+    ? NodeName<D>
+    : Extract<
+          NodeName<D>,
+          D["aliases"] extends infer A
+              ? A extends Record<N, string>
+                  ? A[N]
+                  : never
+              : never
+      >
 
 /**
  * The actual node names of AST type names.

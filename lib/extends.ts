@@ -146,7 +146,7 @@ type MergeAliases<D, E0, E1, E2, E3> = {
  * @template D The base definition.
  * @template E The enhancements.
  */
-export type Extends<D extends Definition, E extends Partial<Definition>[]> = {
+export type Extends<D extends Definition, E extends Definition[]> = {
     0: D
     1: Extends<
         {
