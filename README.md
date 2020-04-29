@@ -109,7 +109,7 @@ type Expression = MyAST["Expression"] //= MyAST["ConstantValue"] | MyAST["Binary
 
 ### ■ Extending existing AST
 
-This package provides the utilities to define your own AST types.
+This package provides the utilities to define your own AST types as extended from other existing AST definition.
 
 1. Declare the differential of AST definition.
 1. Merge the differential and an existing AST definition.
