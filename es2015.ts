@@ -40,6 +40,8 @@ export namespace AST {
     export type BindingTarget = AST["BindingTarget"]
     /** The union type for the `Class` alias. */
     export type Class = AST["Class"]
+    /** The union type for the `ClassDeclaration` alias. */
+    export type ClassDeclaration = AST["ClassDeclaration"]
     /** The union type for the `Declaration` alias. */
     export type Declaration = AST["Declaration"]
     /** The union type for the `ExportNamedDeclaration` alias. */
@@ -48,6 +50,8 @@ export namespace AST {
     export type Expression = AST["Expression"]
     /** The union type for the `Function` alias. */
     export type Function = AST["Function"]
+    /** The union type for the `FunctionDeclaration` alias. */
+    export type FunctionDeclaration = AST["FunctionDeclaration"]
     /** The union type for the `Literal` alias. */
     export type Literal = AST["Literal"]
     /** The union type for the `MemberExpression` alias. */
@@ -90,12 +94,12 @@ export namespace AST {
     export type AssignmentComputedProperty = AST["AssignmentComputedProperty"]
     /** The type for the `AssignmentObjectPattern` node. */
     export type AssignmentObjectPattern = AST["AssignmentObjectPattern"]
+    /** The type for the `AssignmentPlainProperty` node. */
+    export type AssignmentPlainProperty = AST["AssignmentPlainProperty"]
     /** The type for the `AssignmentRestElement` node. */
     export type AssignmentRestElement = AST["AssignmentRestElement"]
     /** The type for the `AssignmentShorthandProperty` node. */
     export type AssignmentShorthandProperty = AST["AssignmentShorthandProperty"]
-    /** The type for the `AssignmentSimpleProperty` node. */
-    export type AssignmentSimpleProperty = AST["AssignmentSimpleProperty"]
     /** The type for the `BinaryExpression` node. */
     export type BinaryExpression = AST["BinaryExpression"]
     /** The type for the `BindingArrayPattern` node. */
@@ -106,12 +110,12 @@ export namespace AST {
     export type BindingComputedProperty = AST["BindingComputedProperty"]
     /** The type for the `BindingObjectPattern` node. */
     export type BindingObjectPattern = AST["BindingObjectPattern"]
+    /** The type for the `BindingPlainProperty` node. */
+    export type BindingPlainProperty = AST["BindingPlainProperty"]
     /** The type for the `BindingRestElement` node. */
     export type BindingRestElement = AST["BindingRestElement"]
     /** The type for the `BindingShorthandProperty` node. */
     export type BindingShorthandProperty = AST["BindingShorthandProperty"]
-    /** The type for the `BindingSimpleProperty` node. */
-    export type BindingSimpleProperty = AST["BindingSimpleProperty"]
     /** The type for the `BlockStatement` node. */
     export type BlockStatement = AST["BlockStatement"]
     /** The type for the `BooleanLiteral` node. */
@@ -124,8 +128,6 @@ export namespace AST {
     export type CatchClause = AST["CatchClause"]
     /** The type for the `ClassBody` node. */
     export type ClassBody = AST["ClassBody"]
-    /** The type for the `ClassDeclaration` node. */
-    export type ClassDeclaration = AST["ClassDeclaration"]
     /** The type for the `ClassExpression` node. */
     export type ClassExpression = AST["ClassExpression"]
     /** The type for the `CompoundAssignmentExpression` node. */
@@ -170,8 +172,6 @@ export namespace AST {
     export type ForOfStatement = AST["ForOfStatement"]
     /** The type for the `ForStatement` node. */
     export type ForStatement = AST["ForStatement"]
-    /** The type for the `FunctionDeclaration` node. */
-    export type FunctionDeclaration = AST["FunctionDeclaration"]
     /** The type for the `FunctionExpression` node. */
     export type FunctionExpression = AST["FunctionExpression"]
     /** The type for the `Identifier` node. */
@@ -204,6 +204,18 @@ export namespace AST {
     export type NumberLiteral = AST["NumberLiteral"]
     /** The type for the `ObjectExpression` node. */
     export type ObjectExpression = AST["ObjectExpression"]
+    /** The type for the `PlainAssignmentExpression` node. */
+    export type PlainAssignmentExpression = AST["PlainAssignmentExpression"]
+    /** The type for the `PlainClassDeclaration` node. */
+    export type PlainClassDeclaration = AST["PlainClassDeclaration"]
+    /** The type for the `PlainFunctionDeclaration` node. */
+    export type PlainFunctionDeclaration = AST["PlainFunctionDeclaration"]
+    /** The type for the `PlainMemberExpression` node. */
+    export type PlainMemberExpression = AST["PlainMemberExpression"]
+    /** The type for the `PlainMethodDefinition` node. */
+    export type PlainMethodDefinition = AST["PlainMethodDefinition"]
+    /** The type for the `PlainProperty` node. */
+    export type PlainProperty = AST["PlainProperty"]
     /** The type for the `RegExpLiteral` node. */
     export type RegExpLiteral = AST["RegExpLiteral"]
     /** The type for the `ReturnStatement` node. */
@@ -214,14 +226,6 @@ export namespace AST {
     export type SequenceExpression = AST["SequenceExpression"]
     /** The type for the `ShorthandProperty` node. */
     export type ShorthandProperty = AST["ShorthandProperty"]
-    /** The type for the `SimpleAssignmentExpression` node. */
-    export type SimpleAssignmentExpression = AST["SimpleAssignmentExpression"]
-    /** The type for the `SimpleMemberExpression` node. */
-    export type SimpleMemberExpression = AST["SimpleMemberExpression"]
-    /** The type for the `SimpleMethodDefinition` node. */
-    export type SimpleMethodDefinition = AST["SimpleMethodDefinition"]
-    /** The type for the `SimpleProperty` node. */
-    export type SimpleProperty = AST["SimpleProperty"]
     /** The type for the `SpreadElement` node. */
     export type SpreadElement = AST["SpreadElement"]
     /** The type for the `StringLiteral` node. */
@@ -299,6 +303,8 @@ export type BindingProperty = AST["BindingProperty"]
 export type BindingTarget = AST["BindingTarget"]
 /** The union type for the `Class` alias. */
 export type Class = AST["Class"]
+/** The union type for the `ClassDeclaration` alias. */
+export type ClassDeclaration = AST["ClassDeclaration"]
 /** The union type for the `Declaration` alias. */
 export type Declaration = AST["Declaration"]
 /** The union type for the `ExportNamedDeclaration` alias. */
@@ -307,6 +313,8 @@ export type ExportNamedDeclaration = AST["ExportNamedDeclaration"]
 export type Expression = AST["Expression"]
 /** The union type for the `Function` alias. */
 export type Function = AST["Function"]
+/** The union type for the `FunctionDeclaration` alias. */
+export type FunctionDeclaration = AST["FunctionDeclaration"]
 /** The union type for the `Literal` alias. */
 export type Literal = AST["Literal"]
 /** The union type for the `MemberExpression` alias. */
@@ -349,12 +357,12 @@ export type AssignmentAssignmentPattern = AST["AssignmentAssignmentPattern"]
 export type AssignmentComputedProperty = AST["AssignmentComputedProperty"]
 /** The type for the `AssignmentObjectPattern` node. */
 export type AssignmentObjectPattern = AST["AssignmentObjectPattern"]
+/** The type for the `AssignmentPlainProperty` node. */
+export type AssignmentPlainProperty = AST["AssignmentPlainProperty"]
 /** The type for the `AssignmentRestElement` node. */
 export type AssignmentRestElement = AST["AssignmentRestElement"]
 /** The type for the `AssignmentShorthandProperty` node. */
 export type AssignmentShorthandProperty = AST["AssignmentShorthandProperty"]
-/** The type for the `AssignmentSimpleProperty` node. */
-export type AssignmentSimpleProperty = AST["AssignmentSimpleProperty"]
 /** The type for the `BinaryExpression` node. */
 export type BinaryExpression = AST["BinaryExpression"]
 /** The type for the `BindingArrayPattern` node. */
@@ -365,12 +373,12 @@ export type BindingAssignmentPattern = AST["BindingAssignmentPattern"]
 export type BindingComputedProperty = AST["BindingComputedProperty"]
 /** The type for the `BindingObjectPattern` node. */
 export type BindingObjectPattern = AST["BindingObjectPattern"]
+/** The type for the `BindingPlainProperty` node. */
+export type BindingPlainProperty = AST["BindingPlainProperty"]
 /** The type for the `BindingRestElement` node. */
 export type BindingRestElement = AST["BindingRestElement"]
 /** The type for the `BindingShorthandProperty` node. */
 export type BindingShorthandProperty = AST["BindingShorthandProperty"]
-/** The type for the `BindingSimpleProperty` node. */
-export type BindingSimpleProperty = AST["BindingSimpleProperty"]
 /** The type for the `BlockStatement` node. */
 export type BlockStatement = AST["BlockStatement"]
 /** The type for the `BooleanLiteral` node. */
@@ -383,8 +391,6 @@ export type CallExpression = AST["CallExpression"]
 export type CatchClause = AST["CatchClause"]
 /** The type for the `ClassBody` node. */
 export type ClassBody = AST["ClassBody"]
-/** The type for the `ClassDeclaration` node. */
-export type ClassDeclaration = AST["ClassDeclaration"]
 /** The type for the `ClassExpression` node. */
 export type ClassExpression = AST["ClassExpression"]
 /** The type for the `CompoundAssignmentExpression` node. */
@@ -429,8 +435,6 @@ export type ForInStatement = AST["ForInStatement"]
 export type ForOfStatement = AST["ForOfStatement"]
 /** The type for the `ForStatement` node. */
 export type ForStatement = AST["ForStatement"]
-/** The type for the `FunctionDeclaration` node. */
-export type FunctionDeclaration = AST["FunctionDeclaration"]
 /** The type for the `FunctionExpression` node. */
 export type FunctionExpression = AST["FunctionExpression"]
 /** The type for the `Identifier` node. */
@@ -463,6 +467,18 @@ export type NullLiteral = AST["NullLiteral"]
 export type NumberLiteral = AST["NumberLiteral"]
 /** The type for the `ObjectExpression` node. */
 export type ObjectExpression = AST["ObjectExpression"]
+/** The type for the `PlainAssignmentExpression` node. */
+export type PlainAssignmentExpression = AST["PlainAssignmentExpression"]
+/** The type for the `PlainClassDeclaration` node. */
+export type PlainClassDeclaration = AST["PlainClassDeclaration"]
+/** The type for the `PlainFunctionDeclaration` node. */
+export type PlainFunctionDeclaration = AST["PlainFunctionDeclaration"]
+/** The type for the `PlainMemberExpression` node. */
+export type PlainMemberExpression = AST["PlainMemberExpression"]
+/** The type for the `PlainMethodDefinition` node. */
+export type PlainMethodDefinition = AST["PlainMethodDefinition"]
+/** The type for the `PlainProperty` node. */
+export type PlainProperty = AST["PlainProperty"]
 /** The type for the `RegExpLiteral` node. */
 export type RegExpLiteral = AST["RegExpLiteral"]
 /** The type for the `ReturnStatement` node. */
@@ -473,14 +489,6 @@ export type ScriptProgram = AST["ScriptProgram"]
 export type SequenceExpression = AST["SequenceExpression"]
 /** The type for the `ShorthandProperty` node. */
 export type ShorthandProperty = AST["ShorthandProperty"]
-/** The type for the `SimpleAssignmentExpression` node. */
-export type SimpleAssignmentExpression = AST["SimpleAssignmentExpression"]
-/** The type for the `SimpleMemberExpression` node. */
-export type SimpleMemberExpression = AST["SimpleMemberExpression"]
-/** The type for the `SimpleMethodDefinition` node. */
-export type SimpleMethodDefinition = AST["SimpleMethodDefinition"]
-/** The type for the `SimpleProperty` node. */
-export type SimpleProperty = AST["SimpleProperty"]
 /** The type for the `SpreadElement` node. */
 export type SpreadElement = AST["SpreadElement"]
 /** The type for the `StringLiteral` node. */

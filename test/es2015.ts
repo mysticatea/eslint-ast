@@ -62,9 +62,9 @@ assert<
             readonly declaration:
                 | AST.AnonymousDefaultExportedClassDeclaration
                 | AST.AnonymousDefaultExportedFunctionDeclaration
-                | AST.ClassDeclaration
                 | AST.Expression
-                | AST.FunctionDeclaration
+                | AST.PlainClassDeclaration
+                | AST.PlainFunctionDeclaration
         }
     >
 >()
@@ -207,7 +207,7 @@ assert<
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "ClassDeclaration"
-            readonly id: AST.Identifier
+            readonly id: AST.Identifier | null
             readonly superClass: AST.Expression | null
             readonly body: AST.ClassBody
         }
@@ -383,7 +383,7 @@ assert<
             readonly loc: LineColumnRange
             readonly type: "FunctionDeclaration"
             readonly generator: boolean
-            readonly id: AST.Identifier
+            readonly id: AST.Identifier | null
             readonly params: readonly (
                 | AST.BindingAssignmentPattern
                 | AST.BindingRestElement
@@ -540,10 +540,10 @@ assert<
                 | AST.BindingArrayPattern
                 | AST.BindingAssignmentPattern
                 | AST.BindingComputedProperty
-                | AST.BindingSimpleProperty
+                | AST.BindingPlainProperty
                 | AST.CatchClause
-                | AST.FunctionDeclaration
                 | AST.FunctionExpression
+                | AST.PlainFunctionDeclaration
                 | AST.VariableDeclarator
             readonly range: IndexRange
             readonly loc: LineColumnRange
@@ -567,10 +567,10 @@ assert<
                 | AST.BindingArrayPattern
                 | AST.BindingAssignmentPattern
                 | AST.BindingComputedProperty
-                | AST.BindingSimpleProperty
+                | AST.BindingPlainProperty
                 | AST.CatchClause
-                | AST.FunctionDeclaration
                 | AST.FunctionExpression
+                | AST.PlainFunctionDeclaration
                 | AST.VariableDeclarator
             readonly range: IndexRange
             readonly loc: LineColumnRange
@@ -605,9 +605,9 @@ assert<
                 | AST.ArrowFunctionExpression
                 | AST.BindingArrayPattern
                 | AST.BindingComputedProperty
-                | AST.BindingSimpleProperty
-                | AST.FunctionDeclaration
+                | AST.BindingPlainProperty
                 | AST.FunctionExpression
+                | AST.PlainFunctionDeclaration
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "AssignmentPattern"
@@ -624,8 +624,8 @@ assert<
                 | AST.AnonymousDefaultExportedFunctionDeclaration
                 | AST.ArrowFunctionExpression
                 | AST.BindingArrayPattern
-                | AST.FunctionDeclaration
                 | AST.FunctionExpression
+                | AST.PlainFunctionDeclaration
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "RestElement"
@@ -694,7 +694,7 @@ assert<
 //------------------------------------------------------------------------------
 
 type ExpressionParent =
-    | AST.ClassDeclaration
+    | AST.PlainClassDeclaration
     | AST.DoWhileStatement
     | AST.ExportDefaultDeclaration
     | AST.ExpressionStatement
@@ -718,8 +718,8 @@ type ExpressionParent =
     | AST.LogicalExpression
     | AST.NewExpression
     | AST.SequenceExpression
-    | AST.SimpleAssignmentExpression
-    | AST.SimpleMemberExpression
+    | AST.PlainAssignmentExpression
+    | AST.PlainMemberExpression
     | AST.TaggedTemplateExpression
     | AST.TemplateLiteral
     | AST.UnaryExpression
@@ -733,7 +733,7 @@ type ExpressionParent =
     | AST.ComputedMethodDefinition
     | AST.ComputedMethodProperty
     | AST.ComputedProperty
-    | AST.SimpleProperty
+    | AST.PlainProperty
     | AST.SpreadElement
     | AST.SwitchCase
     | AST.VariableDeclarator
@@ -824,10 +824,10 @@ assert<
                 | AST.AssignmentAssignmentPattern
                 | AST.AssignmentComputedProperty
                 | AST.AssignmentRestElement
-                | AST.AssignmentSimpleProperty
+                | AST.AssignmentPlainProperty
                 | AST.ForInStatement
                 | AST.ForOfStatement
-                | AST.SimpleAssignmentExpression
+                | AST.PlainAssignmentExpression
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "ArrayPattern"
@@ -849,10 +849,10 @@ assert<
                 | AST.AssignmentAssignmentPattern
                 | AST.AssignmentComputedProperty
                 | AST.AssignmentRestElement
-                | AST.AssignmentSimpleProperty
+                | AST.AssignmentPlainProperty
                 | AST.ForInStatement
                 | AST.ForOfStatement
-                | AST.SimpleAssignmentExpression
+                | AST.PlainAssignmentExpression
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "ObjectPattern"
@@ -886,7 +886,7 @@ assert<
             readonly parent:
                 | AST.AssignmentArrayPattern
                 | AST.AssignmentComputedProperty
-                | AST.AssignmentSimpleProperty
+                | AST.AssignmentPlainProperty
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "AssignmentPattern"
@@ -1066,7 +1066,7 @@ assert<
                 | ExpressionParent
                 | AST.BreakStatement
                 | AST.ContinueStatement
-                | AST.FunctionDeclaration
+                | AST.PlainFunctionDeclaration
                 | AST.LabeledStatement
                 | AST.FunctionExpression
                 | AST.MetaProperty
@@ -1076,11 +1076,11 @@ assert<
                 | AST.AssignmentArrayPattern
                 | AST.AssignmentRestElement
                 | AST.AssignmentShorthandProperty
-                | AST.AssignmentSimpleProperty
+                | AST.AssignmentPlainProperty
                 | AST.BindingArrayPattern
                 | AST.BindingRestElement
                 | AST.BindingShorthandProperty
-                | AST.BindingSimpleProperty
+                | AST.BindingPlainProperty
                 | AST.CatchClause
                 | AST.ConstructorDefinition
                 | AST.ExportSpecifier
@@ -1088,7 +1088,7 @@ assert<
                 | AST.ImportNamespaceSpecifier
                 | AST.ImportSpecifier
                 | AST.MethodProperty
-                | AST.SimpleMethodDefinition
+                | AST.PlainMethodDefinition
                 | AST.ShorthandProperty
             readonly range: IndexRange
             readonly loc: LineColumnRange
@@ -1105,14 +1105,14 @@ assert<
             readonly parent:
                 | ExpressionParent
                 | AST.AccessorProperty
-                | AST.AssignmentSimpleProperty
-                | AST.BindingSimpleProperty
+                | AST.AssignmentPlainProperty
+                | AST.BindingPlainProperty
                 | AST.ConstructorDefinition
                 | AST.ExportAllDeclaration
                 | AST.ExportNamedFromDeclaration
                 | AST.ImportDeclaration
                 | AST.MethodProperty
-                | AST.SimpleMethodDefinition
+                | AST.PlainMethodDefinition
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "Literal"
@@ -1157,7 +1157,7 @@ assert<
                 | ExpressionParent
                 | AST.AssignmentArrayPattern
                 | AST.AssignmentRestElement
-                | AST.AssignmentSimpleProperty
+                | AST.AssignmentPlainProperty
                 | AST.UpdateExpression
             readonly range: IndexRange
             readonly loc: LineColumnRange
@@ -1380,7 +1380,7 @@ assert<
         AST.AssignmentProperty,
         | AST.AssignmentComputedProperty
         | AST.AssignmentShorthandProperty
-        | AST.AssignmentSimpleProperty
+        | AST.AssignmentPlainProperty
     >
 >()
 
@@ -1391,7 +1391,7 @@ assert<
         | AST.AssignmentObjectPattern
         | AST.Identifier
         | AST.ComputedMemberExpression
-        | AST.SimpleMemberExpression
+        | AST.PlainMemberExpression
     >
 >()
 
@@ -1400,7 +1400,7 @@ assert<
         AST.BindingProperty,
         | AST.BindingComputedProperty
         | AST.BindingShorthandProperty
-        | AST.BindingSimpleProperty
+        | AST.BindingPlainProperty
     >
 >()
 
@@ -1411,7 +1411,9 @@ assert<
     >
 >()
 
-assert<EqualsObject<AST.Class, AST.ClassDeclaration | AST.ClassExpression>>()
+assert<
+    EqualsObject<AST.Class, AST.PlainClassDeclaration | AST.ClassExpression>
+>()
 
 assert<
     EqualsObject<
@@ -1435,8 +1437,8 @@ assert<
         | AST.ObjectExpression
         | AST.RegExpLiteral
         | AST.SequenceExpression
-        | AST.SimpleAssignmentExpression
-        | AST.SimpleMemberExpression
+        | AST.PlainAssignmentExpression
+        | AST.PlainMemberExpression
         | AST.StringLiteral
         | AST.TaggedTemplateExpression
         | AST.TemplateLiteral
@@ -1450,7 +1452,9 @@ assert<
 assert<
     EqualsObject<
         AST.Declaration,
-        AST.ClassDeclaration | AST.FunctionDeclaration | AST.VariableDeclaration
+        | AST.PlainClassDeclaration
+        | AST.PlainFunctionDeclaration
+        | AST.VariableDeclaration
     >
 >()
 
@@ -1458,7 +1462,7 @@ assert<
     EqualsObject<
         AST.Function,
         | AST.ArrowFunctionExpression
-        | AST.FunctionDeclaration
+        | AST.PlainFunctionDeclaration
         | AST.FunctionExpression
     >
 >()
@@ -1482,7 +1486,7 @@ assert<
         | AST.ComputedProperty
         | AST.MethodProperty
         | AST.ShorthandProperty
-        | AST.SimpleProperty
+        | AST.PlainProperty
     >
 >()
 
@@ -1491,7 +1495,7 @@ assert<
         AST.SimpleAssignmentTarget,
         | AST.Identifier
         | AST.ComputedMemberExpression
-        | AST.SimpleMemberExpression
+        | AST.PlainMemberExpression
     >
 >()
 
@@ -1500,7 +1504,7 @@ assert<
         AST.Statement,
         | AST.BlockStatement
         | AST.BreakStatement
-        | AST.ClassDeclaration
+        | AST.PlainClassDeclaration
         | AST.ContinueStatement
         | AST.DebuggerStatement
         | AST.DoWhileStatement
@@ -1509,7 +1513,7 @@ assert<
         | AST.ForInStatement
         | AST.ForOfStatement
         | AST.ForStatement
-        | AST.FunctionDeclaration
+        | AST.PlainFunctionDeclaration
         | AST.IfStatement
         | AST.LabeledStatement
         | AST.ReturnStatement

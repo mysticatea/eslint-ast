@@ -106,11 +106,6 @@ export interface Definition {
             update: NodeRef<"Expression"> | null
             body: NodeRef<"Statement">
         }
-        FunctionDeclaration: {
-            id: NodeRef<"Identifier">
-            params: NodeRef<"BindingTarget">[]
-            body: NodeRef<"BlockStatement">
-        }
         IfStatement: {
             test: NodeRef<"Expression">
             consequent: NodeRef<"Statement">
@@ -119,6 +114,12 @@ export interface Definition {
         LabeledStatement: {
             label: NodeRef<"Identifier">
             body: NodeRef<"Statement">
+        }
+        PlainFunctionDeclaration: {
+            type: "FunctionDeclaration"
+            id: NodeRef<"Identifier">
+            params: NodeRef<"BindingTarget">[]
+            body: NodeRef<"BlockStatement">
         }
         ReturnStatement: {
             argument: NodeRef<"Expression"> | null
@@ -250,6 +251,18 @@ export interface Definition {
         ObjectExpression: {
             properties: NodeRef<"ObjectProperty">[]
         }
+        PlainAssignmentExpression: {
+            type: "AssignmentExpression"
+            operator: "="
+            left: NodeRef<"AssignmentTarget">
+            right: NodeRef<"Expression">
+        }
+        PlainMemberExpression: {
+            type: "MemberExpression"
+            computed: false
+            object: NodeRef<"Expression">
+            property: NodeRef<"Identifier">
+        }
         RegExpLiteral: {
             type: "Literal"
             value: RegExp
@@ -258,18 +271,6 @@ export interface Definition {
         }
         SequenceExpression: {
             expressions: NodeRef<"Expression">[]
-        }
-        SimpleAssignmentExpression: {
-            type: "AssignmentExpression"
-            operator: "="
-            left: NodeRef<"AssignmentTarget">
-            right: NodeRef<"Expression">
-        }
-        SimpleMemberExpression: {
-            type: "MemberExpression"
-            computed: false
-            object: NodeRef<"Expression">
-            property: NodeRef<"Identifier">
         }
         StringLiteral: {
             type: "Literal"
@@ -293,21 +294,21 @@ export interface Definition {
         // Others
         //----------------------------------------------------------------------
 
-        CatchClause: {
-            param: NodeRef<"BindingTarget">
-            body: NodeRef<"BlockStatement">
-        }
-        SimpleProperty: {
-            type: "Property"
-            kind: "init"
-            key: NodeRef<"StaticPropertyKey">
-            value: NodeRef<"Expression">
-        }
         AccessorProperty: {
             type: "Property"
             kind: "get" | "set"
             key: NodeRef<"StaticPropertyKey">
             value: NodeRef<"FunctionExpression">
+        }
+        CatchClause: {
+            param: NodeRef<"BindingTarget">
+            body: NodeRef<"BlockStatement">
+        }
+        PlainProperty: {
+            type: "Property"
+            kind: "init"
+            key: NodeRef<"StaticPropertyKey">
+            value: NodeRef<"Expression">
         }
         SwitchCase: {
             test: NodeRef<"Expression"> | null
@@ -321,9 +322,9 @@ export interface Definition {
 
     aliases: {
         AssignmentTarget:
-            | "Identifier"
             | "ComputedMemberExpression"
-            | "SimpleMemberExpression"
+            | "Identifier"
+            | "PlainMemberExpression"
         BindingTarget: "Identifier"
         Expression:
             | "ArrayExpression"
@@ -340,21 +341,21 @@ export interface Definition {
             | "NullLiteral"
             | "NumberLiteral"
             | "ObjectExpression"
+            | "PlainAssignmentExpression"
+            | "PlainMemberExpression"
             | "RegExpLiteral"
             | "SequenceExpression"
-            | "SimpleAssignmentExpression"
-            | "SimpleMemberExpression"
             | "StringLiteral"
             | "ThisExpression"
             | "UnaryExpression"
             | "UpdateExpression"
-        Declaration: "FunctionDeclaration" | "VariableDeclaration"
-        Function: "FunctionDeclaration" | "FunctionExpression"
-        ObjectProperty: "AccessorProperty" | "SimpleProperty"
+        Declaration: "PlainFunctionDeclaration" | "VariableDeclaration"
+        Function: "FunctionExpression" | "PlainFunctionDeclaration"
+        ObjectProperty: "AccessorProperty" | "PlainProperty"
         SimpleAssignmentTarget:
             | "Identifier"
             | "ComputedMemberExpression"
-            | "SimpleMemberExpression"
+            | "PlainMemberExpression"
         Statement:
             | "BlockStatement"
             | "BreakStatement"
@@ -365,9 +366,9 @@ export interface Definition {
             | "ExpressionStatement"
             | "ForInStatement"
             | "ForStatement"
-            | "FunctionDeclaration"
             | "IfStatement"
             | "LabeledStatement"
+            | "PlainFunctionDeclaration"
             | "ReturnStatement"
             | "SwitchStatement"
             | "ThrowStatement"

@@ -47,15 +47,16 @@ export namespace Enhancement {
             CallExpression: {
                 callee: NodeRef<"Super">
             }
-            SimpleMemberExpression: {
+            ComputedMemberExpression: {
                 object: NodeRef<"Super">
             }
-            ComputedMemberExpression: {
+            PlainMemberExpression: {
                 object: NodeRef<"Super">
             }
 
             // New statements
-            ClassDeclaration: {
+            PlainClassDeclaration: {
+                type: "ClassDeclaration"
                 id: NodeRef<"Identifier">
                 superClass: NodeRef<"Expression"> | null
                 body: NodeRef<"ClassBody">
@@ -92,7 +93,7 @@ export namespace Enhancement {
                 key: NodeRef<"Identifier"> | NodeRef<"StringLiteral">
                 value: NodeRef<"FunctionExpression">
             }
-            SimpleMethodDefinition: {
+            PlainMethodDefinition: {
                 type: "MethodDefinition"
                 computed: false
                 kind: "method" | "get" | "set"
@@ -104,12 +105,12 @@ export namespace Enhancement {
         }
         aliases: {
             // Enhancements
-            Declaration: "ClassDeclaration"
+            Declaration: "PlainClassDeclaration"
             Expression: "ClassExpression" | "MetaProperty"
-            Statement: "ClassDeclaration"
+            Statement: "PlainClassDeclaration"
 
             // New aliases
-            Class: "ClassDeclaration" | "ClassExpression"
+            Class: "ClassExpression" | "PlainClassDeclaration"
         }
     }
 
@@ -133,26 +134,6 @@ export namespace Enhancement {
                 left: NodeRef<"AssignmentTarget">
                 right: NodeRef<"Expression">
             }
-            AssignmentShorthandProperty: {
-                type: "Property"
-                kind: "init"
-                computed: false
-                method: false
-                shorthand: true
-                key: NodeRef<"Identifier">
-                value: NodeRef<"Identifier">
-            }
-            AssignmentSimpleProperty: {
-                type: "Property"
-                kind: "init"
-                computed: false
-                method: false
-                shorthand: false
-                key: NodeRef<"StaticPropertyKey">
-                value:
-                    | NodeRef<"AssignmentAssignmentPattern">
-                    | NodeRef<"AssignmentTarget">
-            }
             AssignmentComputedProperty: {
                 type: "Property"
                 kind: "init"
@@ -168,9 +149,29 @@ export namespace Enhancement {
                 type: "ObjectPattern"
                 properties: NodeRef<"AssignmentProperty">[]
             }
+            AssignmentPlainProperty: {
+                type: "Property"
+                kind: "init"
+                computed: false
+                method: false
+                shorthand: false
+                key: NodeRef<"StaticPropertyKey">
+                value:
+                    | NodeRef<"AssignmentAssignmentPattern">
+                    | NodeRef<"AssignmentTarget">
+            }
             AssignmentRestElement: {
                 type: "RestElement"
                 argument: NodeRef<"AssignmentTarget">
+            }
+            AssignmentShorthandProperty: {
+                type: "Property"
+                kind: "init"
+                computed: false
+                method: false
+                shorthand: true
+                key: NodeRef<"Identifier">
+                value: NodeRef<"Identifier">
             }
         }
         aliases: {
@@ -182,8 +183,8 @@ export namespace Enhancement {
             // New aliases
             AssignmentProperty:
                 | "AssignmentComputedProperty"
+                | "AssignmentPlainProperty"
                 | "AssignmentShorthandProperty"
-                | "AssignmentSimpleProperty"
         }
     }
 
@@ -195,13 +196,13 @@ export namespace Enhancement {
     export interface DestructuringBinding {
         nodes: {
             // Enhancements
-            FunctionDeclaration: {
+            FunctionExpression: {
                 params: (
                     | NodeRef<"BindingAssignmentPattern">
                     | NodeRef<"BindingRestElement">
                 )[]
             }
-            FunctionExpression: {
+            PlainFunctionDeclaration: {
                 params: (
                     | NodeRef<"BindingAssignmentPattern">
                     | NodeRef<"BindingRestElement">
@@ -223,26 +224,6 @@ export namespace Enhancement {
                 left: NodeRef<"BindingTarget">
                 right: NodeRef<"Expression">
             }
-            BindingSimpleProperty: {
-                type: "Property"
-                kind: "init"
-                computed: false
-                method: false
-                shorthand: false
-                key: NodeRef<"StaticPropertyKey">
-                value:
-                    | NodeRef<"BindingAssignmentPattern">
-                    | NodeRef<"BindingTarget">
-            }
-            BindingShorthandProperty: {
-                type: "Property"
-                kind: "init"
-                computed: false
-                method: false
-                shorthand: true
-                key: NodeRef<"Identifier">
-                value: NodeRef<"Identifier">
-            }
             BindingComputedProperty: {
                 type: "Property"
                 kind: "init"
@@ -258,9 +239,29 @@ export namespace Enhancement {
                 type: "ObjectPattern"
                 properties: NodeRef<"BindingProperty">[]
             }
+            BindingPlainProperty: {
+                type: "Property"
+                kind: "init"
+                computed: false
+                method: false
+                shorthand: false
+                key: NodeRef<"StaticPropertyKey">
+                value:
+                    | NodeRef<"BindingAssignmentPattern">
+                    | NodeRef<"BindingTarget">
+            }
             BindingRestElement: {
                 type: "RestElement"
                 argument: NodeRef<"Identifier">
+            }
+            BindingShorthandProperty: {
+                type: "Property"
+                kind: "init"
+                computed: false
+                method: false
+                shorthand: true
+                key: NodeRef<"Identifier">
+                value: NodeRef<"Identifier">
             }
         }
         aliases: {
@@ -270,8 +271,8 @@ export namespace Enhancement {
             // New aliases
             BindingProperty:
                 | "BindingComputedProperty"
+                | "BindingPlainProperty"
                 | "BindingShorthandProperty"
-                | "BindingSimpleProperty"
         }
     }
 
@@ -281,10 +282,10 @@ export namespace Enhancement {
     export interface Iteration {
         nodes: {
             // Enhancements
-            FunctionDeclaration: {
+            FunctionExpression: {
                 generator: boolean
             }
-            FunctionExpression: {
+            PlainFunctionDeclaration: {
                 generator: boolean
             }
 
@@ -349,15 +350,15 @@ export namespace Enhancement {
                 declaration:
                     | NodeRef<"AnonymousDefaultExportedClassDeclaration">
                     | NodeRef<"AnonymousDefaultExportedFunctionDeclaration">
-                    | NodeRef<"ClassDeclaration">
-                    | NodeRef<"FunctionDeclaration">
+                    | NodeRef<"PlainClassDeclaration">
+                    | NodeRef<"PlainFunctionDeclaration">
                     | NodeRef<"Expression">
             }
             ExportNamedDeclDeclaration: {
                 type: "ExportNamedDeclaration"
                 declaration:
-                    | NodeRef<"ClassDeclaration">
-                    | NodeRef<"FunctionDeclaration">
+                    | NodeRef<"PlainClassDeclaration">
+                    | NodeRef<"PlainFunctionDeclaration">
                     | NodeRef<"VariableDeclaration">
                 specifiers: []
                 source: null
@@ -432,7 +433,7 @@ export namespace Enhancement {
                 method: false
                 shorthand: false
             }
-            SimpleProperty: {
+            PlainProperty: {
                 computed: false
                 method: false
                 shorthand: false

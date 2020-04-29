@@ -365,10 +365,10 @@ type ExpressionParent =
     | AST.LogicalExpression
     | AST.NewExpression
     | AST.SequenceExpression
-    | AST.SimpleAssignmentExpression
-    | AST.SimpleMemberExpression
+    | AST.PlainAssignmentExpression
+    | AST.PlainMemberExpression
     | AST.UnaryExpression
-    | AST.SimpleProperty
+    | AST.PlainProperty
     | AST.SwitchCase
     | AST.VariableDeclarator
 
@@ -500,7 +500,7 @@ assert<
                 | ExpressionParent
                 | AST.BreakStatement
                 | AST.ContinueStatement
-                | AST.FunctionDeclaration
+                | AST.PlainFunctionDeclaration
                 | AST.LabeledStatement
                 | AST.FunctionExpression
                 | AST.UpdateExpression
@@ -698,7 +698,7 @@ assert<
         AST.AssignmentTarget,
         | AST.Identifier
         | AST.ComputedMemberExpression
-        | AST.SimpleMemberExpression
+        | AST.PlainMemberExpression
     >
 >()
 
@@ -723,8 +723,8 @@ assert<
         | AST.ObjectExpression
         | AST.RegExpLiteral
         | AST.SequenceExpression
-        | AST.SimpleAssignmentExpression
-        | AST.SimpleMemberExpression
+        | AST.PlainAssignmentExpression
+        | AST.PlainMemberExpression
         | AST.StringLiteral
         | AST.ThisExpression
         | AST.UnaryExpression
@@ -735,16 +735,19 @@ assert<
 assert<
     EqualsObject<
         AST.Declaration,
-        AST.FunctionDeclaration | AST.VariableDeclaration
+        AST.PlainFunctionDeclaration | AST.VariableDeclaration
     >
 >()
 
 assert<
-    EqualsObject<AST.Function, AST.FunctionDeclaration | AST.FunctionExpression>
+    EqualsObject<
+        AST.Function,
+        AST.PlainFunctionDeclaration | AST.FunctionExpression
+    >
 >()
 
 assert<
-    EqualsObject<AST.ObjectProperty, AST.AccessorProperty | AST.SimpleProperty>
+    EqualsObject<AST.ObjectProperty, AST.AccessorProperty | AST.PlainProperty>
 >()
 
 assert<
@@ -752,7 +755,7 @@ assert<
         AST.SimpleAssignmentTarget,
         | AST.Identifier
         | AST.ComputedMemberExpression
-        | AST.SimpleMemberExpression
+        | AST.PlainMemberExpression
     >
 >()
 
@@ -768,7 +771,7 @@ assert<
         | AST.ExpressionStatement
         | AST.ForInStatement
         | AST.ForStatement
-        | AST.FunctionDeclaration
+        | AST.PlainFunctionDeclaration
         | AST.IfStatement
         | AST.LabeledStatement
         | AST.ReturnStatement

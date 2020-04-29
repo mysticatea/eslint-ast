@@ -27,10 +27,10 @@ export namespace Enhancement {
             ArrowFunctionExpression: {
                 async: boolean
             }
-            FunctionDeclaration: {
+            FunctionExpression: {
                 async: boolean
             }
-            FunctionExpression: {
+            PlainFunctionDeclaration: {
                 async: boolean
             }
 
