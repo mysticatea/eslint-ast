@@ -582,7 +582,7 @@ assert<
             readonly type: "ObjectPattern"
             readonly properties: readonly (
                 | AST.BindingProperty
-                | AST.BindingRestElement
+                | AST.BindingRestProperty
             )[]
         }
     >
@@ -632,13 +632,24 @@ assert<
                 | AST.AnonymousDefaultExportedFunctionDeclaration
                 | AST.ArrowFunctionExpression
                 | AST.BindingArrayPattern
-                | AST.BindingObjectPattern
                 | AST.FunctionDeclaration
                 | AST.FunctionExpression
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "RestElement"
             readonly argument: AST.BindingTarget
+        }
+    >
+>()
+assert<
+    EqualsObject<
+        AST.BindingRestProperty,
+        {
+            readonly parent: AST.BindingObjectPattern
+            readonly range: IndexRange
+            readonly loc: LineColumnRange
+            readonly type: "RestElement"
+            readonly argument: AST.Identifier
         }
     >
 >()
@@ -871,7 +882,7 @@ assert<
             readonly type: "ObjectPattern"
             readonly properties: readonly (
                 | AST.AssignmentProperty
-                | AST.AssignmentRestElement
+                | AST.AssignmentRestProperty
             )[]
         }
     >
@@ -915,13 +926,23 @@ assert<
     EqualsObject<
         AST.AssignmentRestElement,
         {
-            readonly parent:
-                | AST.AssignmentArrayPattern
-                | AST.AssignmentObjectPattern
+            readonly parent: AST.AssignmentArrayPattern
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "RestElement"
             readonly argument: AST.AssignmentTarget
+        }
+    >
+>()
+assert<
+    EqualsObject<
+        AST.AssignmentRestProperty,
+        {
+            readonly parent: AST.AssignmentObjectPattern
+            readonly range: IndexRange
+            readonly loc: LineColumnRange
+            readonly type: "RestElement"
+            readonly argument: AST.SimpleAssignmentTarget
         }
     >
 >()
@@ -1108,10 +1129,12 @@ assert<
                 | AST.AnonymousDefaultExportedFunctionDeclaration
                 | AST.AssignmentArrayPattern
                 | AST.AssignmentRestElement
+                | AST.AssignmentRestProperty
                 | AST.AssignmentShorthandProperty
                 | AST.AssignmentSimpleProperty
                 | AST.BindingArrayPattern
                 | AST.BindingRestElement
+                | AST.BindingRestProperty
                 | AST.BindingShorthandProperty
                 | AST.BindingSimpleProperty
                 | AST.CatchClause
@@ -1190,6 +1213,7 @@ assert<
                 | ExpressionParent
                 | AST.AssignmentArrayPattern
                 | AST.AssignmentRestElement
+                | AST.AssignmentRestProperty
                 | AST.AssignmentSimpleProperty
                 | AST.UpdateExpression
             readonly range: IndexRange

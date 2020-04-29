@@ -92,6 +92,8 @@ export namespace AST {
     export type AssignmentObjectPattern = AST["AssignmentObjectPattern"]
     /** The type for the `AssignmentRestElement` node. */
     export type AssignmentRestElement = AST["AssignmentRestElement"]
+    /** The type for the `AssignmentRestProperty` node. */
+    export type AssignmentRestProperty = AST["AssignmentRestProperty"]
     /** The type for the `AssignmentShorthandProperty` node. */
     export type AssignmentShorthandProperty = AST["AssignmentShorthandProperty"]
     /** The type for the `AssignmentSimpleProperty` node. */
@@ -110,6 +112,8 @@ export namespace AST {
     export type BindingObjectPattern = AST["BindingObjectPattern"]
     /** The type for the `BindingRestElement` node. */
     export type BindingRestElement = AST["BindingRestElement"]
+    /** The type for the `BindingRestProperty` node. */
+    export type BindingRestProperty = AST["BindingRestProperty"]
     /** The type for the `BindingShorthandProperty` node. */
     export type BindingShorthandProperty = AST["BindingShorthandProperty"]
     /** The type for the `BindingSimpleProperty` node. */
@@ -353,6 +357,8 @@ export type AssignmentComputedProperty = AST["AssignmentComputedProperty"]
 export type AssignmentObjectPattern = AST["AssignmentObjectPattern"]
 /** The type for the `AssignmentRestElement` node. */
 export type AssignmentRestElement = AST["AssignmentRestElement"]
+/** The type for the `AssignmentRestProperty` node. */
+export type AssignmentRestProperty = AST["AssignmentRestProperty"]
 /** The type for the `AssignmentShorthandProperty` node. */
 export type AssignmentShorthandProperty = AST["AssignmentShorthandProperty"]
 /** The type for the `AssignmentSimpleProperty` node. */
@@ -371,6 +377,8 @@ export type BindingComputedProperty = AST["BindingComputedProperty"]
 export type BindingObjectPattern = AST["BindingObjectPattern"]
 /** The type for the `BindingRestElement` node. */
 export type BindingRestElement = AST["BindingRestElement"]
+/** The type for the `BindingRestProperty` node. */
+export type BindingRestProperty = AST["BindingRestProperty"]
 /** The type for the `BindingShorthandProperty` node. */
 export type BindingShorthandProperty = AST["BindingShorthandProperty"]
 /** The type for the `BindingSimpleProperty` node. */

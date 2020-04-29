@@ -46,13 +46,25 @@ export namespace Enhancement {
         nodes: {
             // Enhancements
             AssignmentObjectPattern: {
-                properties: NodeRef<"AssignmentRestElement">[]
+                properties: NodeRef<"AssignmentRestProperty">[]
             }
             BindingObjectPattern: {
-                properties: NodeRef<"BindingRestElement">[]
+                properties: NodeRef<"BindingRestProperty">[]
             }
             ObjectExpression: {
                 properties: NodeRef<"SpreadElement">[]
+            }
+
+            // New others
+            AssignmentRestProperty: {
+                type: "RestElement"
+                // As different from AssignmentRestElement, ArrayPattern and ObjectPattern are syntax error.
+                argument: NodeRef<"SimpleAssignmentTarget">
+            }
+            BindingRestProperty: {
+                type: "RestElement"
+                // As different from BindingRestElement, ArrayPattern and ObjectPattern are syntax error.
+                argument: NodeRef<"Identifier">
             }
         }
     }
