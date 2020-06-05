@@ -29,6 +29,10 @@ import * as latest from "eslint-ast" // or `eslint-ast/latest`
 // This types will be updated in minor releases.
 import * as esNext from "eslint-ast/esnext"
 
+// It contains the proposals that have arrived at Stage 3.
+// This types will be updated in minor releases.
+import * as experimental from "eslint-ast/experimental"
+
 // The specific snapshots.
 import * as es2020 from "eslint-ast/es2020"
 import * as es2019 from "eslint-ast/es2019"
@@ -191,13 +195,13 @@ The major version bump allows any breaking changes. For example, the following t
 
 ### Minor
 
-The minor version bump allows any breaking changes only in `eslint-ast/esnext`, `eslint-ast/esnext-definition`, and `eslint-ast/lib/`. It doesn't change the types in the other files.
+The minor version bump allows any breaking changes only in `eslint-ast/esnext`, `eslint-ast/esnext-definition`, `eslint-ast/experimental`, `eslint-ast/experimental-definition`, and `eslint-ast/lib/`. It doesn't change the types in the other files.
 
 It happens when new proposals arrived at Stage 4 and ESTree was updated.
 
 ### Patch
 
-The minor version bump allows any breaking changes only in `eslint-ast/esnext`, `eslint-ast/esnext-definition`, and `eslint-ast/lib/`. It doesn't change the types in the other files.
+The minor version bump allows any breaking changes only in `eslint-ast/esnext`, `eslint-ast/esnext-definition`, `eslint-ast/experimental`, `eslint-ast/experimental-definition`, and `eslint-ast/lib/`. It doesn't change the types in the other files.
 
 It happens when bugs found in new types.
 

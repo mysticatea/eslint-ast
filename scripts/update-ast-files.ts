@@ -23,9 +23,12 @@ async function findDefinitionFiles(
         )
         .map(f => {
             const rawName = f.replace(/-definition\.ts$/u, "")
-            const definitionName = `ES${rawName[2].toUpperCase()}${rawName.slice(
-                3,
-            )}`
+            const definitionName =
+                rawName === "experimental"
+                    ? "Experimental"
+                    : rawName === "esnext"
+                    ? "ESNext"
+                    : `ES${rawName.slice(2)}`
             return {
                 definitionName,
                 definitionFilePath: path.join(rootPath, f),
