@@ -54,6 +54,8 @@ export namespace AST {
     export type FunctionDeclaration = AST["FunctionDeclaration"]
     /** The union type for the `Literal` alias. */
     export type Literal = AST["Literal"]
+    /** The union type for the `LogicalExpression` alias. */
+    export type LogicalExpression = AST["LogicalExpression"]
     /** The union type for the `MemberExpression` alias. */
     export type MemberExpression = AST["MemberExpression"]
     /** The union type for the `MethodDefinition` alias. */
@@ -188,8 +190,6 @@ export namespace AST {
     export type ImportSpecifier = AST["ImportSpecifier"]
     /** The type for the `LabeledStatement` node. */
     export type LabeledStatement = AST["LabeledStatement"]
-    /** The type for the `LogicalExpression` node. */
-    export type LogicalExpression = AST["LogicalExpression"]
     /** The type for the `MetaProperty` node. */
     export type MetaProperty = AST["MetaProperty"]
     /** The type for the `MethodProperty` node. */
@@ -210,6 +210,8 @@ export namespace AST {
     export type PlainClassDeclaration = AST["PlainClassDeclaration"]
     /** The type for the `PlainFunctionDeclaration` node. */
     export type PlainFunctionDeclaration = AST["PlainFunctionDeclaration"]
+    /** The type for the `PlainLogicalExpression` node. */
+    export type PlainLogicalExpression = AST["PlainLogicalExpression"]
     /** The type for the `PlainMemberExpression` node. */
     export type PlainMemberExpression = AST["PlainMemberExpression"]
     /** The type for the `PlainMethodDefinition` node. */
@@ -317,6 +319,8 @@ export type Function = AST["Function"]
 export type FunctionDeclaration = AST["FunctionDeclaration"]
 /** The union type for the `Literal` alias. */
 export type Literal = AST["Literal"]
+/** The union type for the `LogicalExpression` alias. */
+export type LogicalExpression = AST["LogicalExpression"]
 /** The union type for the `MemberExpression` alias. */
 export type MemberExpression = AST["MemberExpression"]
 /** The union type for the `MethodDefinition` alias. */
@@ -451,8 +455,6 @@ export type ImportNamespaceSpecifier = AST["ImportNamespaceSpecifier"]
 export type ImportSpecifier = AST["ImportSpecifier"]
 /** The type for the `LabeledStatement` node. */
 export type LabeledStatement = AST["LabeledStatement"]
-/** The type for the `LogicalExpression` node. */
-export type LogicalExpression = AST["LogicalExpression"]
 /** The type for the `MetaProperty` node. */
 export type MetaProperty = AST["MetaProperty"]
 /** The type for the `MethodProperty` node. */
@@ -473,6 +475,8 @@ export type PlainAssignmentExpression = AST["PlainAssignmentExpression"]
 export type PlainClassDeclaration = AST["PlainClassDeclaration"]
 /** The type for the `PlainFunctionDeclaration` node. */
 export type PlainFunctionDeclaration = AST["PlainFunctionDeclaration"]
+/** The type for the `PlainLogicalExpression` node. */
+export type PlainLogicalExpression = AST["PlainLogicalExpression"]
 /** The type for the `PlainMemberExpression` node. */
 export type PlainMemberExpression = AST["PlainMemberExpression"]
 /** The type for the `PlainMethodDefinition` node. */

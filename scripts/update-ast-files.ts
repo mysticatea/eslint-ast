@@ -233,7 +233,7 @@ ${nodeCode.join("\n")}
             rawCode,
             targetFilePath,
         ).results
-        const fixedCode = fixResult.output || fixResult.source
+        const fixedCode = fixResult.output || fixResult.source || rawCode
 
         console.log("- Write code to %o.", targetFilePath)
         await fs.writeFile(targetFilePath, fixedCode)

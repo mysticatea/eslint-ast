@@ -74,10 +74,17 @@ export namespace Enhancement {
      */
     export interface NullishCoalescing {
         nodes: {
-            // Enhancements
-            LogicalExpression: {
+            // New expressions
+            CoalesceExpression: {
+                type: "LogicalExpression"
                 operator: "??"
+                left: NodeRef<"Expression">
+                right: NodeRef<"Expression">
             }
+        }
+        aliases: {
+            // Enhancements
+            Expression: "CoalesceExpression"
         }
     }
 
@@ -86,9 +93,32 @@ export namespace Enhancement {
      */
     export interface OptionalChaining {
         nodes: {
-            // TODO(mysticatea): https://github.com/estree/estree/pull/204
+            // Enhancements
+            CallExpression: {
+                optional: boolean
+                callee: NodeRef<"ChainExpression">
+            }
+            ComputedMemberExpression: {
+                optional: boolean
+                object: NodeRef<"ChainExpression">
+            }
+            PlainMemberExpression: {
+                optional: boolean
+                object: NodeRef<"ChainExpression">
+            }
+
+            // New expressions
+            ChainExpression: {
+                expression:
+                    | NodeRef<"CallExpression">
+                    | NodeRef<"MemberExpression">
+            }
         }
-        aliases: {}
+        aliases: {
+            // Don't add `ChainExpression` node to `Expression` alias because it
+            // appears at only `CallExpression#callee` and
+            // `MemberExpression#object`.
+        }
     }
 
     /**

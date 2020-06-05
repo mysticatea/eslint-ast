@@ -227,11 +227,6 @@ export interface Definition {
         Identifier: {
             name: string
         }
-        LogicalExpression: {
-            operator: "||" | "&&"
-            left: NodeRef<"Expression">
-            right: NodeRef<"Expression">
-        }
         NewExpression: {
             callee: NodeRef<"Expression">
             arguments: NodeRef<"Expression">[]
@@ -255,6 +250,12 @@ export interface Definition {
             type: "AssignmentExpression"
             operator: "="
             left: NodeRef<"AssignmentTarget">
+            right: NodeRef<"Expression">
+        }
+        PlainLogicalExpression: {
+            type: "LogicalExpression"
+            operator: "||" | "&&"
+            left: NodeRef<"Expression">
             right: NodeRef<"Expression">
         }
         PlainMemberExpression: {
@@ -336,12 +337,12 @@ export interface Definition {
             | "ConditionalExpression"
             | "FunctionExpression"
             | "Identifier"
-            | "LogicalExpression"
             | "NewExpression"
             | "NullLiteral"
             | "NumberLiteral"
             | "ObjectExpression"
             | "PlainAssignmentExpression"
+            | "PlainLogicalExpression"
             | "PlainMemberExpression"
             | "RegExpLiteral"
             | "SequenceExpression"

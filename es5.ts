@@ -40,6 +40,8 @@ export namespace AST {
     export type FunctionDeclaration = AST["FunctionDeclaration"]
     /** The union type for the `Literal` alias. */
     export type Literal = AST["Literal"]
+    /** The union type for the `LogicalExpression` alias. */
+    export type LogicalExpression = AST["LogicalExpression"]
     /** The union type for the `MemberExpression` alias. */
     export type MemberExpression = AST["MemberExpression"]
     /** The union type for the `ObjectProperty` alias. */
@@ -98,8 +100,6 @@ export namespace AST {
     export type IfStatement = AST["IfStatement"]
     /** The type for the `LabeledStatement` node. */
     export type LabeledStatement = AST["LabeledStatement"]
-    /** The type for the `LogicalExpression` node. */
-    export type LogicalExpression = AST["LogicalExpression"]
     /** The type for the `NewExpression` node. */
     export type NewExpression = AST["NewExpression"]
     /** The type for the `NullLiteral` node. */
@@ -112,6 +112,8 @@ export namespace AST {
     export type PlainAssignmentExpression = AST["PlainAssignmentExpression"]
     /** The type for the `PlainFunctionDeclaration` node. */
     export type PlainFunctionDeclaration = AST["PlainFunctionDeclaration"]
+    /** The type for the `PlainLogicalExpression` node. */
+    export type PlainLogicalExpression = AST["PlainLogicalExpression"]
     /** The type for the `PlainMemberExpression` node. */
     export type PlainMemberExpression = AST["PlainMemberExpression"]
     /** The type for the `PlainProperty` node. */
@@ -189,6 +191,8 @@ export type Function = AST["Function"]
 export type FunctionDeclaration = AST["FunctionDeclaration"]
 /** The union type for the `Literal` alias. */
 export type Literal = AST["Literal"]
+/** The union type for the `LogicalExpression` alias. */
+export type LogicalExpression = AST["LogicalExpression"]
 /** The union type for the `MemberExpression` alias. */
 export type MemberExpression = AST["MemberExpression"]
 /** The union type for the `ObjectProperty` alias. */
@@ -247,8 +251,6 @@ export type Identifier = AST["Identifier"]
 export type IfStatement = AST["IfStatement"]
 /** The type for the `LabeledStatement` node. */
 export type LabeledStatement = AST["LabeledStatement"]
-/** The type for the `LogicalExpression` node. */
-export type LogicalExpression = AST["LogicalExpression"]
 /** The type for the `NewExpression` node. */
 export type NewExpression = AST["NewExpression"]
 /** The type for the `NullLiteral` node. */
@@ -261,6 +263,8 @@ export type ObjectExpression = AST["ObjectExpression"]
 export type PlainAssignmentExpression = AST["PlainAssignmentExpression"]
 /** The type for the `PlainFunctionDeclaration` node. */
 export type PlainFunctionDeclaration = AST["PlainFunctionDeclaration"]
+/** The type for the `PlainLogicalExpression` node. */
+export type PlainLogicalExpression = AST["PlainLogicalExpression"]
 /** The type for the `PlainMemberExpression` node. */
 export type PlainMemberExpression = AST["PlainMemberExpression"]
 /** The type for the `PlainProperty` node. */
