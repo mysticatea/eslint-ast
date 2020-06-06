@@ -17,8 +17,9 @@ interface DefinitionFileInfo {
 async function findDefinitionFiles(
     rootPath: string,
 ): Promise<DefinitionFileInfo[]> {
-    const filenames = await fs.readdir(rootPath)
+    console.log("Find definition files.")
 
+    const filenames = await fs.readdir(rootPath)
     return filenames
         .filter(
             f =>
@@ -46,6 +47,8 @@ function compile(
     rootPath: string,
     definitionFiles: DefinitionFileInfo[],
 ): ts.Program {
+    console.log("Compile codebase.")
+
     // Define virtual files to calculate alias names, node names, and node
     // types.
     const virtualFiles = new Map(
@@ -112,69 +115,60 @@ function compile(
     return retv
 }
 
-// -----------------------------------------------------------------------------
-// Main
-// -----------------------------------------------------------------------------
-
-void (async function main() {
-    console.log("Find definition files.")
-    const rootPath = path.resolve(__dirname, "..")
-    const definitionFiles = await findDefinitionFiles(rootPath)
-
-    console.log("Compile codebase.")
-    const program = compile(rootPath, definitionFiles)
-    const types = program.getTypeChecker()
-    const eslint = new CLIEngine({ fix: true })
-
-    for (const {
+async function generateAstFile(
+    rootPath: string,
+    program: ts.Program,
+    {
         definitionFilePath,
         definitionName,
         targetFilePath,
         typeCheckFilePath,
-    } of definitionFiles) {
-        console.log("Start for %o", definitionFilePath)
-        console.log("- Calculate type names.")
+    }: DefinitionFileInfo,
+): Promise<void> {
+    console.log("Start for %o", path.relative(rootPath, definitionFilePath))
+    console.log("- Calculate type names.")
 
-        const typeCheckFile = program.getSourceFile(typeCheckFilePath)!
-        const nodeNameSet = new Set<string>()
-        const aliasNameSet = new Set<string>()
-        ts.forEachChild(typeCheckFile, node => {
-            if (ts.isTypeAliasDeclaration(node)) {
-                const type = types.getTypeFromTypeNode(node.type)
-                const kind = node.name.text
-                const nameSet = kind === "NodeName" ? nodeNameSet : aliasNameSet
+    const typeCheckFile = program.getSourceFile(typeCheckFilePath)!
+    const types = program.getTypeChecker()
+    const nodeNameSet = new Set<string>()
+    const aliasNameSet = new Set<string>()
 
-                if (!type.isUnion()) {
-                    throw new Error(`"${kind}" must be a union type`)
-                }
-                for (const t of type.types) {
-                    if (!t.isStringLiteral()) {
-                        throw new Error(
-                            `"${kind}" must include only a string literal type`,
-                        )
-                    }
-                    nameSet.add(t.value)
-                }
+    ts.forEachChild(typeCheckFile, node => {
+        if (!ts.isTypeAliasDeclaration(node)) {
+            return
+        }
+        const type = types.getTypeFromTypeNode(node.type)
+        const kind = node.name.text
+        const nameSet = kind === "NodeName" ? nodeNameSet : aliasNameSet
+
+        if (!type.isUnion()) {
+            throw new Error(`"${kind}" must be a union type`)
+        }
+        for (const t of type.types) {
+            if (!t.isStringLiteral()) {
+                throw new Error(
+                    `"${kind}" must include only a string literal type`,
+                )
             }
-        })
+            nameSet.add(t.value)
+        }
+    })
 
-        console.log("- Generate code.")
-        const importPath = path
-            .relative(rootPath, definitionFilePath)
-            .slice(0, -3)
-        const aliasCode = [...aliasNameSet]
-            .sort(undefined)
-            .flatMap(name => [
-                `/** The union type for the \`${name}\` alias. */`,
-                `export type ${name} = AST["${name}"]`,
-            ])
-        const nodeCode = [...nodeNameSet]
-            .sort(undefined)
-            .flatMap(name => [
-                `/** The type for the \`${name}\` node. */`,
-                `export type ${name} = AST["${name}"]`,
-            ])
-        const rawCode = `// ========================================================================== //
+    console.log("- Generate code.")
+    const importPath = path.relative(rootPath, definitionFilePath).slice(0, -3)
+    const aliasCode = [...aliasNameSet]
+        .sort(undefined)
+        .flatMap(name => [
+            `/** The union type for the \`${name}\` alias. */`,
+            `export type ${name} = AST["${name}"]`,
+        ])
+    const nodeCode = [...nodeNameSet]
+        .sort(undefined)
+        .flatMap(name => [
+            `/** The type for the \`${name}\` node. */`,
+            `export type ${name} = AST["${name}"]`,
+        ])
+    const rawCode = `// ========================================================================== //
 // DON'T EDIT THIS FILE DIRECTLY!                                             //
 // This file is automatically generated by the 'scripts/update-ast-files.ts'. //
 // ========================================================================== //
@@ -230,16 +224,28 @@ export type Node = AST["Node"]
 ${aliasCode.join("\n")}
 ${nodeCode.join("\n")}
 `
-        const [fixResult] = eslint.executeOnText(
-            rawCode,
-            targetFilePath,
-        ).results
-        const fixedCode = fixResult.output || fixResult.source || rawCode
+    const eslint = new CLIEngine({ fix: true })
+    const [fixResult] = eslint.executeOnText(rawCode, targetFilePath).results
+    const fixedCode = fixResult.output || fixResult.source || rawCode
 
-        console.log("- Write code to %o.", targetFilePath)
-        await fs.writeFile(targetFilePath, fixedCode)
+    console.log("- Write code to %o.", path.relative(rootPath, targetFilePath))
+    await fs.writeFile(targetFilePath, fixedCode)
 
-        console.log("- Completed.")
+    console.log("- Completed.")
+}
+
+// -----------------------------------------------------------------------------
+// Main
+// -----------------------------------------------------------------------------
+
+void (async function main() {
+    console.log("Started.")
+
+    const rootPath = path.resolve(__dirname, "..")
+    const definitionFiles = await findDefinitionFiles(rootPath)
+    const program = compile(rootPath, definitionFiles)
+    for (const definitionFile of definitionFiles) {
+        await generateAstFile(rootPath, program, definitionFile)
     }
 
     console.log("All completed.")
