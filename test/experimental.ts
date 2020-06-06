@@ -1,4 +1,10 @@
-import { AST, Comment, IndexRange, LineColumnRange, Token } from "../es2018"
+import {
+    AST,
+    Comment,
+    IndexRange,
+    LineColumnRange,
+    Token,
+} from "../experimental"
 import { Equals, EqualsObject, assert } from "./lib/assert"
 
 //------------------------------------------------------------------------------
@@ -46,6 +52,7 @@ assert<
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "ExportAllDeclaration"
+            readonly exported: AST.Identifier | null
             readonly source: AST.StringLiteral
         }
     >
@@ -224,7 +231,10 @@ assert<
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "ClassBody"
-            readonly body: readonly AST.MethodDefinition[]
+            readonly body: readonly (
+                | AST.MethodDefinition
+                | AST.PropertyDefinition
+            )[]
         }
     >
 >()
@@ -239,7 +249,7 @@ assert<
             readonly kind: "constructor" | "method" | "get" | "set"
             readonly static: boolean
             readonly computed: boolean
-            readonly key: AST.Expression
+            readonly key: AST.Expression | AST.PrivateName
             readonly value: AST.FunctionExpression
         }
     >
@@ -257,9 +267,51 @@ assert<
         assert<
             Equals<typeof node.kind, "constructor" | "method" | "get" | "set">
         >()
-        assert<Equals<typeof node.key, AST.StaticPropertyKey>>()
+        assert<
+            Equals<typeof node.key, AST.StaticPropertyKey | AST.PrivateName>
+        >()
     }
 }
+assert<
+    EqualsObject<
+        AST.PropertyDefinition,
+        {
+            readonly parent: AST.ClassBody
+            readonly range: IndexRange
+            readonly loc: LineColumnRange
+            readonly type: "PropertyDefinition"
+            readonly static: boolean
+            readonly computed: boolean
+            readonly key: AST.Expression | AST.PrivateName
+            readonly value: AST.Expression | null
+        }
+    >
+>()
+{
+    const node = {} as AST.PropertyDefinition
+    if (node.computed) {
+        assert<Equals<typeof node.key, AST.Expression>>()
+    } else {
+        assert<
+            Equals<typeof node.key, AST.StaticPropertyKey | AST.PrivateName>
+        >()
+    }
+}
+assert<
+    EqualsObject<
+        AST.PrivateName,
+        {
+            readonly parent:
+                | AST.PlainMemberExpression
+                | AST.PlainMethodDefinition
+                | AST.PlainPropertyDefinition
+            readonly range: IndexRange
+            readonly loc: LineColumnRange
+            readonly type: "PrivateName"
+            readonly name: string
+        }
+    >
+>()
 
 assert<
     EqualsObject<
@@ -501,7 +553,7 @@ assert<
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "CatchClause"
-            readonly param: AST.BindingTarget
+            readonly param: AST.BindingTarget | null
             readonly body: AST.BlockStatement
         }
     >
@@ -736,6 +788,7 @@ type ExpressionParent =
     | AST.CompoundAssignmentExpression
     | AST.ComputedMemberExpression
     | AST.ConditionalExpression
+    | AST.ImportExpression
     | AST.LogicalExpression
     | AST.NewExpression
     | AST.SequenceExpression
@@ -754,7 +807,9 @@ type ExpressionParent =
     | AST.ComputedMethodDefinition
     | AST.ComputedMethodProperty
     | AST.ComputedProperty
+    | AST.ComputedPropertyDefinition
     | AST.PlainProperty
+    | AST.PlainPropertyDefinition
     | AST.SpreadElement
     | AST.SwitchCase
     | AST.VariableDeclarator
@@ -834,6 +889,9 @@ assert<
                 | "|="
                 | "^="
                 | "&="
+                | "||="
+                | "&&="
+                | "??="
             readonly left: AST.AssignmentTarget
             readonly right: AST.Expression
         }
@@ -1037,10 +1095,11 @@ assert<
     EqualsObject<
         AST.CallExpression,
         {
-            readonly parent: ExpressionParent
+            readonly parent: ExpressionParent | AST.ChainExpression
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "CallExpression"
+            readonly optional: boolean
             readonly callee: AST.Expression | AST.Super
             readonly arguments: readonly (AST.Expression | AST.SpreadElement)[]
         }
@@ -1054,6 +1113,19 @@ assert<
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "Super"
+        }
+    >
+>()
+
+assert<
+    EqualsObject<
+        AST.ChainExpression,
+        {
+            readonly parent: ExpressionParent
+            readonly range: IndexRange
+            readonly loc: LineColumnRange
+            readonly type: "ChainExpression"
+            readonly expression: AST.CallExpression | AST.MemberExpression
         }
     >
 >()
@@ -1123,6 +1195,7 @@ assert<
                 | AST.ContinueStatement
                 | AST.PlainFunctionDeclaration
                 | AST.LabeledStatement
+                | AST.ExportAllDeclaration
                 | AST.FunctionExpression
                 | AST.MetaProperty
                 | AST.UpdateExpression
@@ -1157,6 +1230,19 @@ assert<
 
 assert<
     EqualsObject<
+        AST.ImportExpression,
+        {
+            readonly parent: ExpressionParent
+            readonly range: IndexRange
+            readonly loc: LineColumnRange
+            readonly type: "ImportExpression"
+            readonly source: AST.Expression
+        }
+    >
+>()
+
+assert<
+    EqualsObject<
         AST.Literal,
         {
             readonly parent:
@@ -1173,11 +1259,11 @@ assert<
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "Literal"
-            readonly value: boolean | null | number | string | RegExp
-            readonly regex?: {
-                readonly pattern: string
-                readonly flags: string
-            }
+            readonly value: bigint | boolean | null | number | string | RegExp
+            readonly regex:
+                | { readonly pattern: string; readonly flags: string }
+                | undefined
+            readonly bigint: string | undefined
             readonly raw: string
         }
     >
@@ -1187,7 +1273,16 @@ assert<
     if (node.regex) {
         assert<Equals<typeof node.value, RegExp | null>>()
     } else {
-        assert<Equals<typeof node.value, boolean | null | number | string>>()
+        assert<
+            Equals<typeof node.value, bigint | boolean | null | number | string>
+        >()
+    }
+    if (node.bigint != null) {
+        assert<Equals<typeof node.value, bigint | null>>()
+    } else {
+        assert<
+            Equals<typeof node.value, boolean | null | number | string | RegExp>
+        >()
     }
 }
 
@@ -1199,12 +1294,20 @@ assert<
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "LogicalExpression"
-            readonly operator: "||" | "&&"
+            readonly operator: "||" | "&&" | "??"
             readonly left: AST.Expression
             readonly right: AST.Expression
         }
     >
 >()
+{
+    const node = {} as AST.LogicalExpression
+    if (node.operator === "??") {
+        assert<Equals<typeof node.operator, "??">>()
+    } else {
+        assert<Equals<typeof node.operator, "&&" | "||">>()
+    }
+}
 
 assert<
     EqualsObject<
@@ -1217,12 +1320,14 @@ assert<
                 | AST.AssignmentRestProperty
                 | AST.AssignmentPlainProperty
                 | AST.UpdateExpression
+                | AST.ChainExpression
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "MemberExpression"
             readonly computed: boolean
+            readonly optional: boolean
             readonly object: AST.Expression | AST.Super
-            readonly property: AST.Expression
+            readonly property: AST.Expression | AST.PrivateName
         }
     >
 >()
@@ -1231,8 +1336,13 @@ assert<
     if (node.computed) {
         assert<Equals<typeof node.property, AST.Expression>>()
     } else {
-        assert<Equals<typeof node.property, AST.Identifier>>()
+        assert<Equals<typeof node.property, AST.Identifier | AST.PrivateName>>()
     }
+    // ※ TS doesn't narrow types in this case...
+    // if (node.property.type === "PrivateName") {
+    //     assert<Equals<typeof node.computed, false>>()
+    //     assert<Equals<typeof node.property, AST.Identifier | AST.PrivateName>>()
+    // }
 }
 
 assert<
@@ -1303,6 +1413,9 @@ assert<
         assert<Equals<typeof node.shorthand, false>>()
         assert<Equals<typeof node.key, AST.Expression>>()
         assert<Equals<typeof node.value, AST.Expression>>()
+        if (node.kind === "get" || node.kind === "set" || node.method) {
+            assert<Equals<typeof node.value, AST.FunctionExpression>>()
+        }
     }
     if (node.method) {
         assert<Equals<typeof node.kind, "init">>()
@@ -1310,6 +1423,9 @@ assert<
         assert<Equals<typeof node.shorthand, false>>()
         assert<Equals<typeof node.key, AST.Expression>>()
         assert<Equals<typeof node.value, AST.FunctionExpression>>()
+        if (!node.computed) {
+            assert<Equals<typeof node.key, AST.StaticPropertyKey>>()
+        }
     }
     if (node.shorthand) {
         assert<Equals<typeof node.kind, "init">>()
@@ -1470,15 +1586,18 @@ assert<
         | AST.ArrayExpression
         | AST.ArrowFunctionExpression
         | AST.AwaitExpression
+        | AST.BigIntLiteral
         | AST.BinaryExpression
         | AST.BooleanLiteral
         | AST.CallExpression
+        | AST.ChainExpression
         | AST.ClassExpression
         | AST.CompoundAssignmentExpression
         | AST.ComputedMemberExpression
         | AST.ConditionalExpression
         | AST.FunctionExpression
         | AST.Identifier
+        | AST.ImportExpression
         | AST.LogicalExpression
         | AST.MetaProperty
         | AST.NewExpression
@@ -1579,6 +1698,9 @@ assert<
 assert<
     EqualsObject<
         AST.StaticPropertyKey,
-        AST.Identifier | AST.NumberLiteral | AST.StringLiteral
+        | AST.Identifier
+        | AST.NumberLiteral
+        | AST.StringLiteral
+        | AST.BigIntLiteral
     >
 >()

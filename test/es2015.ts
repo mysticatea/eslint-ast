@@ -815,6 +815,15 @@ assert<
         }
     >
 >()
+{
+    const node = {} as AST.AssignmentExpression
+    if (node.operator === "=") {
+        assert<Equals<typeof node.left, AST.AssignmentTarget>>()
+    } else {
+        assert<Equals<typeof node.left, AST.SimpleAssignmentTarget>>()
+    }
+}
+
 assert<
     EqualsObject<
         AST.AssignmentArrayPattern,
@@ -907,14 +916,6 @@ assert<
         }
     >
 >()
-{
-    const node = {} as AST.AssignmentExpression
-    if (node.operator === "=") {
-        assert<Equals<typeof node.left, AST.AssignmentTarget>>()
-    } else {
-        assert<Equals<typeof node.left, AST.SimpleAssignmentTarget>>()
-    }
-}
 {
     const node = {} as AST.AssignmentProperty
     if (node.computed) {

@@ -841,6 +841,15 @@ assert<
         }
     >
 >()
+{
+    const node = {} as AST.AssignmentExpression
+    if (node.operator === "=") {
+        assert<Equals<typeof node.left, AST.AssignmentTarget>>()
+    } else {
+        assert<Equals<typeof node.left, AST.SimpleAssignmentTarget>>()
+    }
+}
+
 assert<
     EqualsObject<
         AST.AssignmentArrayPattern,
@@ -949,14 +958,6 @@ assert<
     >
 >()
 {
-    const node = {} as AST.AssignmentExpression
-    if (node.operator === "=") {
-        assert<Equals<typeof node.left, AST.AssignmentTarget>>()
-    } else {
-        assert<Equals<typeof node.left, AST.SimpleAssignmentTarget>>()
-    }
-}
-{
     const node = {} as AST.AssignmentProperty
     if (node.computed) {
         assert<Equals<typeof node.shorthand, false>>()
@@ -1038,10 +1039,11 @@ assert<
     EqualsObject<
         AST.CallExpression,
         {
-            readonly parent: ExpressionParent
+            readonly parent: ExpressionParent | AST.ChainExpression
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "CallExpression"
+            readonly optional: boolean
             readonly callee: AST.Expression | AST.Super
             readonly arguments: readonly (AST.Expression | AST.SpreadElement)[]
         }
@@ -1055,6 +1057,19 @@ assert<
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "Super"
+        }
+    >
+>()
+
+assert<
+    EqualsObject<
+        AST.ChainExpression,
+        {
+            readonly parent: ExpressionParent
+            readonly range: IndexRange
+            readonly loc: LineColumnRange
+            readonly type: "ChainExpression"
+            readonly expression: AST.CallExpression | AST.MemberExpression
         }
     >
 >()
@@ -1229,6 +1244,14 @@ assert<
         }
     >
 >()
+{
+    const node = {} as AST.LogicalExpression
+    if (node.operator === "??") {
+        assert<Equals<typeof node.operator, "??">>()
+    } else {
+        assert<Equals<typeof node.operator, "&&" | "||">>()
+    }
+}
 
 assert<
     EqualsObject<
@@ -1241,10 +1264,12 @@ assert<
                 | AST.AssignmentRestProperty
                 | AST.AssignmentPlainProperty
                 | AST.UpdateExpression
+                | AST.ChainExpression
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "MemberExpression"
             readonly computed: boolean
+            readonly optional: boolean
             readonly object: AST.Expression | AST.Super
             readonly property: AST.Expression
         }
@@ -1327,6 +1352,9 @@ assert<
         assert<Equals<typeof node.shorthand, false>>()
         assert<Equals<typeof node.key, AST.Expression>>()
         assert<Equals<typeof node.value, AST.Expression>>()
+        if (node.kind === "get" || node.kind === "set" || node.method) {
+            assert<Equals<typeof node.value, AST.FunctionExpression>>()
+        }
     }
     if (node.method) {
         assert<Equals<typeof node.kind, "init">>()
@@ -1334,6 +1362,9 @@ assert<
         assert<Equals<typeof node.shorthand, false>>()
         assert<Equals<typeof node.key, AST.Expression>>()
         assert<Equals<typeof node.value, AST.FunctionExpression>>()
+        if (!node.computed) {
+            assert<Equals<typeof node.key, AST.StaticPropertyKey>>()
+        }
     }
     if (node.shorthand) {
         assert<Equals<typeof node.kind, "init">>()
@@ -1498,6 +1529,7 @@ assert<
         | AST.BinaryExpression
         | AST.BooleanLiteral
         | AST.CallExpression
+        | AST.ChainExpression
         | AST.ClassExpression
         | AST.CompoundAssignmentExpression
         | AST.ComputedMemberExpression
