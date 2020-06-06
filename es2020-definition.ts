@@ -96,15 +96,12 @@ export namespace Enhancement {
             // Enhancements
             CallExpression: {
                 optional: boolean
-                callee: NodeRef<"ChainExpression">
             }
             ComputedMemberExpression: {
                 optional: boolean
-                object: NodeRef<"ChainExpression">
             }
             PlainMemberExpression: {
                 optional: boolean
-                object: NodeRef<"ChainExpression">
             }
 
             // New expressions
@@ -115,9 +112,7 @@ export namespace Enhancement {
             }
         }
         aliases: {
-            // Don't add `ChainExpression` node to `Expression` alias because it
-            // appears at only `CallExpression#callee` and
-            // `MemberExpression#object`.
+            Expression: "ChainExpression"
         }
     }
 
