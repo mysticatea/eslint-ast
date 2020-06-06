@@ -3,6 +3,10 @@ import path from "path"
 import { CLIEngine } from "eslint"
 import ts from "typescript"
 
+// -----------------------------------------------------------------------------
+// Helpers
+// -----------------------------------------------------------------------------
+
 interface DefinitionFileInfo {
     definitionName: string
     definitionFilePath: string
@@ -55,9 +59,8 @@ function compile(
                 [
                     'import * as d from "./lib/definition"',
                     `import { Definition } from "./${definitionFilePath}"`,
-                    "export type AliasName = d.AliasName<Definition>",
                     "export type NodeName = d.NodeName<Definition>",
-                    "export type ASTType = d.ASTType<Definition>",
+                    "export type AliasName = Exclude<d.AliasName<Definition> | d.ASTType<Definition>, NodeName>",
                 ].join("\n"),
             ]
         }),
@@ -109,6 +112,10 @@ function compile(
     return retv
 }
 
+// -----------------------------------------------------------------------------
+// Main
+// -----------------------------------------------------------------------------
+
 void (async function main() {
     console.log("Find definition files.")
     const rootPath = path.resolve(__dirname, "..")
@@ -131,17 +138,11 @@ void (async function main() {
         const typeCheckFile = program.getSourceFile(typeCheckFilePath)!
         const nodeNameSet = new Set<string>()
         const aliasNameSet = new Set<string>()
-        const typeNameSet = new Set<string>()
         ts.forEachChild(typeCheckFile, node => {
             if (ts.isTypeAliasDeclaration(node)) {
                 const type = types.getTypeFromTypeNode(node.type)
                 const kind = node.name.text
-                const nameSet =
-                    kind === "AliasName"
-                        ? aliasNameSet
-                        : kind === "NodeName"
-                        ? nodeNameSet
-                        : typeNameSet
+                const nameSet = kind === "NodeName" ? nodeNameSet : aliasNameSet
 
                 if (!type.isUnion()) {
                     throw new Error(`"${kind}" must be a union type`)
@@ -156,15 +157,12 @@ void (async function main() {
                 }
             }
         })
-        for (const name of nodeNameSet) {
-            typeNameSet.delete(name)
-        }
 
         console.log("- Generate code.")
         const importPath = path
             .relative(rootPath, definitionFilePath)
             .slice(0, -3)
-        const aliasCode = [...aliasNameSet, ...typeNameSet]
+        const aliasCode = [...aliasNameSet]
             .sort(undefined)
             .flatMap(name => [
                 `/** The union type for the \`${name}\` alias. */`,
