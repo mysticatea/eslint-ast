@@ -5,7 +5,7 @@ import { Extends } from "./lib/extends"
 import { NodeRef } from "./lib/node-ref"
 import {
     Comment,
-    Definition as ES2019Definition,
+    Definition as ES2019,
     IndexRange,
     LineColumnRange,
     LineColumn,
@@ -14,132 +14,73 @@ import {
 
 export { Comment, IndexRange, LineColumnRange, LineColumn, Token }
 
-export namespace Enhancement {
-    /**
-     * Definition for BigInt literals.
-     */
-    export interface BigInt {
-        nodes: {
-            // Enhancements
-            BooleanLiteral: {
-                bigint: undefined
-            }
-            NullLiteral: {
-                bigint: undefined
-            }
-            NumberLiteral: {
-                bigint: undefined
-            }
-            RegExpLiteral: {
-                bigint: undefined
-            }
-            StringLiteral: {
-                bigint: undefined
-            }
-
-            // New expressions
-            BigIntLiteral: {
-                type: "Literal"
-                value: bigint | null
-                bigint: string
-                regex: undefined
-                raw: string
-            }
+export interface Enhancement {
+    nodes: {
+        // Enhancements
+        BooleanLiteral: {
+            bigint: undefined
         }
-        aliases: {
-            // Enhancements
-            Expression: "BigIntLiteral"
-            StaticPropertyKey: "BigIntLiteral"
+        CallExpression: {
+            optional: boolean
+        }
+        ComputedMemberExpression: {
+            optional: boolean
+        }
+        ExportAllDeclaration: {
+            exported: NodeRef<"Identifier"> | null
+        }
+        NullLiteral: {
+            bigint: undefined
+        }
+        NumberLiteral: {
+            bigint: undefined
+        }
+        PlainMemberExpression: {
+            optional: boolean
+        }
+        RegExpLiteral: {
+            bigint: undefined
+        }
+        StringLiteral: {
+            bigint: undefined
+        }
+
+        // New expressions
+        BigIntLiteral: {
+            type: "Literal"
+            value: bigint | null
+            bigint: string
+            regex: undefined
+            raw: string
+        }
+        ChainExpression: {
+            expression: NodeRef<"CallExpression"> | NodeRef<"MemberExpression">
+        }
+        CoalesceExpression: {
+            type: "LogicalExpression"
+            operator: "??"
+            left: NodeRef<"Expression">
+            right: NodeRef<"Expression">
+        }
+        ImportExpression: {
+            source: NodeRef<"Expression">
         }
     }
 
-    /**
-     * Definition for `import(source)`.
-     */
-    export interface DynamicImport {
-        nodes: {
-            // New expressions
-            ImportExpression: {
-                source: NodeRef<"Expression">
-            }
-        }
-        aliases: {
-            // Enhancements
-            Expression: "ImportExpression"
-        }
-    }
-
-    /**
-     * Definition for nullish coalescing.
-     */
-    export interface NullishCoalescing {
-        nodes: {
-            // New expressions
-            CoalesceExpression: {
-                type: "LogicalExpression"
-                operator: "??"
-                left: NodeRef<"Expression">
-                right: NodeRef<"Expression">
-            }
-        }
-        aliases: {
-            // Enhancements
-            Expression: "CoalesceExpression"
-        }
-    }
-
-    /**
-     * Definition for optional chaining.
-     */
-    export interface OptionalChaining {
-        nodes: {
-            // Enhancements
-            CallExpression: {
-                optional: boolean
-            }
-            ComputedMemberExpression: {
-                optional: boolean
-            }
-            PlainMemberExpression: {
-                optional: boolean
-            }
-
-            // New expressions
-            ChainExpression: {
-                expression:
-                    | NodeRef<"CallExpression">
-                    | NodeRef<"MemberExpression">
-            }
-        }
-        aliases: {
-            Expression: "ChainExpression"
-        }
-    }
-
-    /**
-     * Definition for `export * as ns from "source"`.
-     */
-    export interface ExportAllWithName {
-        nodes: {
-            // Enhancements
-            ExportAllDeclaration: {
-                exported: NodeRef<"Identifier"> | null
-            }
-        }
+    aliases: {
+        // Enhancements
+        Expression:
+            | "BigIntLiteral"
+            | "ChainExpression"
+            | "CoalesceExpression"
+            | "ImportExpression"
+        StaticPropertyKey: "BigIntLiteral"
     }
 }
 
 /**
  * The AST definition of ES2020.
  */
-export interface Definition
-    extends Extends<
-        ES2019Definition,
-        [
-            Enhancement.BigInt,
-            Enhancement.DynamicImport,
-            Enhancement.NullishCoalescing,
-            Enhancement.OptionalChaining,
-            Enhancement.ExportAllWithName,
-        ]
-    > {}
+interface ES2020 extends Extends<ES2019, Enhancement> {}
+
+export { ES2020 as Definition }

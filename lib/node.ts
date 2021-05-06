@@ -171,8 +171,8 @@ type NameOfNodeRef_<D extends Definition, V> = V extends NodeRef<infer N>
  */
 type ResolveNodeRef<D extends Definition, V> = V extends readonly any[]
     ? { readonly [P in keyof V]: ResolveNodeRef_<D, V[P]> }
-    : V extends ReadonlyMap<infer K, infer V>
-    ? ReadonlyMap<ResolveNodeRef_<D, K>, ResolveNodeRef_<D, V>>
+    : V extends ReadonlyMap<infer K, infer W>
+    ? ReadonlyMap<ResolveNodeRef_<D, K>, ResolveNodeRef_<D, W>>
     : V extends ReadonlySet<infer E>
     ? ReadonlySet<ResolveNodeRef_<D, E>>
     : ResolveNodeRef_<D, V>
@@ -184,8 +184,8 @@ type ResolveNodeRef<D extends Definition, V> = V extends readonly any[]
  */
 type NameOfNodeRef<D extends Definition, V> = V extends readonly (infer E)[]
     ? NameOfNodeRef_<D, E>
-    : V extends ReadonlyMap<infer K, infer V>
-    ? NameOfNodeRef_<D, K> | NameOfNodeRef_<D, V>
+    : V extends ReadonlyMap<infer K, infer W>
+    ? NameOfNodeRef_<D, K> | NameOfNodeRef_<D, W>
     : V extends ReadonlySet<infer E>
     ? NameOfNodeRef_<D, E>
     : NameOfNodeRef_<D, V>

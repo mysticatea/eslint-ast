@@ -225,7 +225,10 @@ assert<
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "ClassBody"
-            readonly body: readonly AST.MethodDefinition[]
+            readonly body: readonly (
+                | AST.MethodDefinition
+                | AST.PropertyDefinition
+            )[]
         }
     >
 >()
@@ -240,7 +243,7 @@ assert<
             readonly kind: "constructor" | "method" | "get" | "set"
             readonly static: boolean
             readonly computed: boolean
-            readonly key: AST.Expression
+            readonly key: AST.Expression | AST.PrivateIdentifier
             readonly value: AST.FunctionExpression
         }
     >
@@ -258,9 +261,59 @@ assert<
         assert<
             Equals<typeof node.kind, "constructor" | "method" | "get" | "set">
         >()
-        assert<Equals<typeof node.key, AST.StaticPropertyKey>>()
+        assert<
+            Equals<
+                typeof node.key,
+                AST.StaticPropertyKey | AST.PrivateIdentifier
+            >
+        >()
     }
 }
+
+assert<
+    EqualsObject<
+        AST.PropertyDefinition,
+        {
+            readonly parent: AST.ClassBody
+            readonly range: IndexRange
+            readonly loc: LineColumnRange
+            readonly type: "PropertyDefinition"
+            readonly static: boolean
+            readonly computed: boolean
+            readonly key: AST.Expression | AST.PrivateIdentifier
+            readonly value: AST.Expression | null
+        }
+    >
+>()
+{
+    const node = {} as AST.PropertyDefinition
+    if (node.computed) {
+        assert<Equals<typeof node.key, AST.Expression>>()
+    } else {
+        assert<
+            Equals<
+                typeof node.key,
+                AST.StaticPropertyKey | AST.PrivateIdentifier
+            >
+        >()
+    }
+}
+
+assert<
+    EqualsObject<
+        AST.PrivateIdentifier,
+        {
+            readonly parent:
+                | AST.PrivateMemberExpression
+                | AST.PrivateMethodDefinition
+                | AST.PrivatePropertyDefinition
+            readonly range: IndexRange
+            readonly loc: LineColumnRange
+            readonly type: "PrivateIdentifier"
+            readonly name: string
+        }
+    >
+>()
 
 assert<
     EqualsObject<
@@ -738,6 +791,7 @@ type ExpressionParent =
     | AST.ComputedMemberExpression
     | AST.ConditionalExpression
     | AST.ImportExpression
+    | AST.LogicalAssignmentExpression
     | AST.LogicalExpression
     | AST.NewExpression
     | AST.SequenceExpression
@@ -756,7 +810,11 @@ type ExpressionParent =
     | AST.ComputedMethodDefinition
     | AST.ComputedMethodProperty
     | AST.ComputedProperty
+    | AST.ComputedPropertyDefinition
     | AST.PlainProperty
+    | AST.PlainPropertyDefinition
+    | AST.PrivateMemberExpression
+    | AST.PrivatePropertyDefinition
     | AST.SpreadElement
     | AST.SwitchCase
     | AST.VariableDeclarator
@@ -836,6 +894,9 @@ assert<
                 | "|="
                 | "^="
                 | "&="
+                | "||="
+                | "&&="
+                | "??="
             readonly left: AST.AssignmentTarget
             readonly right: AST.Expression
         }
@@ -1053,7 +1114,10 @@ assert<
     EqualsObject<
         AST.Super,
         {
-            readonly parent: AST.CallExpression | AST.MemberExpression
+            readonly parent:
+                | AST.CallExpression
+                | AST.ComputedMemberExpression
+                | AST.PlainMemberExpression
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "Super"
@@ -1271,7 +1335,7 @@ assert<
             readonly computed: boolean
             readonly optional: boolean
             readonly object: AST.Expression | AST.Super
-            readonly property: AST.Expression
+            readonly property: AST.Expression | AST.PrivateIdentifier
         }
     >
 >()
@@ -1280,7 +1344,9 @@ assert<
     if (node.computed) {
         assert<Equals<typeof node.property, AST.Expression>>()
     } else {
-        assert<Equals<typeof node.property, AST.Identifier>>()
+        assert<
+            Equals<typeof node.property, AST.Identifier | AST.PrivateIdentifier>
+        >()
     }
 }
 

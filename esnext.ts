@@ -70,6 +70,8 @@ export namespace AST {
     export type Program = AST["Program"]
     /** The union type for the `Property` alias. */
     export type Property = AST["Property"]
+    /** The union type for the `PropertyDefinition` alias. */
+    export type PropertyDefinition = AST["PropertyDefinition"]
     /** The union type for the `RestElement` alias. */
     export type RestElement = AST["RestElement"]
     /** The union type for the `SimpleAssignmentTarget` alias. */
@@ -156,6 +158,8 @@ export namespace AST {
     export type ComputedMethodProperty = AST["ComputedMethodProperty"]
     /** The type for the `ComputedProperty` node. */
     export type ComputedProperty = AST["ComputedProperty"]
+    /** The type for the `ComputedPropertyDefinition` node. */
+    export type ComputedPropertyDefinition = AST["ComputedPropertyDefinition"]
     /** The type for the `ConditionalExpression` node. */
     export type ConditionalExpression = AST["ConditionalExpression"]
     /** The type for the `ConstructorDefinition` node. */
@@ -204,6 +208,8 @@ export namespace AST {
     export type ImportSpecifier = AST["ImportSpecifier"]
     /** The type for the `LabeledStatement` node. */
     export type LabeledStatement = AST["LabeledStatement"]
+    /** The type for the `LogicalAssignmentExpression` node. */
+    export type LogicalAssignmentExpression = AST["LogicalAssignmentExpression"]
     /** The type for the `MetaProperty` node. */
     export type MetaProperty = AST["MetaProperty"]
     /** The type for the `MethodProperty` node. */
@@ -232,6 +238,16 @@ export namespace AST {
     export type PlainMethodDefinition = AST["PlainMethodDefinition"]
     /** The type for the `PlainProperty` node. */
     export type PlainProperty = AST["PlainProperty"]
+    /** The type for the `PlainPropertyDefinition` node. */
+    export type PlainPropertyDefinition = AST["PlainPropertyDefinition"]
+    /** The type for the `PrivateIdentifier` node. */
+    export type PrivateIdentifier = AST["PrivateIdentifier"]
+    /** The type for the `PrivateMemberExpression` node. */
+    export type PrivateMemberExpression = AST["PrivateMemberExpression"]
+    /** The type for the `PrivateMethodDefinition` node. */
+    export type PrivateMethodDefinition = AST["PrivateMethodDefinition"]
+    /** The type for the `PrivatePropertyDefinition` node. */
+    export type PrivatePropertyDefinition = AST["PrivatePropertyDefinition"]
     /** The type for the `RegExpLiteral` node. */
     export type RegExpLiteral = AST["RegExpLiteral"]
     /** The type for the `ReturnStatement` node. */
@@ -349,6 +365,8 @@ export type ObjectProperty = AST["ObjectProperty"]
 export type Program = AST["Program"]
 /** The union type for the `Property` alias. */
 export type Property = AST["Property"]
+/** The union type for the `PropertyDefinition` alias. */
+export type PropertyDefinition = AST["PropertyDefinition"]
 /** The union type for the `RestElement` alias. */
 export type RestElement = AST["RestElement"]
 /** The union type for the `SimpleAssignmentTarget` alias. */
@@ -435,6 +453,8 @@ export type ComputedMethodDefinition = AST["ComputedMethodDefinition"]
 export type ComputedMethodProperty = AST["ComputedMethodProperty"]
 /** The type for the `ComputedProperty` node. */
 export type ComputedProperty = AST["ComputedProperty"]
+/** The type for the `ComputedPropertyDefinition` node. */
+export type ComputedPropertyDefinition = AST["ComputedPropertyDefinition"]
 /** The type for the `ConditionalExpression` node. */
 export type ConditionalExpression = AST["ConditionalExpression"]
 /** The type for the `ConstructorDefinition` node. */
@@ -483,6 +503,8 @@ export type ImportNamespaceSpecifier = AST["ImportNamespaceSpecifier"]
 export type ImportSpecifier = AST["ImportSpecifier"]
 /** The type for the `LabeledStatement` node. */
 export type LabeledStatement = AST["LabeledStatement"]
+/** The type for the `LogicalAssignmentExpression` node. */
+export type LogicalAssignmentExpression = AST["LogicalAssignmentExpression"]
 /** The type for the `MetaProperty` node. */
 export type MetaProperty = AST["MetaProperty"]
 /** The type for the `MethodProperty` node. */
@@ -511,6 +533,16 @@ export type PlainMemberExpression = AST["PlainMemberExpression"]
 export type PlainMethodDefinition = AST["PlainMethodDefinition"]
 /** The type for the `PlainProperty` node. */
 export type PlainProperty = AST["PlainProperty"]
+/** The type for the `PlainPropertyDefinition` node. */
+export type PlainPropertyDefinition = AST["PlainPropertyDefinition"]
+/** The type for the `PrivateIdentifier` node. */
+export type PrivateIdentifier = AST["PrivateIdentifier"]
+/** The type for the `PrivateMemberExpression` node. */
+export type PrivateMemberExpression = AST["PrivateMemberExpression"]
+/** The type for the `PrivateMethodDefinition` node. */
+export type PrivateMethodDefinition = AST["PrivateMethodDefinition"]
+/** The type for the `PrivatePropertyDefinition` node. */
+export type PrivatePropertyDefinition = AST["PrivatePropertyDefinition"]
 /** The type for the `RegExpLiteral` node. */
 export type RegExpLiteral = AST["RegExpLiteral"]
 /** The type for the `ReturnStatement` node. */

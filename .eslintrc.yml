@@ -2,7 +2,9 @@ root: true
 extends: "plugin:@mysticatea/es2020"
 
 ignorePatterns:
-- dist/
+  - dist/
+
+parser: "@typescript-eslint/parser"
 
 rules:
   no-void: "off"
@@ -10,9 +12,13 @@ rules:
 settings:
   node:
     tryExtensions: 
-    - .ts
+      - .ts
 
 overrides:
-- files: "*-definition.ts"
-  rules:
-    "@mysticatea/ts/no-empty-interface": "off"
+  - files: "./*.ts"
+    excludedFiles: "./*-definition.ts"
+    rules:
+      no-shadow: "off"
+  - files: "*-definition.ts"
+    rules:
+      "@mysticatea/ts/no-empty-interface": "off"

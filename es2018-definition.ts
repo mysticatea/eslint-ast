@@ -5,7 +5,7 @@ import { Extends } from "./lib/extends"
 import { NodeRef } from "./lib/node-ref"
 import {
     Comment,
-    Definition as ES2017Definition,
+    Definition as ES2017,
     IndexRange,
     LineColumnRange,
     LineColumn,
@@ -14,58 +14,33 @@ import {
 
 export { Comment, IndexRange, LineColumnRange, LineColumn, Token }
 
-export namespace Enhancement {
-    /**
-     * Definition for async iteration.
-     */
-    export interface AsyncIteration {
-        nodes: {
-            // Enhancements
-            ForOfStatement: {
-                await: boolean
-            }
+export interface Enhancement {
+    nodes: {
+        // Enhancements
+        AssignmentObjectPattern: {
+            properties: NodeRef<"AssignmentRestProperty">[]
         }
-    }
-
-    /**
-     * Definition for malformed tagged template.
-     */
-    export interface MalformedTaggedTemplate {
-        nodes: {
-            // Enhancements
-            TemplateElement: {
-                value: { cooked: null; raw: string }
-            }
+        BindingObjectPattern: {
+            properties: NodeRef<"BindingRestProperty">[]
         }
-    }
+        ForOfStatement: {
+            await: boolean
+        }
+        ObjectExpression: {
+            properties: NodeRef<"SpreadElement">[]
+        }
+        TemplateElement: {
+            value: { cooked: null; raw: string }
+        }
 
-    /**
-     * Definition for rest/spread properties.
-     */
-    export interface ObjectRestSpread {
-        nodes: {
-            // Enhancements
-            AssignmentObjectPattern: {
-                properties: NodeRef<"AssignmentRestProperty">[]
-            }
-            BindingObjectPattern: {
-                properties: NodeRef<"BindingRestProperty">[]
-            }
-            ObjectExpression: {
-                properties: NodeRef<"SpreadElement">[]
-            }
-
-            // New others
-            AssignmentRestProperty: {
-                type: "RestElement"
-                // As different from AssignmentRestElement, ArrayPattern and ObjectPattern are syntax error.
-                argument: NodeRef<"SimpleAssignmentTarget">
-            }
-            BindingRestProperty: {
-                type: "RestElement"
-                // As different from BindingRestElement, ArrayPattern and ObjectPattern are syntax error.
-                argument: NodeRef<"Identifier">
-            }
+        // New others
+        AssignmentRestProperty: {
+            type: "RestElement"
+            argument: NodeRef<"SimpleAssignmentTarget">
+        }
+        BindingRestProperty: {
+            type: "RestElement"
+            argument: NodeRef<"Identifier">
         }
     }
 }
@@ -73,12 +48,6 @@ export namespace Enhancement {
 /**
  * The AST definition of ES2018.
  */
-export interface Definition
-    extends Extends<
-        ES2017Definition,
-        [
-            Enhancement.AsyncIteration,
-            Enhancement.MalformedTaggedTemplate,
-            Enhancement.ObjectRestSpread,
-        ]
-    > {}
+interface ES2018 extends Extends<ES2017, Enhancement> {}
+
+export { ES2018 as Definition }

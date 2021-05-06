@@ -1,11 +1,11 @@
 /**
- * @fileoverview The AST definition for EcmaScript 2021 candidate (include stage 4 proposals).
+ * @fileoverview The AST definition for EcmaScript stage 3 proposals.
  */
 import { Extends } from "./lib/extends"
 import { NodeRef } from "./lib/node-ref"
 import {
     Comment,
-    Definition as ESNextDefinition,
+    Definition as ESNext,
     IndexRange,
     LineColumnRange,
     LineColumn,
@@ -16,82 +16,76 @@ export { Comment, IndexRange, LineColumnRange, LineColumn, Token }
 
 export namespace Enhancement {
     /**
-     * Definition for class fields.
+     * Definition for class static initialization blocks.
      */
-    export interface ClassField {
+    export interface StaticBlock {
         nodes: {
             // Enhancements
             ClassBody: {
-                body: NodeRef<"PropertyDefinition">[]
+                body: NodeRef<"StaticBlock">[]
             }
 
             // New others
-            ComputedPropertyDefinition: {
-                type: "PropertyDefinition"
-                computed: true
-                static: boolean
-                key: NodeRef<"Expression">
-                value: NodeRef<"Expression"> | null
-            }
-            PlainPropertyDefinition: {
-                type: "PropertyDefinition"
-                computed: false
-                static: boolean
-                key: NodeRef<"StaticPropertyKey">
-                value: NodeRef<"Expression"> | null
+            StaticBlock: {
+                body: NodeRef<"Statement">[]
             }
         }
-        aliases: {}
     }
 
     /**
-     * Definition for private class elements.
+     * Definition for import assertions.
      */
-    export interface PrivateClassElement {
+    export interface ImportAssertions {
         nodes: {
             // Enhancements
-            PlainMemberExpression: {
-                property: NodeRef<"PrivateName">
+            ExportAllDeclaration: {
+                assertions: NodeRef<"ImportAttribute">[]
             }
-            PlainMethodDefinition: {
-                key: NodeRef<"PrivateName">
+            ExportNamedDeclDeclaration: {
+                assertions: null
             }
-            PlainPropertyDefinition: {
-                key: NodeRef<"PrivateName">
+            ExportNamedFromDeclaration: {
+                assertions: NodeRef<"ImportAttribute">[]
+            }
+            ImportDeclaration: {
+                assertions: NodeRef<"ImportAttribute">[]
+            }
+            ImportExpression: {
+                attributes: NodeRef<"Expression"> | null
             }
 
             // New others
-            PrivateName: {
-                name: string
+            ImportAttribute: {
+                key: NodeRef<"Identifier"> | NodeRef<"StringLiteral">
+                value: NodeRef<"StringLiteral">
             }
         }
-        aliases: {}
     }
 
     /**
-     * Definition for private class elements.
+     * Definition for ergonomic brand checks for private class members.
      */
-    export interface LogicalAssignment {
+    export interface PrivateClassMemberChecks {
         nodes: {
             // Enhancements
-            CompoundAssignmentExpression: {
-                operator: "||=" | "&&=" | "??="
+            BinaryExpression: {
+                left: NodeRef<"PrivateIdentifier">
             }
         }
-        aliases: {}
     }
 }
 
 /**
  * The AST definition of ES Next.
- * This definition includes the Stage 4 proposals for ES2021.
+ * This definition includes the Stage 3 proposals.
  */
-export interface Definition
+interface Experimental
     extends Extends<
-        ESNextDefinition,
-        [
-            Enhancement.ClassField,
-            Enhancement.PrivateClassElement,
-            Enhancement.LogicalAssignment,
-        ]
+        Extends<
+            Extends<ESNext, Enhancement.ImportAssertions>,
+            Enhancement.PrivateClassMemberChecks
+        >,
+        Enhancement.StaticBlock
     > {}
+
+export { Experimental as Definition }

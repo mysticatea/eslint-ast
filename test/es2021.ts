@@ -1,10 +1,4 @@
-import {
-    AST,
-    Comment,
-    IndexRange,
-    LineColumnRange,
-    Token,
-} from "../experimental"
+import { AST, Comment, IndexRange, LineColumnRange, Token } from "../es2021"
 import { Equals, EqualsObject, assert } from "./lib/assert"
 
 //------------------------------------------------------------------------------
@@ -54,7 +48,6 @@ assert<
             readonly type: "ExportAllDeclaration"
             readonly exported: AST.Identifier | null
             readonly source: AST.StringLiteral
-            readonly assertions: readonly AST.ImportAttribute[]
         }
     >
 >()
@@ -122,7 +115,6 @@ assert<
             readonly declaration: AST.Declaration | null
             readonly specifiers: readonly AST.ExportSpecifier[]
             readonly source: AST.StringLiteral | null
-            readonly assertions: readonly AST.ImportAttribute[] | null
         }
     >
 >()
@@ -154,24 +146,6 @@ assert<
                 | AST.ImportSpecifier
             )[]
             readonly source: AST.StringLiteral
-            readonly assertions: readonly AST.ImportAttribute[]
-        }
-    >
->()
-
-assert<
-    EqualsObject<
-        AST.ImportAttribute,
-        {
-            readonly parent:
-                | AST.ExportAllDeclaration
-                | AST.ExportNamedFromDeclaration
-                | AST.ImportDeclaration
-            readonly range: IndexRange
-            readonly loc: LineColumnRange
-            readonly type: "ImportAttribute"
-            readonly key: AST.Identifier | AST.StringLiteral
-            readonly value: AST.StringLiteral
         }
     >
 >()
@@ -191,7 +165,6 @@ type StatementParent =
     | AST.LabeledStatement
     | AST.WhileStatement
     | AST.WithStatement
-    | AST.StaticBlock
     | AST.SwitchCase
 
 assert<
@@ -252,11 +225,7 @@ assert<
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "ClassBody"
-            readonly body: readonly (
-                | AST.MethodDefinition
-                | AST.PropertyDefinition
-                | AST.StaticBlock
-            )[]
+            readonly body: readonly AST.MethodDefinition[]
         }
     >
 >()
@@ -271,7 +240,7 @@ assert<
             readonly kind: "constructor" | "method" | "get" | "set"
             readonly static: boolean
             readonly computed: boolean
-            readonly key: AST.Expression | AST.PrivateIdentifier
+            readonly key: AST.Expression
             readonly value: AST.FunctionExpression
         }
     >
@@ -289,73 +258,9 @@ assert<
         assert<
             Equals<typeof node.kind, "constructor" | "method" | "get" | "set">
         >()
-        assert<
-            Equals<
-                typeof node.key,
-                AST.StaticPropertyKey | AST.PrivateIdentifier
-            >
-        >()
+        assert<Equals<typeof node.key, AST.StaticPropertyKey>>()
     }
 }
-
-assert<
-    EqualsObject<
-        AST.PropertyDefinition,
-        {
-            readonly parent: AST.ClassBody
-            readonly range: IndexRange
-            readonly loc: LineColumnRange
-            readonly type: "PropertyDefinition"
-            readonly static: boolean
-            readonly computed: boolean
-            readonly key: AST.Expression | AST.PrivateIdentifier
-            readonly value: AST.Expression | null
-        }
-    >
->()
-{
-    const node = {} as AST.PropertyDefinition
-    if (node.computed) {
-        assert<Equals<typeof node.key, AST.Expression>>()
-    } else {
-        assert<
-            Equals<
-                typeof node.key,
-                AST.StaticPropertyKey | AST.PrivateIdentifier
-            >
-        >()
-    }
-}
-
-assert<
-    EqualsObject<
-        AST.StaticBlock,
-        {
-            readonly parent: AST.ClassBody
-            readonly range: IndexRange
-            readonly loc: LineColumnRange
-            readonly type: "StaticBlock"
-            readonly body: readonly AST.Statement[]
-        }
-    >
->()
-
-assert<
-    EqualsObject<
-        AST.PrivateIdentifier,
-        {
-            readonly parent:
-                | AST.BinaryExpression
-                | AST.PrivateMemberExpression
-                | AST.PrivateMethodDefinition
-                | AST.PrivatePropertyDefinition
-            readonly range: IndexRange
-            readonly loc: LineColumnRange
-            readonly type: "PrivateIdentifier"
-            readonly name: string
-        }
-    >
->()
 
 assert<
     EqualsObject<
@@ -852,11 +757,7 @@ type ExpressionParent =
     | AST.ComputedMethodDefinition
     | AST.ComputedMethodProperty
     | AST.ComputedProperty
-    | AST.ComputedPropertyDefinition
     | AST.PlainProperty
-    | AST.PlainPropertyDefinition
-    | AST.PrivateMemberExpression
-    | AST.PrivatePropertyDefinition
     | AST.SpreadElement
     | AST.SwitchCase
     | AST.VariableDeclarator
@@ -1132,7 +1033,7 @@ assert<
                 | "%"
                 | "in"
                 | "instanceof"
-            readonly left: AST.Expression | AST.PrivateIdentifier
+            readonly left: AST.Expression
             readonly right: AST.Expression
         }
     >
@@ -1156,10 +1057,7 @@ assert<
     EqualsObject<
         AST.Super,
         {
-            readonly parent:
-                | AST.CallExpression
-                | AST.ComputedMemberExpression
-                | AST.PlainMemberExpression
+            readonly parent: AST.CallExpression | AST.MemberExpression
             readonly range: IndexRange
             readonly loc: LineColumnRange
             readonly type: "Super"
@@ -1264,7 +1162,6 @@ assert<
                 | AST.CatchClause
                 | AST.ConstructorDefinition
                 | AST.ExportSpecifier
-                | AST.ImportAttribute
                 | AST.ImportDefaultSpecifier
                 | AST.ImportNamespaceSpecifier
                 | AST.ImportSpecifier
@@ -1288,7 +1185,6 @@ assert<
             readonly loc: LineColumnRange
             readonly type: "ImportExpression"
             readonly source: AST.Expression
-            readonly attributes: AST.Expression | null
         }
     >
 >()
@@ -1305,7 +1201,6 @@ assert<
                 | AST.ConstructorDefinition
                 | AST.ExportAllDeclaration
                 | AST.ExportNamedFromDeclaration
-                | AST.ImportAttribute
                 | AST.ImportDeclaration
                 | AST.MethodProperty
                 | AST.PlainMethodDefinition
@@ -1380,7 +1275,7 @@ assert<
             readonly computed: boolean
             readonly optional: boolean
             readonly object: AST.Expression | AST.Super
-            readonly property: AST.Expression | AST.PrivateIdentifier
+            readonly property: AST.Expression
         }
     >
 >()
@@ -1389,9 +1284,7 @@ assert<
     if (node.computed) {
         assert<Equals<typeof node.property, AST.Expression>>()
     } else {
-        assert<
-            Equals<typeof node.property, AST.Identifier | AST.PrivateIdentifier>
-        >()
+        assert<Equals<typeof node.property, AST.Identifier>>()
     }
 }
 

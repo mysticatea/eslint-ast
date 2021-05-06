@@ -22,7 +22,7 @@ $ npm install eslint-ast
 There are several type definition files. Those files exports [AST node](https://github.com/estree/estree) types.
 
 ```ts
-// The latest snapshot. Currently this is ES2020.
+// The latest snapshot. Currently this is ES2021.
 import * as latest from "eslint-ast" // or `eslint-ast/latest`
 
 // The living standard, contains the proposals that have arrived at Stage 4.
@@ -34,6 +34,7 @@ import * as esNext from "eslint-ast/esnext"
 import * as experimental from "eslint-ast/experimental"
 
 // The specific snapshots.
+import * as es2021 from "eslint-ast/es2021"
 import * as es2020 from "eslint-ast/es2020"
 import * as es2019 from "eslint-ast/es2019"
 import * as es2018 from "eslint-ast/es2018"
@@ -162,7 +163,7 @@ interface BigInt {
 
 // Merge the differential and an existing AST definition.
 // I'd like to recommend to use `interface` for readability in VSCode popups.
-interface MyDefinition extends Extends<ES2019Definition, [BigInt]> {}
+interface MyDefinition extends Extends<ES2019Definition, BigInt> {}
 
 // Convert the AST definition to the AST types.
 type MyAST = AST<MyDefinition>
@@ -174,6 +175,7 @@ type MyAST = AST<MyDefinition>
 - [./es2018-definition.ts](./es2018-definition.ts) is an example for extending.
 - [./es2019-definition.ts](./es2019-definition.ts) is an example for extending.
 - [./es2020-definition.ts](./es2020-definition.ts) is an example for extending.
+- [./es2021-definition.ts](./es2021-definition.ts) is an example for extending.
 
 ## 📰 Release Notes
 
@@ -192,6 +194,8 @@ The major version bump allows any breaking changes. For example, the following t
 - Changes the API of `eslint-ast/util`.
 - Changes the minimum supported TypeScript version.
 - etc...
+
+In particular, changing `eslint-ast/latest` requires a major bump.
 
 ### Minor
 

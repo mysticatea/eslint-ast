@@ -4,7 +4,7 @@
 import { Extends } from "./lib/extends"
 import {
     Comment,
-    Definition as ES2018Definition,
+    Definition as ES2018,
     IndexRange,
     LineColumnRange,
     LineColumn,
@@ -13,16 +13,11 @@ import {
 
 export { Comment, IndexRange, LineColumnRange, LineColumn, Token }
 
-export namespace Enhancement {
-    /**
-     * Definition for optional catch binding.
-     */
-    export interface OptionalCatchBinding {
-        nodes: {
-            // Enhancements
-            CatchClause: {
-                param: null
-            }
+export interface Enhancement {
+    nodes: {
+        // Enhancements
+        CatchClause: {
+            param: null
         }
     }
 }
@@ -30,5 +25,6 @@ export namespace Enhancement {
 /**
  * The AST definition of ES2017.
  */
-export interface Definition
-    extends Extends<ES2018Definition, [Enhancement.OptionalCatchBinding]> {}
+interface ES2019 extends Extends<ES2018, Enhancement> {}
+
+export { ES2019 as Definition }

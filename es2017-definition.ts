@@ -5,7 +5,7 @@ import { Extends } from "./lib/extends"
 import { NodeRef } from "./lib/node-ref"
 import {
     Comment,
-    Definition as ES2016Definition,
+    Definition as ES2016,
     IndexRange,
     LineColumnRange,
     LineColumn,
@@ -14,39 +14,36 @@ import {
 
 export { Comment, IndexRange, LineColumnRange, LineColumn, Token }
 
-export namespace Enhancement {
-    /**
-     * Definition for async functions.
-     */
-    export interface AsyncFunction {
-        nodes: {
-            // Enhancements
-            AnonymousDefaultExportedFunctionDeclaration: {
-                async: boolean
-            }
-            ArrowFunctionExpression: {
-                async: boolean
-            }
-            FunctionExpression: {
-                async: boolean
-            }
-            PlainFunctionDeclaration: {
-                async: boolean
-            }
+export interface Enhancement {
+    nodes: {
+        // Enhancements
+        AnonymousDefaultExportedFunctionDeclaration: {
+            async: boolean
+        }
+        ArrowFunctionExpression: {
+            async: boolean
+        }
+        FunctionExpression: {
+            async: boolean
+        }
+        PlainFunctionDeclaration: {
+            async: boolean
+        }
 
-            // New expressions
-            AwaitExpression: {
-                argument: NodeRef<"Expression">
-            }
+        // New expressions
+        AwaitExpression: {
+            argument: NodeRef<"Expression">
         }
-        aliases: {
-            Expression: "AwaitExpression"
-        }
+    }
+
+    aliases: {
+        Expression: "AwaitExpression"
     }
 }
 
 /**
  * The AST definition of ES2017.
  */
-export interface Definition
-    extends Extends<ES2016Definition, [Enhancement.AsyncFunction]> {}
+interface ES2017 extends Extends<ES2016, Enhancement> {}
+
+export { ES2017 as Definition }

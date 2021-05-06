@@ -59,7 +59,7 @@ export interface Comment {
 /**
  * The AST definition of ES5.
  */
-export interface Definition {
+interface ES5 {
     nodes: {
         //----------------------------------------------------------------------
         // Root
@@ -384,3 +384,5 @@ export interface Definition {
         range: IndexRange
     }
 }
+
+export { ES5 as Definition }

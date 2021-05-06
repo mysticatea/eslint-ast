@@ -5,7 +5,7 @@ import { Extends } from "./lib/extends"
 import { NodeRef } from "./lib/node-ref"
 import {
     Comment,
-    Definition as ES2015Definition,
+    Definition as ES2015,
     IndexRange,
     LineColumnRange,
     LineColumn,
@@ -14,31 +14,17 @@ import {
 
 export { Comment, IndexRange, LineColumnRange, LineColumn, Token }
 
-export namespace Enhancement {
-    /**
-     * Definition for exponential operators.
-     */
-    export interface ExponentialOperator {
-        nodes: {
-            // Enhancements
-            CompoundAssignmentExpression: {
-                operator: "**="
-            }
-            BinaryExpression: {
-                operator: "**"
-            }
+export interface Enhancement {
+    nodes: {
+        // Enhancements
+        CompoundAssignmentExpression: {
+            operator: "**="
         }
-    }
-
-    /**
-     * Definition for update of `BindingRestElement`.
-     */
-    export interface BindingRestEnhancement {
-        nodes: {
-            // Enhancements
-            BindingRestElement: {
-                argument: NodeRef<"BindingTarget">
-            }
+        BinaryExpression: {
+            operator: "**"
+        }
+        BindingRestElement: {
+            argument: NodeRef<"BindingTarget">
         }
     }
 }
@@ -46,8 +32,6 @@ export namespace Enhancement {
 /**
  * The AST definition of ES2016.
  */
-export interface Definition
-    extends Extends<
-        ES2015Definition,
-        [Enhancement.ExponentialOperator, Enhancement.BindingRestEnhancement]
-    > {}
+interface ES2016 extends Extends<ES2015, Enhancement> {}
+
+export { ES2016 as Definition }
